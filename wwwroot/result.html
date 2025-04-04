@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result - Online Judge</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Submission Result</h1>
+        <nav>
+            <a href="/index.html">Home</a>
+            <!--<a href="/submit.html">Submit Another</a>-->
+        </nav>
+    </header>
+    <main>
+        <h2>Your Submission Status</h2>
+        <div id="result">
+            <p><strong>Status:</strong> <span id="status">Loading...</span></p>
+            <p><strong>Execution Time:</strong> <span id="execution-time">-</span> ms</p>
+            <p><strong>Memory Used:</strong> <span id="memory-used">-</span> KB</p>
+            <p><strong>Details:</strong></p>
+            <!--<p id="kq" style="color:white"></p>-->
+            <pre><strong>Ket qua:</strong> <strong>><p style="background:white"></p><span id="kq"></span></strong></pre>
+            <pre id="details">Fetching result...</pre>
+        </div>
+    </main>
+    <script src="/js/result.js"></script>
+</body>
+</html>

@@ -1,0 +1,1979 @@
+{
+  "Version": 1,
+  "Hash": "65r74kQUor0ORZWKr4BfguDy/lM7MenLVm4ldWUNyJk=",
+  "Source": "OnlineJudgeAPI",
+  "BasePath": "_content/OnlineJudgeAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "OnlineJudgeAPI\\wwwroot",
+      "Source": "OnlineJudgeAPI",
+      "ContentRoot": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\",
+      "BasePath": "_content/OnlineJudgeAPI",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\admin.html",
+      "SourceId": "OnlineJudgeAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\",
+      "BasePath": "_content/OnlineJudgeAPI",
+      "RelativePath": "admin#[.{fingerprint}]?.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "mh8en06cz6",
+      "Integrity": "evnX6g2mwgpVku+7MutOvTG5OaaCI3BeVh9nDnomlVo=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\admin.html"
+    },
+    {
+      "Identity": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\css\\style.css",
+      "SourceId": "OnlineJudgeAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\",
+      "BasePath": "_content/OnlineJudgeAPI",
+      "RelativePath": "css/style#[.{fingerprint}]?.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "bfakcvb4fg",
+      "Integrity": "OXZmScrb+EvViYJVfFJtO+gdTR+wnXyfYiFrseexHlg=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\style.css"
+    },
+    {
+      "Identity": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\index.html",
+      "SourceId": "OnlineJudgeAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\",
+      "BasePath": "_content/OnlineJudgeAPI",
+      "RelativePath": "index#[.{fingerprint}]?.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "vidcmsdfrx",
+      "Integrity": "dyXP/DR5EzwuIOpTCa4IgmLhGCg3ExqFhY1Tr4/RUkI=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\index.html"
+    },
+    {
+      "Identity": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\app.js",
+      "SourceId": "OnlineJudgeAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\",
+      "BasePath": "_content/OnlineJudgeAPI",
+      "RelativePath": "js/app#[.{fingerprint}]?.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "s6wo8m8rv2",
+      "Integrity": "9Bg5+f+pjz8873015m0khMcCCy+/m08nd8nIxslmYO4=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\app.js"
+    },
+    {
+      "Identity": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\JavaScript.js",
+      "SourceId": "OnlineJudgeAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\",
+      "BasePath": "_content/OnlineJudgeAPI",
+      "RelativePath": "js/JavaScript#[.{fingerprint}]?.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "3r8b2a0bt1",
+      "Integrity": "8ZRc1sGeVrPBx4lD717BgRaQekyh78QKV9SKsdt638U=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\JavaScript.js"
+    },
+    {
+      "Identity": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\listProblems.js",
+      "SourceId": "OnlineJudgeAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\",
+      "BasePath": "_content/OnlineJudgeAPI",
+      "RelativePath": "js/listProblems#[.{fingerprint}]?.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "vvxizia8x3",
+      "Integrity": "9VhsdO5+QMixzSS2qqP/TM0T469qNm7s3o+bpiHk3ns=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\listProblems.js"
+    },
+    {
+      "Identity": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\login.cs",
+      "SourceId": "OnlineJudgeAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\",
+      "BasePath": "_content/OnlineJudgeAPI",
+      "RelativePath": "js/login#[.{fingerprint}]?.cs",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "3r8b2a0bt1",
+      "Integrity": "8ZRc1sGeVrPBx4lD717BgRaQekyh78QKV9SKsdt638U=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\login.cs"
+    },
+    {
+      "Identity": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\login.js",
+      "SourceId": "OnlineJudgeAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\",
+      "BasePath": "_content/OnlineJudgeAPI",
+      "RelativePath": "js/login#[.{fingerprint}]?.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "a3839k7sil",
+      "Integrity": "tjRc2CNg5ItokadKQLRzXplBECreU5Ekz8xAMLQD2FU=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\login.js"
+    },
+    {
+      "Identity": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\register.js",
+      "SourceId": "OnlineJudgeAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\",
+      "BasePath": "_content/OnlineJudgeAPI",
+      "RelativePath": "js/register#[.{fingerprint}]?.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "ip4dfyzzmm",
+      "Integrity": "FoATOzd+Z1Ap0u6d0ImYZG7XMEMhhqzy03ECfNnIGLw=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\register.js"
+    },
+    {
+      "Identity": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\result.js",
+      "SourceId": "OnlineJudgeAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\",
+      "BasePath": "_content/OnlineJudgeAPI",
+      "RelativePath": "js/result#[.{fingerprint}]?.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "0lc341l2ci",
+      "Integrity": "jKW/w35E3OvXdPFOC4nXOhh554WCehQY2swhgBpcqU0=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\result.js"
+    },
+    {
+      "Identity": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\script.js",
+      "SourceId": "OnlineJudgeAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\",
+      "BasePath": "_content/OnlineJudgeAPI",
+      "RelativePath": "js/script#[.{fingerprint}]?.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "6iwf8hu0tv",
+      "Integrity": "Th66fm4IYQ9PUescuNBMCdSOnzXaOzIQIKNxIKfkXBI=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\script.js"
+    },
+    {
+      "Identity": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\submit.js",
+      "SourceId": "OnlineJudgeAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\",
+      "BasePath": "_content/OnlineJudgeAPI",
+      "RelativePath": "js/submit#[.{fingerprint}]?.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "lp9nfmx6vp",
+      "Integrity": "F1gbnFeEcKWolVD0cNo9COuVGowZHT08z/yn5z5Scgc=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\submit.js"
+    },
+    {
+      "Identity": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\listProblems.html",
+      "SourceId": "OnlineJudgeAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\",
+      "BasePath": "_content/OnlineJudgeAPI",
+      "RelativePath": "listProblems#[.{fingerprint}]?.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "xj38jvr6jv",
+      "Integrity": "/cJxWI6FfyEM1Tc9SXyjlwUNYqQh+0NDWk66yvbzvMg=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\listProblems.html"
+    },
+    {
+      "Identity": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\login.html",
+      "SourceId": "OnlineJudgeAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\",
+      "BasePath": "_content/OnlineJudgeAPI",
+      "RelativePath": "login#[.{fingerprint}]?.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "zql56aklug",
+      "Integrity": "W6tOQcJMAbFSuA+Y6u6CzrR+GLh9j4r2+0WF7YhhoXM=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\login.html"
+    },
+    {
+      "Identity": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\problems.html",
+      "SourceId": "OnlineJudgeAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\",
+      "BasePath": "_content/OnlineJudgeAPI",
+      "RelativePath": "problems#[.{fingerprint}]?.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "e1ul5wykgb",
+      "Integrity": "UlB90xC2SnpVr/Vs1scUsWLxOAWiNUTFRubYYINWADY=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\problems.html"
+    },
+    {
+      "Identity": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\register.html",
+      "SourceId": "OnlineJudgeAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\",
+      "BasePath": "_content/OnlineJudgeAPI",
+      "RelativePath": "register#[.{fingerprint}]?.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "of8hlr3fuc",
+      "Integrity": "DEoJKmB4CMvx/syea5c8qXxZyaZfP3K9Awb588dPvVg=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\register.html"
+    },
+    {
+      "Identity": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\result.html",
+      "SourceId": "OnlineJudgeAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\",
+      "BasePath": "_content/OnlineJudgeAPI",
+      "RelativePath": "result#[.{fingerprint}]?.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "cswxh85rn5",
+      "Integrity": "xPp36lgVGN3GLaTAnbrObFMoOVD5aUZqjbBeH+eKcOI=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\result.html"
+    },
+    {
+      "Identity": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\submit.html",
+      "SourceId": "OnlineJudgeAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\",
+      "BasePath": "_content/OnlineJudgeAPI",
+      "RelativePath": "submit#[.{fingerprint}]?.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "qq4vnqu3dz",
+      "Integrity": "wuh/nsIZBFoK/n8PMgwTMKnsTHEn0/411ZHWtDiC2Hk=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\submit.html"
+    },
+    {
+      "Identity": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\user.html",
+      "SourceId": "OnlineJudgeAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\",
+      "BasePath": "_content/OnlineJudgeAPI",
+      "RelativePath": "user#[.{fingerprint}]?.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "otz0yyrw29",
+      "Integrity": "XI+2E+Gz2wAGd9Uym2P98XgbcsCrt9zrH4add2jXYec=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\user.html"
+    }
+  ],
+  "Endpoints": [
+    {
+      "Route": "admin.html",
+      "AssetFile": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\admin.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5540"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"evnX6g2mwgpVku+7MutOvTG5OaaCI3BeVh9nDnomlVo=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 04 Apr 2025 07:58:51 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-evnX6g2mwgpVku+7MutOvTG5OaaCI3BeVh9nDnomlVo="
+        }
+      ]
+    },
+    {
+      "Route": "admin.mh8en06cz6.html",
+      "AssetFile": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\admin.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5540"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"evnX6g2mwgpVku+7MutOvTG5OaaCI3BeVh9nDnomlVo=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 04 Apr 2025 07:58:51 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "mh8en06cz6"
+        },
+        {
+          "Name": "label",
+          "Value": "admin.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-evnX6g2mwgpVku+7MutOvTG5OaaCI3BeVh9nDnomlVo="
+        }
+      ]
+    },
+    {
+      "Route": "css/style.bfakcvb4fg.css",
+      "AssetFile": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\css\\style.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2087"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"OXZmScrb+EvViYJVfFJtO+gdTR+wnXyfYiFrseexHlg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 03 Apr 2025 11:14:12 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "bfakcvb4fg"
+        },
+        {
+          "Name": "label",
+          "Value": "css/style.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-OXZmScrb+EvViYJVfFJtO+gdTR+wnXyfYiFrseexHlg="
+        }
+      ]
+    },
+    {
+      "Route": "css/style.css",
+      "AssetFile": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\css\\style.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2087"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"OXZmScrb+EvViYJVfFJtO+gdTR+wnXyfYiFrseexHlg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 03 Apr 2025 11:14:12 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-OXZmScrb+EvViYJVfFJtO+gdTR+wnXyfYiFrseexHlg="
+        }
+      ]
+    },
+    {
+      "Route": "index.html",
+      "AssetFile": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\index.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5533"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"dyXP/DR5EzwuIOpTCa4IgmLhGCg3ExqFhY1Tr4/RUkI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 03 Apr 2025 11:31:36 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-dyXP/DR5EzwuIOpTCa4IgmLhGCg3ExqFhY1Tr4/RUkI="
+        }
+      ]
+    },
+    {
+      "Route": "index.vidcmsdfrx.html",
+      "AssetFile": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\index.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5533"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"dyXP/DR5EzwuIOpTCa4IgmLhGCg3ExqFhY1Tr4/RUkI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 03 Apr 2025 11:31:36 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "vidcmsdfrx"
+        },
+        {
+          "Name": "label",
+          "Value": "index.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-dyXP/DR5EzwuIOpTCa4IgmLhGCg3ExqFhY1Tr4/RUkI="
+        }
+      ]
+    },
+    {
+      "Route": "js/app.js",
+      "AssetFile": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\app.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5266"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"9Bg5+f+pjz8873015m0khMcCCy+/m08nd8nIxslmYO4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 03 Apr 2025 06:16:03 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-9Bg5+f+pjz8873015m0khMcCCy+/m08nd8nIxslmYO4="
+        }
+      ]
+    },
+    {
+      "Route": "js/app.s6wo8m8rv2.js",
+      "AssetFile": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\app.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5266"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"9Bg5+f+pjz8873015m0khMcCCy+/m08nd8nIxslmYO4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 03 Apr 2025 06:16:03 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "s6wo8m8rv2"
+        },
+        {
+          "Name": "label",
+          "Value": "js/app.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-9Bg5+f+pjz8873015m0khMcCCy+/m08nd8nIxslmYO4="
+        }
+      ]
+    },
+    {
+      "Route": "js/JavaScript.3r8b2a0bt1.js",
+      "AssetFile": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\JavaScript.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"8ZRc1sGeVrPBx4lD717BgRaQekyh78QKV9SKsdt638U=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 04 Apr 2025 08:06:30 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "3r8b2a0bt1"
+        },
+        {
+          "Name": "label",
+          "Value": "js/JavaScript.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-8ZRc1sGeVrPBx4lD717BgRaQekyh78QKV9SKsdt638U="
+        }
+      ]
+    },
+    {
+      "Route": "js/JavaScript.js",
+      "AssetFile": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\JavaScript.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"8ZRc1sGeVrPBx4lD717BgRaQekyh78QKV9SKsdt638U=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 04 Apr 2025 08:06:30 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-8ZRc1sGeVrPBx4lD717BgRaQekyh78QKV9SKsdt638U="
+        }
+      ]
+    },
+    {
+      "Route": "js/listProblems.js",
+      "AssetFile": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\listProblems.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3955"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"9VhsdO5+QMixzSS2qqP/TM0T469qNm7s3o+bpiHk3ns=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 03 Apr 2025 05:13:34 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-9VhsdO5+QMixzSS2qqP/TM0T469qNm7s3o+bpiHk3ns="
+        }
+      ]
+    },
+    {
+      "Route": "js/listProblems.vvxizia8x3.js",
+      "AssetFile": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\listProblems.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3955"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"9VhsdO5+QMixzSS2qqP/TM0T469qNm7s3o+bpiHk3ns=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 03 Apr 2025 05:13:34 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "vvxizia8x3"
+        },
+        {
+          "Name": "label",
+          "Value": "js/listProblems.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-9VhsdO5+QMixzSS2qqP/TM0T469qNm7s3o+bpiHk3ns="
+        }
+      ]
+    },
+    {
+      "Route": "js/login.3r8b2a0bt1.cs",
+      "AssetFile": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\login.cs",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/octet-stream"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"8ZRc1sGeVrPBx4lD717BgRaQekyh78QKV9SKsdt638U=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 04 Apr 2025 08:05:37 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "3r8b2a0bt1"
+        },
+        {
+          "Name": "label",
+          "Value": "js/login.cs"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-8ZRc1sGeVrPBx4lD717BgRaQekyh78QKV9SKsdt638U="
+        }
+      ]
+    },
+    {
+      "Route": "js/login.a3839k7sil.js",
+      "AssetFile": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\login.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1926"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"tjRc2CNg5ItokadKQLRzXplBECreU5Ekz8xAMLQD2FU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 04 Apr 2025 09:15:46 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "a3839k7sil"
+        },
+        {
+          "Name": "label",
+          "Value": "js/login.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-tjRc2CNg5ItokadKQLRzXplBECreU5Ekz8xAMLQD2FU="
+        }
+      ]
+    },
+    {
+      "Route": "js/login.cs",
+      "AssetFile": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\login.cs",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/octet-stream"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"8ZRc1sGeVrPBx4lD717BgRaQekyh78QKV9SKsdt638U=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 04 Apr 2025 08:05:37 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-8ZRc1sGeVrPBx4lD717BgRaQekyh78QKV9SKsdt638U="
+        }
+      ]
+    },
+    {
+      "Route": "js/login.js",
+      "AssetFile": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\login.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1926"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"tjRc2CNg5ItokadKQLRzXplBECreU5Ekz8xAMLQD2FU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 04 Apr 2025 09:15:46 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-tjRc2CNg5ItokadKQLRzXplBECreU5Ekz8xAMLQD2FU="
+        }
+      ]
+    },
+    {
+      "Route": "js/register.ip4dfyzzmm.js",
+      "AssetFile": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\register.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2254"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"FoATOzd+Z1Ap0u6d0ImYZG7XMEMhhqzy03ECfNnIGLw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 02 Apr 2025 16:42:24 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "ip4dfyzzmm"
+        },
+        {
+          "Name": "label",
+          "Value": "js/register.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-FoATOzd+Z1Ap0u6d0ImYZG7XMEMhhqzy03ECfNnIGLw="
+        }
+      ]
+    },
+    {
+      "Route": "js/register.js",
+      "AssetFile": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\register.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2254"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"FoATOzd+Z1Ap0u6d0ImYZG7XMEMhhqzy03ECfNnIGLw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 02 Apr 2025 16:42:24 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-FoATOzd+Z1Ap0u6d0ImYZG7XMEMhhqzy03ECfNnIGLw="
+        }
+      ]
+    },
+    {
+      "Route": "js/result.0lc341l2ci.js",
+      "AssetFile": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\result.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1330"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"jKW/w35E3OvXdPFOC4nXOhh554WCehQY2swhgBpcqU0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 03 Apr 2025 12:06:26 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "0lc341l2ci"
+        },
+        {
+          "Name": "label",
+          "Value": "js/result.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-jKW/w35E3OvXdPFOC4nXOhh554WCehQY2swhgBpcqU0="
+        }
+      ]
+    },
+    {
+      "Route": "js/result.js",
+      "AssetFile": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\result.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1330"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"jKW/w35E3OvXdPFOC4nXOhh554WCehQY2swhgBpcqU0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 03 Apr 2025 12:06:26 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-jKW/w35E3OvXdPFOC4nXOhh554WCehQY2swhgBpcqU0="
+        }
+      ]
+    },
+    {
+      "Route": "js/script.6iwf8hu0tv.js",
+      "AssetFile": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\script.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3069"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Th66fm4IYQ9PUescuNBMCdSOnzXaOzIQIKNxIKfkXBI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 04 Apr 2025 11:05:01 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "6iwf8hu0tv"
+        },
+        {
+          "Name": "label",
+          "Value": "js/script.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-Th66fm4IYQ9PUescuNBMCdSOnzXaOzIQIKNxIKfkXBI="
+        }
+      ]
+    },
+    {
+      "Route": "js/script.js",
+      "AssetFile": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\script.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3069"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Th66fm4IYQ9PUescuNBMCdSOnzXaOzIQIKNxIKfkXBI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 04 Apr 2025 11:05:01 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-Th66fm4IYQ9PUescuNBMCdSOnzXaOzIQIKNxIKfkXBI="
+        }
+      ]
+    },
+    {
+      "Route": "js/submit.js",
+      "AssetFile": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\submit.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2822"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"F1gbnFeEcKWolVD0cNo9COuVGowZHT08z/yn5z5Scgc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 04 Apr 2025 10:45:44 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-F1gbnFeEcKWolVD0cNo9COuVGowZHT08z/yn5z5Scgc="
+        }
+      ]
+    },
+    {
+      "Route": "js/submit.lp9nfmx6vp.js",
+      "AssetFile": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\submit.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2822"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"F1gbnFeEcKWolVD0cNo9COuVGowZHT08z/yn5z5Scgc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 04 Apr 2025 10:45:44 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "lp9nfmx6vp"
+        },
+        {
+          "Name": "label",
+          "Value": "js/submit.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-F1gbnFeEcKWolVD0cNo9COuVGowZHT08z/yn5z5Scgc="
+        }
+      ]
+    },
+    {
+      "Route": "listProblems.html",
+      "AssetFile": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\listProblems.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1876"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"/cJxWI6FfyEM1Tc9SXyjlwUNYqQh+0NDWk66yvbzvMg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 03 Apr 2025 04:22:42 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-/cJxWI6FfyEM1Tc9SXyjlwUNYqQh+0NDWk66yvbzvMg="
+        }
+      ]
+    },
+    {
+      "Route": "listProblems.xj38jvr6jv.html",
+      "AssetFile": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\listProblems.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1876"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"/cJxWI6FfyEM1Tc9SXyjlwUNYqQh+0NDWk66yvbzvMg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 03 Apr 2025 04:22:42 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "xj38jvr6jv"
+        },
+        {
+          "Name": "label",
+          "Value": "listProblems.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-/cJxWI6FfyEM1Tc9SXyjlwUNYqQh+0NDWk66yvbzvMg="
+        }
+      ]
+    },
+    {
+      "Route": "login.html",
+      "AssetFile": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\login.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "772"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"W6tOQcJMAbFSuA+Y6u6CzrR+GLh9j4r2+0WF7YhhoXM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 04 Apr 2025 08:09:22 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-W6tOQcJMAbFSuA+Y6u6CzrR+GLh9j4r2+0WF7YhhoXM="
+        }
+      ]
+    },
+    {
+      "Route": "login.zql56aklug.html",
+      "AssetFile": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\login.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "772"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"W6tOQcJMAbFSuA+Y6u6CzrR+GLh9j4r2+0WF7YhhoXM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 04 Apr 2025 08:09:22 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "zql56aklug"
+        },
+        {
+          "Name": "label",
+          "Value": "login.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-W6tOQcJMAbFSuA+Y6u6CzrR+GLh9j4r2+0WF7YhhoXM="
+        }
+      ]
+    },
+    {
+      "Route": "problems.e1ul5wykgb.html",
+      "AssetFile": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\problems.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1323"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"UlB90xC2SnpVr/Vs1scUsWLxOAWiNUTFRubYYINWADY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 03 Apr 2025 04:23:21 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "e1ul5wykgb"
+        },
+        {
+          "Name": "label",
+          "Value": "problems.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-UlB90xC2SnpVr/Vs1scUsWLxOAWiNUTFRubYYINWADY="
+        }
+      ]
+    },
+    {
+      "Route": "problems.html",
+      "AssetFile": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\problems.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1323"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"UlB90xC2SnpVr/Vs1scUsWLxOAWiNUTFRubYYINWADY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 03 Apr 2025 04:23:21 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-UlB90xC2SnpVr/Vs1scUsWLxOAWiNUTFRubYYINWADY="
+        }
+      ]
+    },
+    {
+      "Route": "register.html",
+      "AssetFile": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\register.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "949"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"DEoJKmB4CMvx/syea5c8qXxZyaZfP3K9Awb588dPvVg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 01 Apr 2025 02:34:26 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-DEoJKmB4CMvx/syea5c8qXxZyaZfP3K9Awb588dPvVg="
+        }
+      ]
+    },
+    {
+      "Route": "register.of8hlr3fuc.html",
+      "AssetFile": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\register.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "949"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"DEoJKmB4CMvx/syea5c8qXxZyaZfP3K9Awb588dPvVg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 01 Apr 2025 02:34:26 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "of8hlr3fuc"
+        },
+        {
+          "Name": "label",
+          "Value": "register.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-DEoJKmB4CMvx/syea5c8qXxZyaZfP3K9Awb588dPvVg="
+        }
+      ]
+    },
+    {
+      "Route": "result.cswxh85rn5.html",
+      "AssetFile": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\result.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1169"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"xPp36lgVGN3GLaTAnbrObFMoOVD5aUZqjbBeH+eKcOI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 04 Apr 2025 03:35:45 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "cswxh85rn5"
+        },
+        {
+          "Name": "label",
+          "Value": "result.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-xPp36lgVGN3GLaTAnbrObFMoOVD5aUZqjbBeH+eKcOI="
+        }
+      ]
+    },
+    {
+      "Route": "result.html",
+      "AssetFile": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\result.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1169"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"xPp36lgVGN3GLaTAnbrObFMoOVD5aUZqjbBeH+eKcOI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 04 Apr 2025 03:35:45 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-xPp36lgVGN3GLaTAnbrObFMoOVD5aUZqjbBeH+eKcOI="
+        }
+      ]
+    },
+    {
+      "Route": "submit.html",
+      "AssetFile": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\submit.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2260"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"wuh/nsIZBFoK/n8PMgwTMKnsTHEn0/411ZHWtDiC2Hk=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 03 Apr 2025 06:16:18 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-wuh/nsIZBFoK/n8PMgwTMKnsTHEn0/411ZHWtDiC2Hk="
+        }
+      ]
+    },
+    {
+      "Route": "submit.qq4vnqu3dz.html",
+      "AssetFile": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\submit.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2260"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"wuh/nsIZBFoK/n8PMgwTMKnsTHEn0/411ZHWtDiC2Hk=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 03 Apr 2025 06:16:18 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "qq4vnqu3dz"
+        },
+        {
+          "Name": "label",
+          "Value": "submit.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-wuh/nsIZBFoK/n8PMgwTMKnsTHEn0/411ZHWtDiC2Hk="
+        }
+      ]
+    },
+    {
+      "Route": "user.html",
+      "AssetFile": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\user.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5547"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"XI+2E+Gz2wAGd9Uym2P98XgbcsCrt9zrH4add2jXYec=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 04 Apr 2025 07:58:18 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-XI+2E+Gz2wAGd9Uym2P98XgbcsCrt9zrH4add2jXYec="
+        }
+      ]
+    },
+    {
+      "Route": "user.otz0yyrw29.html",
+      "AssetFile": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\user.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5547"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"XI+2E+Gz2wAGd9Uym2P98XgbcsCrt9zrH4add2jXYec=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 04 Apr 2025 07:58:18 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "otz0yyrw29"
+        },
+        {
+          "Name": "label",
+          "Value": "user.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-XI+2E+Gz2wAGd9Uym2P98XgbcsCrt9zrH4add2jXYec="
+        }
+      ]
+    }
+  ]
+}

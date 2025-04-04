@@ -1,0 +1,141 @@
+﻿<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Judge</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Online Judge System</h1>
+
+    <h2>Problem List</h2>
+    <ul id="problem-list"></ul>
+
+    <div id="problem-details" style="display: none;">
+        <h2>Problem Details</h2>
+        <p id="problem-description"></p>
+        <p><strong>Input Format:</strong> <span id="input-format"></span></p>
+        <p><strong>Output Format:</strong> <span id="output-format"></span></p>
+        <p><strong>Sample Input:</strong> <pre id="sample-input"></pre></p>
+        <p><strong>Sample Output:</strong> <pre id="sample-output"></pre></p>
+    </div>
+
+    <h2>Submit Code</h2>
+    <form id="submit-form">
+        <label for="problem-id">Problem ID:</label>
+        <input type="number" id="problem-id" required>
+
+        <label for="code">Code:</label>
+        <textarea id="code" required></textarea>
+
+        <label for="language">Language:</label>
+        <select id="language">
+            <option value="c++">C++</option>
+            <option value="python">Python</option>
+            <option value="java">Java</option>
+        </select>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <h2>Submission Results</h2>
+    <ul id="submission-list"></ul>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch("http://localhost:5024/api/problems")
+                .then(response => response.json())
+                .then(problems => {
+                    const problemList = document.getElementById("problem-list");
+                    problems.forEach(problem => {
+                        const li = document.createElement("li");
+                        li.textContent = `${problem.id}: ${problem.title}`;
+                        li.style.cursor = "pointer";
+                        li.addEventListener("click", () => loadProblemDetails(problem.id));
+                        problemList.appendChild(li);
+                    });
+                });
+
+            function loadProblemDetails(problemId) {
+                fetch(`http://localhost:5024/api/problems/${problemId}`)
+                    .then(response => response.json())
+                    .then(problem => {
+                        document.getElementById("problem-details").style.display = "block";
+                        document.getElementById("problem-description").textContent = problem.description;
+                        document.getElementById("input-format").textContent = problem.inputFormat;
+                        document.getElementById("output-format").textContent = problem.outputFormat;
+                        document.getElementById("sample-input").textContent = problem.sampleInput;
+                        document.getElementById("sample-output").textContent = problem.sampleOutput;
+                    });
+            }
+
+            document.getElementById("submit-form").addEventListener("submit", function (event) {
+                event.preventDefault();
+
+                const problemId = document.getElementById("problem-id").value;
+                const code = document.getElementById("code").value;
+                const language = document.getElementById("language").value;
+
+                fetch("http://localhost:5024/api/submissions/submit", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        problemId: problemId,
+                        code: code,
+                        language: language
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        alert(data.message);
+                        loadSubmissions();
+                    })
+                    .catch(error => console.error("Error:", error));
+            });
+
+            function loadSubmissions() {
+                fetch("http://localhost:5024/api/submissions")
+                    .then(response => response.json())
+                    .then(submissions => {
+                        const submissionList = document.getElementById("submission-list");
+                        submissionList.innerHTML = "";
+                        submissions.forEach(submission => {
+                            const li = document.createElement("li");
+                            li.textContent = `ID: ${submission.id}, Problem: ${submission.problemId}, Status: ${submission.status}`;
+                            submissionList.appendChild(li);
+                        });
+                    });
+            }
+        });
+    </script>
+</body>
+</html>-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Judge</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome to Online Judge</h1>
+        <nav>
+            <a href="/listProblems.html">Danh Sách Bài</a>
+            <!--<a href="/submit.html">Submit Code</a>-->
+            <!--<a href="/problems.html">Add Problem</a>-->
+            <!--<a href="/login.html">Login</a> |
+            <a href="/register.htm">Register</a> |-->
+
+
+        </nav>
+    </header>
+    <main>
+        <p>Start solving problems and submit your code here.</p>
+    </main>
+</body>
+</html>

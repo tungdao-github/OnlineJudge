@@ -1,0 +1,101 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\admin.html",
+      "PackagePath": "staticwebassets\\admin.html"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\css\\style.css",
+      "PackagePath": "staticwebassets\\css\\style.css"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\index.html",
+      "PackagePath": "staticwebassets\\index.html"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\JavaScript.js",
+      "PackagePath": "staticwebassets\\js\\JavaScript.js"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\app.js",
+      "PackagePath": "staticwebassets\\js\\app.js"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\listProblems.js",
+      "PackagePath": "staticwebassets\\js\\listProblems.js"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\login.cs",
+      "PackagePath": "staticwebassets\\js\\login.cs"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\login.js",
+      "PackagePath": "staticwebassets\\js\\login.js"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\register.js",
+      "PackagePath": "staticwebassets\\js\\register.js"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\result.js",
+      "PackagePath": "staticwebassets\\js\\result.js"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\script.js",
+      "PackagePath": "staticwebassets\\js\\script.js"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\submit.js",
+      "PackagePath": "staticwebassets\\js\\submit.js"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\listProblems.html",
+      "PackagePath": "staticwebassets\\listProblems.html"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\login.html",
+      "PackagePath": "staticwebassets\\login.html"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\problems.html",
+      "PackagePath": "staticwebassets\\problems.html"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\register.html",
+      "PackagePath": "staticwebassets\\register.html"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\result.html",
+      "PackagePath": "staticwebassets\\result.html"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\submit.html",
+      "PackagePath": "staticwebassets\\submit.html"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\user.html",
+      "PackagePath": "staticwebassets\\user.html"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.OnlineJudgeAPI.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.OnlineJudgeAPI.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.OnlineJudgeAPI.props",
+      "PackagePath": "build\\OnlineJudgeAPI.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.OnlineJudgeAPI.props",
+      "PackagePath": "buildMultiTargeting\\OnlineJudgeAPI.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.OnlineJudgeAPI.props",
+      "PackagePath": "buildTransitive\\OnlineJudgeAPI.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

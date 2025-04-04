@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm Bài Tập</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <h1>Thêm Bài Tập Mới</h1>
+    <form id="addProblemForm">
+        <label>Tiêu đề:</label>
+        <input type="text" id="title" required>
+
+        <label>Mô tả:</label>
+        <textarea id="description" required></textarea>
+
+        <label>Định dạng đầu vào:</label>
+        <textarea id="inputFormat" required></textarea>
+
+        <label>Định dạng đầu ra:</label>
+        <textarea id="outputFormat" required></textarea>
+
+        <h2>Test Cases</h2>
+        <div id="testCases">
+            <div class="test-case">
+                <label>Input:</label>
+                <textarea class="input" required></textarea>
+
+                <label>Output:</label>
+                <textarea class="output" required></textarea>
+            </div>
+        </div>
+        <button type="button" onclick="addTestCase()">+ Thêm Test Case</button>
+        <br><br>
+        <button type="submit">Thêm Bài Tập</button>
+    </form>
+
+    <p id="message"></p>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

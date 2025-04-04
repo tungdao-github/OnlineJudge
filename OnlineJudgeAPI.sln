@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35825.156 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineJudgeAPI", "OnlineJudgeAPI.csproj", "{5C8F3EDF-03A5-4DD2-BEAB-56DDE15AA003}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5C8F3EDF-03A5-4DD2-BEAB-56DDE15AA003}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C8F3EDF-03A5-4DD2-BEAB-56DDE15AA003}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C8F3EDF-03A5-4DD2-BEAB-56DDE15AA003}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C8F3EDF-03A5-4DD2-BEAB-56DDE15AA003}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3D5C8A9B-E7B7-4D5A-9B73-9EE6A96B1C22}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,144 @@
+﻿body {
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+
+}
+
+textarea {
+    width: 100%;
+    height: 100px;
+    font-family: monospace;
+}
+
+a {
+    background: #28a745;
+    color: white;
+    padding : 15px;
+}
+
+p,h1 {
+    background: #28a745;
+    color: white;
+    padding: 15px;
+    margin : 15px;
+}
+button {
+    padding: 5px 10px;
+    background: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+    button:hover {
+        background: #218838;
+    }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #28a745;
+    color: white;
+}
+
+
+/*.code {
+    visibility: hidden;
+    height: 0;
+}*/
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 18px;
+    text-align: left;
+}
+
+th, td {
+    padding: 12px;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #007bff;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #ddd;
+}
+
+
+form, pre {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+
+
+label {
+    font-weight: bold;
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+    button:hover {
+        background-color: #218838;
+    }
+
+
+textarea {
+    width: 100%;
+    height: 200px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: monospace;
+    padding: 10px;
+    resize: none;
+    outline: none;
+}
+
+
+/*
+span {
+    width: 1000px;
+    background: green;
+
+}*/
