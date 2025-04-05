@@ -1,0 +1,6 @@
+@OnlineJudge_HostAddress = http://localhost:5000
+
+GET {{OnlineJudge_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
