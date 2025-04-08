@@ -112,41 +112,24 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Problem"
+                "$ref": "#/components/schemas/ProblemCreateDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Problem"
+                "$ref": "#/components/schemas/ProblemCreateDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Problem"
+                "$ref": "#/components/schemas/ProblemCreateDTO"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       }
@@ -327,6 +310,44 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/SubmissionResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Submissions/history": {
+      "get": {
+        "tags": [
+          "Submissions"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SubmissionHistoryDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SubmissionHistoryDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SubmissionHistoryDto"
+                  }
                 }
               }
             }
@@ -723,6 +744,55 @@
             "type": "string",
             "nullable": true
           },
+          "inputSample": {
+            "type": "string",
+            "nullable": true
+          },
+          "outputSample": {
+            "type": "string",
+            "nullable": true
+          },
+          "testCases": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TestCase"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProblemCreateDTO": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "inputFormat": {
+            "type": "string",
+            "nullable": true
+          },
+          "outputFormat": {
+            "type": "string",
+            "nullable": true
+          },
+          "inputSample": {
+            "type": "string",
+            "nullable": true
+          },
+          "outputSample": {
+            "type": "string",
+            "nullable": true
+          },
+          "contestId": {
+            "type": "integer",
+            "format": "int32"
+          },
           "testCases": {
             "type": "array",
             "items": {
@@ -823,9 +893,61 @@
             "type": "string",
             "nullable": true
           },
+          "memoryUsageBytes": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "executionTimeMs": {
+            "type": "integer",
+            "format": "int64"
+          },
           "submittedAt": {
             "type": "string",
             "format": "date-time"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "problem": {
+            "$ref": "#/components/schemas/Problem"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SubmissionHistoryDto": {
+        "type": "object",
+        "properties": {
+          "submissionId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "username": {
+            "type": "string",
+            "nullable": true
+          },
+          "problemTitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "result": {
+            "type": "string",
+            "nullable": true
+          },
+          "submittedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "executionTimeMs": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "memoryUsageBytes": {
+            "type": "integer",
+            "format": "int64"
           }
         },
         "additionalProperties": false
@@ -843,6 +965,11 @@
           },
           "language": {
             "type": "string",
+            "nullable": true
+          },
+          "contestId": {
+            "type": "integer",
+            "format": "int32",
             "nullable": true
           }
         },
@@ -872,7 +999,10 @@
             "format": "double"
           },
           "result": {
-            "type": "string",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
             "nullable": true
           },
           "submittedAt": {
@@ -971,9 +1101,6 @@
           "roleId": {
             "type": "integer",
             "format": "int32"
-          },
-          "user": {
-            "$ref": "#/components/schemas/User"
           },
           "role": {
             "$ref": "#/components/schemas/Role"

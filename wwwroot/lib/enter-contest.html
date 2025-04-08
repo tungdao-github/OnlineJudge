@@ -1,0 +1,38 @@
+﻿<!-- enter-contest.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Vào Kỳ Thi</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div class="container">
+        <h2>Tham gia kỳ thi</h2>
+        <input type="text" id="contestCode" placeholder="Nhập mã kỳ thi" />
+        <input type="password" id="contestPassword" placeholder="Mật khẩu (nếu có)" />
+        <button onclick="joinContest()">Vào thi</button>
+        <p id="error" class="error"></p>
+    </div>
+
+    <script>
+    async function joinContest() {
+      const code = document.getElementById("contestCode").value;
+      const password = document.getElementById("contestPassword").value;
+      const res = await fetch(`/api/contest/join`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code, password })
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        localStorage.setItem("contestId", data.contestId);
+        window.location.href = "contest.html";
+      } else {
+        document.getElementById("error").innerText = "Sai mã hoặc mật khẩu!";
+      }
+    }
+    </script>
+</body>
+</html>

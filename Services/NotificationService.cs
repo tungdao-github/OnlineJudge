@@ -18,5 +18,6 @@ namespace OnlineJudgeAPI.Services
             _logger.LogInformation($"Submission {submission.Id} status updated to: {submission.Status}");
             await Task.CompletedTask;
         }
+
     }
 }

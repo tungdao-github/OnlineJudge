@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\TUNG\\source\\repos\\OnlineJudge\\OnlineJudge.csproj": {}
+    "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\OnlineJudge.csproj": {}
   },
   "projects": {
-    "C:\\Users\\TUNG\\source\\repos\\OnlineJudge\\OnlineJudge.csproj": {
+    "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\OnlineJudge.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\TUNG\\source\\repos\\OnlineJudge\\OnlineJudge.csproj",
+        "projectUniqueName": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\OnlineJudge.csproj",
         "projectName": "OnlineJudge",
-        "projectPath": "C:\\Users\\TUNG\\source\\repos\\OnlineJudge\\OnlineJudge.csproj",
+        "projectPath": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\OnlineJudge.csproj",
         "packagesPath": "C:\\Users\\TUNG\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\TUNG\\source\\repos\\OnlineJudge\\obj\\",
+        "outputPath": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

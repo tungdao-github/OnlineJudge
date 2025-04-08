@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using OnlineJudgeAPI.Models;
 using Microsoft.AspNetCore.Authorization;
+using OnlineJudgeAPI.DTOs;
 namespace OnlineJudgeAPI.Controllers
 {
     [Route("api/problems")]
@@ -42,16 +43,53 @@ namespace OnlineJudgeAPI.Controllers
         }
 
         // POST: /api/problems
+        //
+        //[HttpPost]
+        //public async Task<ActionResult<Problem>> CreateProblem([FromBody]Problem problem)
+        //{
+        //    _context.Problems.Add(problem);
+        //    await _context.SaveChangesAsync();
+
+        //    return CreatedAtAction(nameof(GetProblem), new { id = problem.Id }, problem);
+        //}
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<ActionResult<Problem>> CreateProblem([FromBody]Problem problem)
+        public async Task<IActionResult> CreateProblem([FromBody] ProblemCreateDTO dto)
         {
+            //var contest = await _context.Contests.FindAsync(dto.ContestId);
+            //if (contest == null) return BadRequest("Contest not found");
+
+            var problem = new Problem
+            {
+                Title = dto.Title,
+                Description = dto.Description,
+                InputFormat = dto.InputFormat,
+                OutputFormat = dto.OutputFormat,
+                InputSample = dto.InputSample,
+                OutputSample = dto.OutputSample,
+                
+                //ExpectedOutput = dto.ExpectedOutput,
+                TestCases = dto.TestCases
+            };
+
             _context.Problems.Add(problem);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetProblem), new { id = problem.Id }, problem);
+            return Ok(problem);
         }
-
+        //[Authorize(Roles = "Admin")]
+        //[HttpPost]
+        //public async Task<IActionResult> CreateProblem([FromBody] Problem problem)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+        //        return BadRequest(new { errors });
+        //    }
+        //    _context.Problems.Add(problem);
+        //    await _context.SaveChangesAsync();
+        //    return Ok(problem);
+        //}
         // PUT: /api/problems/{id}
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProblem(int id, Problem problem)

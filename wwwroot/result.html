@@ -1,31 +1,56 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Result - Online Judge</title>
-    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- 🚀 Tối ưu kết nối -->
+    <link rel="preconnect" href="http://localhost:5024" crossorigin>
+    <link rel="dns-prefetch" href="http://localhost:5024">
+
+    <!-- 🚀 Preload & Load CSS -->
+    <link rel="preload" href="/css/style.css" as="style">
+    <link rel="stylesheet" href="/css/style.css" media="all" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+
+    <!-- ✅ Load script không block render -->
+    <script src="/js/result.js" defer></script>
 </head>
 <body>
     <header>
         <h1>Submission Result</h1>
         <nav>
-            <a href="/index.html">Home</a>
-            <!--<a href="/submit.html">Submit Another</a>-->
+            <a href="/index.html">🏠 Home</a>
         </nav>
     </header>
+
     <main>
-        <h2>Your Submission Status</h2>
-        <div id="result">
-            <p><strong>Status:</strong> <span id="status">Loading...</span></p>
-            <p><strong>Execution Time:</strong> <span id="execution-time">-</span> ms</p>
-            <p><strong>Memory Used:</strong> <span id="memory-used">-</span> KB</p>
-            <p><strong>Details:</strong></p>
-            <!--<p id="kq" style="color:white"></p>-->
-            <pre><strong>Ket qua:</strong> <strong>><p style="background:white"></p><span id="kq"></span></strong></pre>
-            <pre id="details">Fetching result...</pre>
-        </div>
+
+        <section id="result">
+            <h2>Your Submission Status</h2>
+            <p>đang tải đợi 3-5s</p>
+            <!--<p id="status1">status</p>
+            <p><strong>Status:</strong> <span id="status">⏳ Đang tải...</span></p>
+            <p><strong>Execution Time:</strong> <span id="executionTimeMs">⏳</span> ms</p>
+            <p><strong>Memory Usage:</strong> <span id="memoryUsageBytes">⏳</span> KB</p>
+            <p><strong>Lỗi:</strong> <span id="error">⏳</span></p>
+
+            <p><strong>Output:</strong></p>
+            <pre id="kq">⏳ Đang tải kết quả...</pre>-->
+
+            <details>
+                <summary>Chi tiết</summary>
+                <pre id="details">⏳ Chưa có chi tiết.</pre>
+            </details>
+            <div id="testcase-results"></div>
+
+            <!--<p id=""-->
+            <!--<p id="status"></p>
+    <p id="status"></p
+    <p id="status"></p>
+    <p id="status"></p>-->
+        </section>
     </main>
-    <script src="/js/result.js"></script>
 </body>
 </html>

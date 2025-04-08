@@ -1,15 +1,22 @@
 ﻿using OnlineJudgeAPI.Controllers;
 using Microsoft.EntityFrameworkCore;
 using OnlineJudgeAPI.Services;
-using OnlineJudge.Services;
+//using OnlineJudge.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Security.Claims;
+using System.Text.Json.Serialization;
+using OnlineJudgeAPI.Hubs;
+using OnlineJudgeAPI.SignalR;
 
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddControllers()
+    .AddJsonOptions(opt =>
+    {
+        opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    });
 // Add DbContext with MySQL connection
 //builder.Services.AddDbContext<ApplicationDbContext>(options =>
 //    options.UseMySql(
@@ -24,7 +31,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
     )
 );
-builder.Services.AddScoped<CodeExecutor>();
+//builder.Services.AddScoped<CodeExecutor>();
 builder.Services.AddScoped<ISubmissionService, SubmissionService>();
 // Add services to the container
 builder.Services.AddControllers();
@@ -32,6 +39,8 @@ builder.Services.AddMemoryCache();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<ICacheService, MemoryCacheService>();
 // Add Swagger/OpenAPI support
+builder.Services.AddSignalR();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<CodeExecutor>();
@@ -137,12 +146,7 @@ app.UseSwaggerUI();
 
 // Enable static files
 app.UseStaticFiles();
-app.Use(async (context, next) =>
-{
-    var token = context.Request.Headers["Authorization"].FirstOrDefault();
-    Console.WriteLine($"[DEBUG] Token: {token}");
-    await next();
-});
+
 app.Use(async (context, next) =>
 {
     var user = context.User;
@@ -158,6 +162,22 @@ app.UseHttpsRedirection();
 app.MapControllers();
 app.UseAuthentication();
 app.UseAuthorization();
-
-
+app.MapHub<TestCaseResultHub>("/testCaseHub");
+app.MapHub<TestCaseResultHub>("/testcaseresulthub");
+//app.MapHub<ContestHub>("/contestHub");
+//app.Lifetime.ApplicationStarted.Register(async () =>
+//{
+//    var executor = app.Services.GetRequiredService<CodeExecutor>();
+//    await executor.RunCodeAsync( "int main() { return 0; }", "");
+//});
+//app.Lifetime.ApplicationStarted.Register(async () =>
+//{
+//    var executor = app.Services.GetRequiredService<CodeExecutor>();
+//    await executor.RunCodeAsync("c++", "int main() { return 0; }", "");
+//});
+//app.Lifetime.ApplicationStarted.Register(async () =>
+//{
+//    var executor = app.Services.GetRequiredService<CodeExecutor>();
+//    await executor.RunCodeAsync("c++", "int main() { return 0; }", "");
+//});
 app.Run();

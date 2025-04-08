@@ -11,8 +11,8 @@ using OnlineJudgeAPI.Services;
 namespace OnlineJudgeAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250404074648_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250407132354_AddContestFunctionality3")]
+    partial class AddContestFunctionality3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,6 +21,53 @@ namespace OnlineJudgeAPI.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            modelBuilder.Entity("OnlineJudgeAPI.Models.Contest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Contests");
+                });
+
+            modelBuilder.Entity("OnlineJudgeAPI.Models.ContestProblem", b =>
+                {
+                    b.Property<int>("ContestId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProblemId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.HasKey("ContestId", "ProblemId");
+
+                    b.HasIndex("ProblemId");
+
+                    b.ToTable("ContestProblems");
+                });
 
             modelBuilder.Entity("OnlineJudgeAPI.Models.Problem", b =>
                 {
@@ -35,7 +82,13 @@ namespace OnlineJudgeAPI.Migrations
                     b.Property<string>("InputFormat")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("InputSample")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("OutputFormat")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("OutputSample")
                         .HasColumnType("longtext");
 
                     b.Property<string>("Title")
@@ -121,9 +174,15 @@ namespace OnlineJudgeAPI.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<long>("ExecutionTimeMs")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Language")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<long>("MemoryUsageBytes")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Output")
                         .IsRequired()
@@ -143,7 +202,14 @@ namespace OnlineJudgeAPI.Migrations
                     b.Property<DateTime>("SubmittedAt")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ProblemId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Submissions");
                 });
@@ -170,6 +236,25 @@ namespace OnlineJudgeAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("OnlineJudgeAPI.Models.ContestProblem", b =>
+                {
+                    b.HasOne("OnlineJudgeAPI.Models.Contest", "Contest")
+                        .WithMany("ContestProblems")
+                        .HasForeignKey("ContestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnlineJudgeAPI.Models.Problem", "Problem")
+                        .WithMany()
+                        .HasForeignKey("ProblemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Contest");
+
+                    b.Navigation("Problem");
                 });
 
             modelBuilder.Entity("OnlineJudgeAPI.Models.TestCase", b =>
@@ -202,8 +287,34 @@ namespace OnlineJudgeAPI.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Submission", b =>
+                {
+                    b.HasOne("OnlineJudgeAPI.Models.Problem", "Problem")
+                        .WithMany("Submissions")
+                        .HasForeignKey("ProblemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("User", "User")
+                        .WithMany("Submissions")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Problem");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("OnlineJudgeAPI.Models.Contest", b =>
+                {
+                    b.Navigation("ContestProblems");
+                });
+
             modelBuilder.Entity("OnlineJudgeAPI.Models.Problem", b =>
                 {
+                    b.Navigation("Submissions");
+
                     b.Navigation("TestCases");
                 });
 
@@ -214,6 +325,8 @@ namespace OnlineJudgeAPI.Migrations
 
             modelBuilder.Entity("User", b =>
                 {
+                    b.Navigation("Submissions");
+
                     b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618

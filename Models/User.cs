@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using OnlineJudgeAPI.Models;
 public class User
 {
@@ -16,4 +17,6 @@ public class User
 
     // Quan hệ nhiều-nhiều
     public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
+    [JsonIgnore]
+    public ICollection<Submission> Submissions { get; set; }
 }

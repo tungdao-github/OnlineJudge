@@ -1,74 +1,76 @@
-﻿function loadMonacoEditor() {
-    return new Promise((resolve) => {
-        require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs' } });
-        require(["vs/editor/editor.main"], function () {
-            resolve();
-        });
-    });
-}
+﻿
 
-document.addEventListener('DOMContentLoaded', async () => {
-    const editorContainer = document.getElementById('editor-container');
-    if (!editorContainer) return;
+const loadMonacoEditor = () =>
+    new Promise(resolve => require(['vs/editor/editor.main'], resolve));
 
+let editor, editorLoaded = false;
+
+const initEditorIfNeeded = async () => {
+    if (editorLoaded) return;
     await loadMonacoEditor();
-    const savedCode = localStorage.getItem('savedCode') || "// Write your code here...";
-    window.editor = monaco.editor.create(editorContainer, {
-        value: savedCode,
+    editor = monaco.editor.create(document.getElementById('editor-container'), {
+        value: localStorage.getItem('savedCode') || "// Viết code tại đây...",
         language: "cpp",
         theme: "vs-dark",
-        automaticLayout: true
+        automaticLayout: true,
+        minimap: { enabled: false },
+        fontSize: 14
     });
-
-    window.editor.onDidChangeModelContent(() => {
+    editor.onDidChangeModelContent(() => {
         localStorage.setItem('savedCode', editor.getValue());
     });
+    editorLoaded = true;
+};
 
-    console.log("editor-container = " + window.editor.getValue())
+const isInViewport = el => {
+    const r = el.getBoundingClientRect();
+    return r.top < window.innerHeight && r.bottom >= 0;
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    const editorContainer = document.getElementById('editor-container');
     const submitForm = document.getElementById('submit-form');
-    const urlParams = new URLSearchParams(window.location.search);
-    console.log(urlParams)
-    //var problemid = ;
-    //console.log(problemid)
+    const languageSelect = document.getElementById('language');
 
-    if (submitForm) {
-        submitForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
+    const token = localStorage.getItem('token');
+    const problemId = +new URLSearchParams(location.search).get("problemId");
 
-            //const submitButton = document.getElementById('submit-button');
-            //submitButton.disabled = true;
-            //submitButton.innerText = "Submitting...";
-            const token = localStorage.getItem('token'); 
-            try {
-                const response = await fetch('http://localhost:5024/api/Submissions/submit', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json','Authorization': `Bearer ${token}` },
-                    body: JSON.stringify({
-                        ProblemId: urlParams.get("problemId"),
-                        Code: editor.getValue(),
-                        Language: document.getElementById('language').value
-                    }),
-                });
+    if (!editorContainer || !submitForm || !languageSelect || !problemId || !token)
+        return alert("Thiếu dữ liệu để gửi bài!");
 
-                const result = await response.json();
-                if (response.ok) {
-                    alert("submit thanh cong")
-                    window.location.href = `result.html?submissionId=${result.submissionId}`;
-                } else {
-                    alert('Submission failed: ' + (result.message || 'Unknown error'));
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('An error occurred.');
-            } finally {
-                //submitButton.disabled = false;
-                //submitButton.innerText = "Submit";
-            }
-        });
-    } else {
-        console.log('Submit form not found.');
-    }
+    const scrollHandler = () => {
+        if (isInViewport(editorContainer)) {
+            initEditorIfNeeded();
+            window.removeEventListener('scroll', scrollHandler);
+        }
+    };
+    window.addEventListener('scroll', scrollHandler, { passive: true });
+    scrollHandler();
+
+    submitForm.onsubmit = async e => {
+        e.preventDefault();
+        const code = editorLoaded ? editor.getValue() : '';
+        const language = languageSelect.value;
+
+        if (!code.trim()) return alert("Vui lòng nhập mã trước khi gửi!");
+
+        try {
+            const res = await fetch('http://localhost:5024/api/Submissions/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify({ ProblemId: problemId, Code: code, Language: language }),
+                cache: 'no-store'
+            });
+
+            const result = await res.json();
+            if (!res.ok) throw new Error(result.message || 'Lỗi không rõ'); 
+
+            location.href = `result.html?submissionId=${result.submissionId}`;
+        } catch (err) {
+            alert('Lỗi: ' + err.message);
+        }
+    };
 });
-
-
-;

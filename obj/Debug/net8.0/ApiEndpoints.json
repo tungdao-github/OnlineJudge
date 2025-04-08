@@ -60,22 +60,12 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "problem",
-        "Type": "OnlineJudgeAPI.Models.Problem",
+        "Name": "dto",
+        "Type": "OnlineJudgeAPI.DTOs.ProblemCreateDTO",
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "OnlineJudgeAPI.Models.Problem",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "OnlineJudgeAPI.Controllers.ProblemsController",
@@ -204,6 +194,26 @@
     "ReturnTypes": [
       {
         "Type": "OnlineJudgeAPI.Models.SubmissionResult",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "OnlineJudgeAPI.Controllers.SubmissionsController",
+    "Method": "GetSubmissionHistory",
+    "RelativePath": "api/Submissions/history",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[OnlineJudgeAPI.DTOs.SubmissionHistoryDto, OnlineJudgeAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",

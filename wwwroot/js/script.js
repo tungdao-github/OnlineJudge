@@ -5,8 +5,9 @@
     const description = document.getElementById("description").value;
     const inputFormat = document.getElementById("inputFormat").value;
     const outputFormat = document.getElementById("outputFormat").value;
-
-    
+    const inputSample = document.getElementById("inputSample").value;
+    const outputSample = document.getElementById("outputSample").value;
+    console.log(inputSample + " " + outputSample)
     const token = localStorage.getItem("token") || sessionStorage.getItem("token");
     console.log(token)
     try {
@@ -18,7 +19,7 @@
         let response = await fetch("/api/problems", {
             method: "POST",
             headers: { "Authorization": "Bearer " + token, "Content-Type": "application/json" },
-            body: JSON.stringify({ title, description, inputFormat, outputFormat, testCases: [] })
+            body: JSON.stringify({ title, description, inputFormat, outputFormat, inputSample, outputSample, contestId: 1, testCases: [] })
         });
 
         let problem = await response.json();

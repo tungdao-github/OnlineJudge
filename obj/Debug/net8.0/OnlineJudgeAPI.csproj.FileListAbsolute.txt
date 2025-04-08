@@ -116,4 +116,8 @@ C:\Users\TUNG\source\repos\OnlineJudgeAPI\obj\Debug\net8.0\refint\OnlineJudgeAPI
 C:\Users\TUNG\source\repos\OnlineJudgeAPI\obj\Debug\net8.0\OnlineJudgeAPI.pdb
 C:\Users\TUNG\source\repos\OnlineJudgeAPI\obj\Debug\net8.0\OnlineJudgeAPI.genruntimeconfig.cache
 C:\Users\TUNG\source\repos\OnlineJudgeAPI\obj\Debug\net8.0\ref\OnlineJudgeAPI.dll
-C:\Users\TUNG\source\repos\OnlineJudgeAPI\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\TUNG\source\repos\OnlineJudgeAPI\obj\Debug\net8.0\OnlineJudgeAPI.RazorAssemblyInfo.cache
+C:\Users\TUNG\source\repos\OnlineJudgeAPI\obj\Debug\net8.0\OnlineJudgeAPI.RazorAssemblyInfo.cs
+C:\Users\TUNG\source\repos\OnlineJudgeAPI\obj\Debug\net8.0\OnlineJudgeAPI.sourcelink.json
+C:\Users\TUNG\source\repos\OnlineJudgeAPI\obj\Debug\net8.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+C:\Users\TUNG\source\repos\OnlineJudgeAPI\obj\Debug\net8.0\scopedcss\projectbundle\OnlineJudgeAPI.bundle.scp.css

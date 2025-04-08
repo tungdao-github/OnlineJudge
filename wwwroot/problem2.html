@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Làm bài</title>
+    <style>
+        body {
+            font-family: Arial;
+            margin: 0;
+            padding: 0;
+        }
+
+        #editor {
+            height: 400px;
+            border: 1px solid #ccc;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .meta {
+            margin-bottom: 20px;
+        }
+
+            .meta h2 {
+                margin-bottom: 10px;
+            }
+
+        .countdown {
+            font-weight: bold;
+            color: red;
+        }
+
+        button {
+            padding: 8px 16px;
+            margin-top: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="meta">
+            <h2 id="problemTitle">Tiêu đề bài</h2>
+            <div>⏳ Thời gian còn lại: <span class="countdown" id="countdown"></span></div>
+            <p id="problemDescription"></p>
+        </div>
+        <div id="editor"></div>
+        <button onclick="submitCode()">Submit</button>
+        <pre id="result"></pre>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs/loader.min.js"></script>
+    <script>
+    const problemId = new URLSearchParams(window.location.search).get('problemId');
+    const contestId = new URLSearchParams(window.location.search).get('contestId');
+    const endTime = new Date(localStorage.getItem(`contest-${contestId}-end`));
+
+    // ⏱ Timer
+    function updateCountdown() {
+      const now = new Date();
+      const diff = endTime - now;
+      if (diff <= 0) {
+        document.getElementById("countdown").textContent = "⛔ Hết giờ!";
+        document.querySelector("button").disabled = true;
+        clearInterval(timer);
+        return;
+      }
+      const mins = Math.floor(diff / 60000);
+      const secs = Math.floor((diff % 60000) / 1000);
+      document.getElementById("countdown").textContent = `${mins}m ${secs}s`;
+    }
+    const timer = setInterval(updateCountdown, 1000);
+
+    // 🧠 Load problem info
+    async function loadProblem() {
+      const res = await fetch(`/api/problems/${problemId}`);
+      const data = await res.json();
+      document.getElementById("problemTitle").textContent = data.title;
+      document.getElementById("problemDescription").textContent = data.description;
+    }
+
+    // 💻 Monaco Editor
+    let editor;
+    require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs' }});
+    require(["vs/editor/editor.main"], function () {
+      editor = monaco.editor.create(document.getElementById("editor"), {
+        value: "// Viết code tại đây",
+        language: "cpp",
+        theme: "vs-dark",
+      });
+    });
+
+    // 🚀 Submit code
+    async function submitCode() {
+      const res = await fetch('/api/submissions/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contestId,
+          problemId,
+          code: editor.getValue(),
+          language: 'cpp'
+        })
+      });
+      const result = await res.json();
+      document.getElementById("result").textContent = JSON.stringify(result, null, 2);
+    }
+
+    loadProblem();
+    updateCountdown();
+    </script>
+</body>
+</html>

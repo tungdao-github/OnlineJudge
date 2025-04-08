@@ -45,7 +45,8 @@ namespace OnlineJudgeAPI.Services
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
-
+        public DbSet<Contest> Contests { get; set; }
+        public DbSet<ContestProblem> ContestProblems { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserRole>()
@@ -57,6 +58,28 @@ namespace OnlineJudgeAPI.Services
                 .HasOne(ur => ur.Role)
                 .WithMany(r => r.UserRoles)
                 .HasForeignKey(ur => ur.RoleId);
+            modelBuilder.Entity<Submission>()
+    .HasOne(s => s.User)
+    .WithMany(u => u.Submissions)
+    .HasForeignKey(s => s.UserId);
+
+            modelBuilder.Entity<Submission>()
+                .HasOne(s => s.Problem)
+                .WithMany(p => p.Submissions)
+                .HasForeignKey(s => s.ProblemId);
+            modelBuilder.Entity<ContestProblem>()
+            .HasKey(cp => new { cp.ContestId, cp.ProblemId });
+
+            modelBuilder.Entity<ContestProblem>()
+                .HasOne(cp => cp.Contest)
+                .WithMany(c => c.ContestProblems)
+                .HasForeignKey(cp => cp.ContestId);
+
+            modelBuilder.Entity<ContestProblem>()
+                .HasOne(cp => cp.Problem)
+                .WithMany()
+                .HasForeignKey(cp => cp.ProblemId);
+
         }
     }
 }

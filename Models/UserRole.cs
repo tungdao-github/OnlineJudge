@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 
 namespace OnlineJudgeAPI.Models
@@ -14,6 +15,7 @@ namespace OnlineJudgeAPI.Models
         public int RoleId { get; set; }
 
         [ForeignKey("UserId")]
+        [JsonIgnore]
         public User User { get; set; }
 
         [ForeignKey("RoleId")]

@@ -1,54 +1,66 @@
-﻿async function register() {
-    let response = await fetch('http://localhost:5024/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            username: document.getElementById('regUsername').value,
-            email: document.getElementById('regEmail').value,
-            password: document.getElementById('regPassword').value,
-            roleIds: [2] // Giả sử user mặc định có role ID 2
-        })
-    });
-    alert(await response.text());
+﻿const BASE_URL = "http://localhost:5024/api/auth";
+
+const decodeJwt = (token) => {
+    try {
+        const payload = token.split('.')[1];
+        return JSON.parse(atob(payload));
+    } catch (e) {
+        console.error("JWT decode error:", e);
+        return {};
+    }
+};
+
+async function register() {
+    const username = document.getElementById('regUsername').value;
+    const email = document.getElementById('regEmail').value;
+    const password = document.getElementById('regPassword').value;
+
+    try {
+        const res = await fetch(`${BASE_URL}/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, email, password, roleIds: [2] })
+        });
+
+        const text = await res.text();
+        //alert(text);
+    } catch (err) {
+        console.error("Register error:", err);
+        alert("Đăng ký thất bại!");
+    }
 }
 
 async function login() {
-    let response = await fetch('http://localhost:5024/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            username: document.getElementById('loginUsername').value,
-            password: document.getElementById('loginPassword').value
-        })
-    });
+    const username = document.getElementById('loginUsername').value;
+    const password = document.getElementById('loginPassword').value;
 
-    if (!response.ok) {
-        alert("Login failed! Please check your credentials.");
-        return;
-    }
+    try {
+        const res = await fetch(`${BASE_URL}/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        });
 
-    let result = await response.json();
-    localStorage.setItem("token", result.token);
-    alert(result.token)
-    console.log(result.token)
-    // Giải mã JWT để lấy thông tin Role ID
-    let payload = JSON.parse(atob(result.token.split('.')[1]));
-    //let roles = payload["role"];
-    let roles = Object.keys(payload).find(key => key.includes("role")) ? payload[Object.keys(payload).find(key => key.includes("role"))] : null;
+        if (!res.ok) {
+            alert("Login failed! Please check your credentials.");
+            return;
+        }
 
-    console.log(roles)
-    if (Array.isArray(roles)) {
-        
-        if (roles.includes("Admin")) {
+        const { token } = await res.json();
+        localStorage.setItem("token", token);
+        console.log("Token:", token);
+
+        const payload = decodeJwt(token);
+        const roleKey = Object.keys(payload).find(k => k.toLowerCase().includes("role"));
+        const roles = payload[roleKey];
+        console.log(roles);
+        if (Array.isArray(roles) ? roles.includes("Admin") : roles === "Admin") {
             window.location.href = "/admin.html";
         } else {
             window.location.href = "/user.html";
         }
-    } else {
-        if (roles === "Admin") {
-            window.location.href = "/admin.html";
-        } else {
-            window.location.href = "/user.html";
-        }
+    } catch (err) {
+        console.error("Login error:", err);
+        alert("Lỗi đăng nhập!");
     }
 }
