@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const contestId = urlParams.get('id');
+
+        fetch(`http://localhost:5024/api/Contest/api/contests/${contestId}`)
+            .then(res => res.json())
+            .then(contest => {
+                console.log(JSON.stringify(contest));
+                document.body.innerHTML += `<h1 >${contest.name}</h1>`;
+                contest.contestProblems.forEach(p => {
+                    document.body.innerHTML += `<p><a href="problem.html?problemId=${p.problemId}">${p.problem.title} - ${p.score} điểm</a></p>`;
+                });
+            });
+    </script>
+</body>
+</html>

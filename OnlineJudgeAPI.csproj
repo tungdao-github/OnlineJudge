@@ -5,6 +5,9 @@
 	  
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>a2b5a4df-7acb-46b2-8f99-56a539fdc2c1</UserSecretsId>
+    <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+    <DockerfileContext>.</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,6 +30,7 @@
 	    <PrivateAssets>all</PrivateAssets>
 	  </PackageReference>
 	  <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.7.0" />
+	  <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
 	  <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.0" />
 	  <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.0" />
 	  <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.7.0" />
@@ -38,7 +42,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="C:\Users\TUNG\source\repos\OnlineJudgeAPI\.editorconfig" />
     <None Include="wwwroot\index.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\TUNG\source\repos\OnlineJudgeAPI\.editorconfig" />
   </ItemGroup>
 
 </Project>

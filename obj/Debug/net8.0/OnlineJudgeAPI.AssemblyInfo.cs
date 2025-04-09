@@ -11,10 +11,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("a2b5a4df-7acb-46b2-8f99-56a539fdc2c1")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("OnlineJudgeAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+520c21a6d0f532c2c94afe1522d520c63939f795")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0c86df331e0b78646528ba4e686cc2d345352b8a")]
 [assembly: System.Reflection.AssemblyProductAttribute("OnlineJudgeAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("OnlineJudgeAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

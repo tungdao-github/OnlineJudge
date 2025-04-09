@@ -1,119 +1,94 @@
-﻿//using Microsoft.AspNetCore.Mvc;
-//using System.Linq;
-//using System.Threading.Tasks;
-//using Microsoft.EntityFrameworkCore;
-//using OnlineJudgeAPI.Services;
-//using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using OnlineJudgeAPI.Services;
+using System;
+using OnlineJudgeAPI.DTOs;
+using OnlineJudgeAPI.Models;
+using Microsoft.AspNetCore.SignalR;
 
-//[Route("api/[controller]")]
-//[ApiController]
-//public class ContestController : ControllerBase
-//{
-//    private readonly AppDbContext _context;
+[Route("api/[controller]")]
+[ApiController]
+public class ContestController : ControllerBase
+{
+    private readonly ApplicationDbContext _context;
 
-//    public ContestController(AppDbContext context)
-//    {
-//        _context = context;
-//    }
+    public ContestController(ApplicationDbContext context)
+    {
+        _context = context;
+    }
+    [HttpPost("create")]
+    public async Task<IActionResult> CreateContest(CreateContestRequest request)
+    {
+        var contest = new Contest
+        {
+            Name = request.Name,
+            StartTime = request.StartTime,
+            EndTime = request.EndTime,
+            Description = request.Description,
+            ContestProblems = request.ProblemIds.Select(pid => new ContestProblem { ProblemId = pid.problemId }).ToList()
+        };
 
-//    // GET: api/contest/{contestId}/problems
-//    [HttpGet("{contestId}/problems")]
-//    public async Task<IActionResult> GetContestProblems(int contestId)
-//    {
-//        var problems = await _context.ContestProblems
-//            .Where(cp => cp.ContestId == contestId)
-//            .Select(cp => new
-//            {
-//                cp.Problem.Id,
-//                cp.Problem.Title
-//            })
-//            .ToListAsync();
+        _context.Contests.Add(contest);
+        await _context.SaveChangesAsync();
+        return Ok(contest);
+    }
+    // GET: api/contest/{contestId}/problems
 
-//        if (problems == null || !problems.Any())
-//        {
-//            return NotFound("No problems found for this contest.");
-//        }
+    [HttpGet("api/contests")]
+    public async Task<IActionResult> GetAllContests()
+    {
+        var contests = await _context.Contests.ToListAsync();
+        return Ok(contests);
+    }
 
-//        return Ok(problems);
-//    }
-//    public class SubmissionRequest2
-//    {
-//        public int ContestId { get; set; }
-//        public int ProblemId { get; set; }
-//        public string Language { get; set; }
-//        public string Code { get; set; }
-//    }
-//    // POST: api/contest/submit
-//    [HttpPost("submit")]
-//    public async Task<IActionResult> SubmitSolution([FromBody] SubmissionRequest2 submission)
-//    {
-//        if (!ModelState.IsValid)
-//        {
-//            return BadRequest(ModelState);
-//        }
+    [HttpGet("api/contests/{id}")]
+    public async Task<IActionResult> GetContestDetail(int id)
+    {
+        var contest = await _context.Contests
+            .Include(c => c.ContestProblems)
+            .ThenInclude(cp => cp.Problem)
+            .FirstOrDefaultAsync(c => c.Id == id);
 
-//        var newSubmission = new Submission
-//        {
-//            UserId = submission.usesId,
-//            ContestID = submission.ContestId,
-//            ProblemId = submission.ProblemId,
-//            Code = submission.Code,
-//            Language = submission.Language,
-//            SubmittedAt = DateTime.UtcNow
-//        };
+        if (contest == null)
+            return NotFound();
 
-//        _context.Submissions.Add(newSubmission);
-//        await _context.SaveChangesAsync();
+        return Ok(contest);
+    }
+    [HttpGet("api/contests/{contestId}/submissions")]
+    public async Task<IActionResult> GetSubmissionsInContest(int contestId, int? userId = null)
+    {
+        var submissions = _context.Submissions
+            .Where(s => s.ContestId == contestId);
 
-//        // Gọi dịch vụ chấm điểm ở đây (ví dụ: JudgeService)
-//        var judgeService = new JudgeService();
-//        var problem = await _context.Problems.FindAsync(submission.ProblemId);
-//        var testCases = await _context.TestCases.Where(tc => tc.ProblemId == submission.ProblemId).ToListAsync();
+        if (userId != null)
+            submissions = submissions.Where(s => s.UserId == userId);
 
-//        foreach (var testCase in testCases)
-//        {
-//            var isCorrect = await judgeService.EvaluateAsync(submission.Code, testCase.Input, testCase.ExpectedOutput);
-//            if (!isCorrect)
-//            {
-//                newSubmission.IsCorrect = false;
-//                break;
-//            }
-//            newSubmission.IsCorrect = true;
-//        }
+        var result = await submissions
+            .Include(s => s.Problem)
+            .Include(s => s.User)
+            .ToListAsync();
 
-//        await _context.SaveChangesAsync();
+        return Ok(result);
+    }
+    //[HttpGet("api/contests/{contestId}/leaderboard")]
+    //public async Task<IActionResult> GetLeaderboard(int contestId)
+    //{
+    //    var leaderboard = await _context.Submissions
+    //        .Where(s => s.ContestId == contestId && s.Passed == true)
+    //        .GroupBy(s => new { s.UserId, s.User.UserName })
+    //        .Select(g => new {
+    //            g.Key.UserId,
+    //            g.Key.UserName,
+    //            TotalScore = g.Sum(s => s.Score)
+    //        })
+    //        .OrderByDescending(x => x.TotalScore)
+    //        .ToListAsync();
 
-//        return Ok(new { Message = "Submission received and evaluated.", newSubmission.IsCorrect });
-//    }
-//    // POST: api/contest/finish
-//    [HttpPost("finish")]
-//    public async Task<IActionResult> FinishContest([FromBody] FinishContestRequest request)
-//    {
-//        var contest = await _context.Contests.FindAsync(request.ContestId);
-//        if (contest == null)
-//        {
-//            return NotFound("Contest not found.");
-//        }
+    //    // Gửi SignalR nếu cần cập nhật real-time
+    //    await _hubContext.Clients.All.SendAsync("UpdateLeaderboard", leaderboard);
 
-//        if (DateTime.UtcNow < contest.EndTime)
-//        {
-//            return BadRequest("Contest has not ended yet.");
-//        }
-
-//        var leaderboard = await _context.Submissions
-//            .Where(s => s.ContestId == request.ContestId && s.IsCorrect)
-//            .GroupBy(s => s.UserId)
-//            .Select(g => new
-//            {
-//                UserId = g.Key,
-//                Score = g.Count(),
-//                LastSubmissionTime = g.Max(s => s.SubmitTime)
-//            })
-//            .OrderByDescending(l => l.Score)
-//            .ThenBy(l => l.LastSubmissionTime)
-//            .ToListAsync();
-
-//        return Ok(leaderboard);
-//    }
-
-//}
+    //    return Ok(leaderboard);
+    //}
+}

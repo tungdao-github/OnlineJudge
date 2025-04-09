@@ -16,7 +16,7 @@ public class ExecutionResult
 
 public class CodeExecutor
 {
-    private const int TimeoutMilliseconds = 2000;
+    private const int TimeoutMilliseconds = 3000;
     private readonly IHubContext<TestCaseResultHub> _hubContext;
 
     public CodeExecutor(IHubContext<TestCaseResultHub> hubContext)
@@ -80,117 +80,25 @@ public class CodeExecutor
 
         return outputFile;
     }
-
     public async Task<ExecutionResult> RunCodeAsync(string executablePath, List<TestCase> testCases, string language, string connectionId)
     {
         var result = new ExecutionResult();
         var totalStopwatch = Stopwatch.StartNew();
-        var outputBuilder = new StringBuilder();
-        var errorBuilder = new StringBuilder();
 
-        foreach (var (testCase, i) in testCases.Select((tc, i) => (tc, i)))
-        {
-            var psi = new ProcessStartInfo
-            {
-                FileName = (language == "python") ? "python3" : executablePath,
-                Arguments = (language == "python") ? $"\"{executablePath}\"" : "",
-                RedirectStandardInput = true,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                CreateNoWindow = true,
-                StandardOutputEncoding = Encoding.UTF8,
-                StandardErrorEncoding = Encoding.UTF8
-            };
+        var tasks = testCases.Select(testCase =>
+            RunSingleTestCaseAsync(testCase, executablePath, language, connectionId)).ToList();
 
-            using var process = new Process { StartInfo = psi };
-            var testStopwatch = Stopwatch.StartNew();
+        var results = await Task.WhenAll(tasks);
 
-            try
-            {
-                process.Start();
-                await process.StandardInput.WriteAsync(testCase.Input);
-                process.StandardInput.Close();
-
-                var stdoutTask = process.StandardOutput.ReadToEndAsync();
-                var stderrTask = process.StandardError.ReadToEndAsync();
-                var waitTask = process.WaitForExitAsync();
-                long memoryUsedBytes = process.PeakWorkingSet64;
-                var completed = await Task.WhenAny(waitTask, Task.Delay(TimeoutMilliseconds)) == waitTask;
-
-                if (!completed)
-                {
-                    Console.WriteLine("tungdao");
-                    try { process.Kill(true); } catch { }
-                    testStopwatch.Stop();
-                    var timeoutResult = new TestCaseResult
-                    {
-                        TestCaseId = testCase.Id,
-                        Input = testCase.Input,
-                        ExpectedOutput = Normalize(testCase.ExpectedOutput),
-                        ActualOutput = "[TIME LIMIT EXCEEDED]",
-                        Passed = false,
-                        ExecutionTimeMs = testStopwatch.ElapsedMilliseconds,
-                        MemoryUsageBytes = memoryUsedBytes
-                    };
-                    result.TestCaseResults.Add(timeoutResult);
-                    //result.CompilationError = "runtime error";
-                    await _hubContext.Clients.Client(connectionId).SendAsync("ReceiveTestCaseResult", timeoutResult);
-                    continue;
-                }
-
-                string stdout = await stdoutTask;
-                string stderr = await stderrTask;
-
-                string actualOutput = Normalize(stdout);
-                string expectedOutput = Normalize(testCase.ExpectedOutput);
-                bool passed = actualOutput == expectedOutput;
-
-                var testCaseResult = new TestCaseResult
-                {
-                    TestCaseId = testCase.Id,
-                    Input = testCase.Input,
-                    ExpectedOutput = expectedOutput,
-                    ActualOutput = actualOutput,
-                    Passed = passed,
-                    ExecutionTimeMs = testStopwatch.ElapsedMilliseconds,
-                    MemoryUsageBytes = memoryUsedBytes
-                };
-
-                result.TestCaseResults.Add(testCaseResult);
-                outputBuilder.AppendLine(stdout);
-                errorBuilder.AppendLine(stderr);
-
-                // Send real-time result via SignalR
-                //await _hubContext.Clients.Client(connectionId).SendAsync("ReceiveTestCaseResult", testCaseResult);
-                await _hubContext.Clients.Client(connectionId).SendAsync("ReceiveTestCaseResult", testCaseResult);
-              
-            }
-            catch (Exception ex)
-            {
-                var errorResult = new TestCaseResult
-                {
-                    TestCaseId = testCase.Id,
-                    Input = testCase.Input,
-                    ExpectedOutput = Normalize(testCase.ExpectedOutput),
-                    ActualOutput = $"[ERROR] {ex.Message}",
-                    Passed = false,
-
-                };
-                result.TestCaseResults.Add(errorResult);
-                await _hubContext.Clients.Client(connectionId).SendAsync("ReceiveTestCaseResult", errorResult);
-            }
-        }
-
-        totalStopwatch.Stop();
+        result.TestCaseResults.AddRange(results);
         result.TotalExecutionTimeMs = totalStopwatch.ElapsedMilliseconds;
-        result.StandardOutput = outputBuilder.ToString().TrimEnd();
-        result.StandardError = errorBuilder.ToString().TrimEnd();
-        result.CompilationError = result.StandardError;
+
+        result.StandardOutput = string.Join("\n", results.Select(r => r.ActualOutput));
+        result.StandardError = string.Join("\n", results.Where(r => !r.Passed).Select(r => r.ActualOutput.Contains("[ERROR]") ? r.ActualOutput : "").Where(x => !string.IsNullOrWhiteSpace(x)));
 
         return result;
     }
-
+   
     public async Task<ExecutionResult> RunAndCompileCodeAsync(string code, List<TestCase> testCases, string language, string connectionId)
     {
         string exePath = null;
@@ -200,7 +108,10 @@ public class CodeExecutor
         }
         catch (Exception ex)
         {
+            await _hubContext.Clients.Client(connectionId).SendAsync("ReceiveTestCaseResult", new ExecutionResult { CompilationError = ex.Message });
+
             return new ExecutionResult { CompilationError = ex.Message };
+
         }
 
         var result = await RunCodeAsync(exePath, testCases, language, connectionId);
@@ -212,4 +123,187 @@ public class CodeExecutor
 
         return result;
     }
+    private async Task<TestCaseResult> RunSingleTestCaseAsync(TestCase testCase, string executablePath, string language, string connectionId)
+{
+    var psi = new ProcessStartInfo
+    {
+        FileName = (language == "python") ? "python3" : executablePath,
+        Arguments = (language == "python") ? $"\"{executablePath}\"" : "",
+        RedirectStandardInput = true,
+        RedirectStandardOutput = true,
+        RedirectStandardError = true,
+        UseShellExecute = false,
+        CreateNoWindow = true,
+        StandardOutputEncoding = Encoding.UTF8,
+        StandardErrorEncoding = Encoding.UTF8
+    };
+
+    using var process = new Process { StartInfo = psi, EnableRaisingEvents = false };
+    var testStopwatch = Stopwatch.StartNew();
+
+    try
+    {
+        process.Start();
+
+        await process.StandardInput.WriteAsync(testCase.Input);
+        process.StandardInput.Close();
+
+        var stdoutTask = process.StandardOutput.ReadToEndAsync();
+        var stderrTask = process.StandardError.ReadToEndAsync();
+        var waitTask = process.WaitForExitAsync();
+
+        var completed = await Task.WhenAny(waitTask, Task.Delay(TimeoutMilliseconds)) == waitTask;
+
+        testStopwatch.Stop();
+
+        if (!completed)
+        {
+            try { process.Kill(true); } catch { }
+
+            var timeoutResult = new TestCaseResult
+            {
+                TestCaseId = testCase.Id,
+                Input = testCase.Input,
+                ExpectedOutput = Normalize(testCase.ExpectedOutput),
+                ActualOutput = "[RUN Time Error]",
+                Passed = false,
+                ExecutionTimeMs = testStopwatch.ElapsedMilliseconds,
+                MemoryUsageBytes = 0
+            };
+            await _hubContext.Clients.Client(connectionId).SendAsync("ReceiveTestCaseResult", timeoutResult);
+            return timeoutResult;
+        }
+
+        string stdout = await stdoutTask;
+        string stderr = await stderrTask;
+
+        long memoryUsedBytes = 0;
+        try { memoryUsedBytes = process.PeakWorkingSet64; } catch { }
+
+        string actualOutput = Normalize(stdout);
+        string expectedOutput = Normalize(testCase.ExpectedOutput);
+        bool passed = actualOutput == expectedOutput;
+
+        var testCaseResult = new TestCaseResult
+        {
+            TestCaseId = testCase.Id,
+            Input = testCase.Input,
+            ExpectedOutput = expectedOutput,
+            ActualOutput = actualOutput,
+            Passed = passed,
+            ExecutionTimeMs = testStopwatch.ElapsedMilliseconds,
+            MemoryUsageBytes = memoryUsedBytes
+        };
+
+        await _hubContext.Clients.Client(connectionId).SendAsync("ReceiveTestCaseResult", testCaseResult);
+        return testCaseResult;
+    }
+    catch (Exception ex)
+    {
+        testStopwatch.Stop();
+        var errorResult = new TestCaseResult
+        {
+            TestCaseId = testCase.Id,
+            Input = testCase.Input,
+            ExpectedOutput = Normalize(testCase.ExpectedOutput),
+            ActualOutput = $"[ERROR] {ex.Message}",
+            Passed = false,
+            ExecutionTimeMs = testStopwatch.ElapsedMilliseconds,
+            MemoryUsageBytes = 0
+        };
+
+        await _hubContext.Clients.Client(connectionId).SendAsync("ReceiveTestCaseResult", errorResult);
+        return errorResult;
+    }
+}
+
+    //private async Task<TestCaseResult> RunSingleTestCaseAsync(TestCase testCase, string executablePath, string language, string connectionId)
+    //{
+    //    var psi = new ProcessStartInfo
+    //    {
+    //        FileName = (language == "python") ? "python3" : executablePath,
+    //        Arguments = (language == "python") ? $"\"{executablePath}\"" : "",
+    //        RedirectStandardInput = true,
+    //        RedirectStandardOutput = true,
+    //        RedirectStandardError = true,
+    //        UseShellExecute = false,
+    //        CreateNoWindow = true,
+    //        StandardOutputEncoding = Encoding.UTF8,
+    //        StandardErrorEncoding = Encoding.UTF8
+    //    };
+
+    //    using var process = new Process { StartInfo = psi };
+    //    var testStopwatch = Stopwatch.StartNew();
+
+    //    try
+    //    {
+    //        process.Start();
+
+    //        await process.StandardInput.WriteAsync(testCase.Input);
+    //        process.StandardInput.Close();
+
+    //        var stdoutTask = process.StandardOutput.ReadToEndAsync();
+    //        var stderrTask = process.StandardError.ReadToEndAsync();
+    //        var waitTask = process.WaitForExitAsync();
+    //        long memoryUsedBytes = process.PeakWorkingSet64;
+
+    //        var completed = await Task.WhenAny(waitTask, Task.Delay(TimeoutMilliseconds)) == waitTask;
+
+    //        testStopwatch.Stop();
+
+    //        if (!completed)
+    //        {
+    //            try { process.Kill(true); } catch { }
+    //            var timeoutResult = new TestCaseResult
+    //            {
+    //                TestCaseId = testCase.Id,
+    //                Input = testCase.Input,
+    //                ExpectedOutput = Normalize(testCase.ExpectedOutput),
+    //                ActualOutput = "[TIME LIMIT EXCEEDED]",
+    //                Passed = false,
+    //                ExecutionTimeMs = testStopwatch.ElapsedMilliseconds,
+    //                MemoryUsageBytes = memoryUsedBytes
+    //            };
+    //            await _hubContext.Clients.Client(connectionId).SendAsync("ReceiveTestCaseResult", timeoutResult);
+    //            return timeoutResult;
+    //        }
+
+    //        string stdout = await stdoutTask;
+    //        string stderr = await stderrTask;
+
+    //        string actualOutput = Normalize(stdout);
+    //        string expectedOutput = Normalize(testCase.ExpectedOutput);
+    //        bool passed = actualOutput == expectedOutput;
+
+    //        var testCaseResult = new TestCaseResult
+    //        {
+    //            TestCaseId = testCase.Id,
+    //            Input = testCase.Input,
+    //            ExpectedOutput = expectedOutput,
+    //            ActualOutput = actualOutput,
+
+    //            Passed = passed,
+    //            ExecutionTimeMs = testStopwatch.ElapsedMilliseconds,
+    //            MemoryUsageBytes = memoryUsedBytes
+    //        };
+
+    //        await _hubContext.Clients.Client(connectionId).SendAsync("ReceiveTestCaseResult", testCaseResult);
+    //        return testCaseResult;
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        var errorResult = new TestCaseResult
+    //        {
+    //            TestCaseId = testCase.Id,
+    //            Input = testCase.Input,
+    //            ExpectedOutput = Normalize(testCase.ExpectedOutput),
+    //            ActualOutput = $"[ERROR] {ex.Message}",
+    //            Passed = false,
+    //            ExecutionTimeMs = testStopwatch.ElapsedMilliseconds
+    //        };
+
+    //        await _hubContext.Clients.Client(connectionId).SendAsync("ReceiveTestCaseResult", errorResult);
+    //        return errorResult;
+    //    }
+    //}
 }

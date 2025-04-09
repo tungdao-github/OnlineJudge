@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace OnlineJudgeAPI.Models
 {
-
+    
     public class TestCase
     {
         [Key]

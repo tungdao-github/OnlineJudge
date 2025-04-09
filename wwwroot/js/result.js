@@ -1,11 +1,27 @@
 ﻿document.addEventListener("DOMContentLoaded", async () => {
+    function isTokenExpired(token) {
+        try {
+            const payload = JSON.parse(atob(token.split('.')[1]));
+            const exp = payload.exp * 1000; // Convert seconds to milliseconds
+            return Date.now() >= exp;
+        } catch (err) {
+            console.error("Token decode error:", err);
+            return true; // Nếu không decode được thì coi như token hết hạn
+        }
+    }
+    const token = localStorage.getItem("token");
+    console.log(token)
+    if (token == null) {
+        alert("phien dang nhap da ket thuc");
+        location.href = "/index.html";
+    }
     const $ = id => document.getElementById(id);
 
     const updateFinalResult = (data) => {
         $("status").textContent = data.status || "N/A";
-        $("executionTimeMs").textContent = data.executionTime ? `${data.executionTime} ms` : "N/A";
-        $("memoryUsageBytes").textContent = data.memoryUsageBytes ? `${data.memoryUsageBytes} bytes` : "N/A";
-        $("details").textContent = data.compilationError || "No error";
+        //$("executionTimeMs").textContent = data.executionTime ? `${data.executionTime} ms` : "N/A";
+        //$("memoryUsageBytes").textContent = data.memoryUsageBytes ? `${data.memoryUsageBytes} bytes` : "N/A";
+        //$("details").textContent = data.compilationError || "No error";
 
         if (!data.result || !Array.isArray(data.result)) return;
 
@@ -30,13 +46,14 @@
         div.style.marginBottom = "10px";
         div.style.backgroundColor = data.passed ? "#e0ffe0" : "#ffe0e0";
         div.innerHTML = `
-            <strong>🧪 Test Case ${data.actualOutput}</strong><br>
+            
+             <strong>Error:</strong><br><pre>${!data.compilationError ? "Không có" : data.compilationError?.trim() }</pre>
             📥 <strong>Input:</strong><br><pre>${data.input?.trim()}</pre>
             🧾 <strong>Output:</strong><br><pre>${data.actualOutput?.trim()}</pre>
-            //🎯 <strong>Expected:</strong><br><pre>${data.expectedOutput?.trim()}</pre>
-            //✅ <strong>Passed:</strong> ${data.passed ? "✔️" : "❌"}<br>
-            //⏱ <strong>Time:</strong> ${data.executionTimeMs || 'N/A'} ms<br>
-            //📦 <strong>Memory:</strong> ${data.memoryUsageBytes || 'N/A'} bytes<br>
+            🎯 <strong>Expected:</strong><br><pre>${data.expectedOutput?.trim()}</pre>
+            ✅ <strong>Passed:</strong> ${data.passed ? "✔️" : "❌"}<br>
+            ⏱ <strong>Time:</strong> ${data.executionTimeMs || 'N/A'} ms<br>
+            📦 <strong>Memory:</strong> ${data.memoryUsageBytes || 'N/A'} bytes<br>
         `;
         container.appendChild(div);
     };
@@ -48,10 +65,12 @@
         .build();
 
     let connectionId = null;
-
+    document.getElementById('loading-spinner').style.display = 'block';
     connection.on("ReceiveTestCaseResult", (data) => {
         console.log("📩 Received test case result via SignalR:", data);
+        document.getElementById('loading-spinner').style.display = 'none';
         appendTestCaseResult(data);
+        
     });
 
     try {
@@ -70,7 +89,12 @@
         const language = localStorage.getItem('language');
         const problemId = localStorage.getItem('problemId');
         const token = localStorage.getItem('token');
-
+        if (!token || isTokenExpired(token)) {
+            alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
+            localStorage.removeItem("token");
+            window.location.href = "/index.html"; // hoặc /login.html tùy bạn
+            return;
+        }
         // Call /submit
         const submitResponse = await fetch('http://localhost:5024/api/Submissions/submit', {
             method: 'POST',
@@ -86,6 +110,7 @@
             }),
             cache: 'no-store'
         });
+        
 
         let result;
         if (submitResponse.headers.get("content-type")?.includes("application/json")) {
@@ -108,16 +133,16 @@
         // Poll result until complete
         const pollResult = async () => {
             try {
-                //const response = await fetch(`http://localhost:5024/api/Submissions/GetResult/${submissionId}`);
-                //if (!response.ok) throw new Error("Fetch error");
+                const response = await fetch(`http://localhost:5024/api/Submissions/GetResult/${submissionId}`);
+                if (!response.ok) throw new Error("Fetch error");
 
-                //const data = await response.json();
-                //if (data.status !== "Pending" && data.status !== "Running") {
-                //    updateFinalResult(data);
-                //} else {
-                //    const delay = data.status === "Pending" ? 1000 : 300;
-                //    setTimeout(() => requestAnimationFrame(pollResult), delay);
-                //}
+                const data = await response.json();
+                if (data.status !== "Pending" && data.status !== "Running") {
+                    updateFinalResult(data);
+                } else {
+                    const delay = data.status === "Pending" ? 1000 : 300;
+                    setTimeout(() => requestAnimationFrame(pollResult), delay);
+                }
             } catch (err) {
                 console.warn("Retrying fetch:", err.message);
                 setTimeout(() => requestAnimationFrame(pollResult), 1000);

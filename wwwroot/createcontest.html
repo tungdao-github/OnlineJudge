@@ -1,49 +1,103 @@
-﻿<h2>Tạo kỳ thi mới</h2>
-<input id="contestName" placeholder="Tên kỳ thi" />
-<input id="startTime" type="datetime-local" />
-<input id="endTime" type="datetime-local" />
-<button onclick="createContest()">Tạo</button>
+﻿<!--<form id="createContestForm">
+    <input type="text" name="name" placeholder="Contest Name" required />
+    <textarea name="description" placeholder="Description"></textarea>
+    <input type="datetime-local" name="startTime" required />
+    <input type="datetime-local" name="endTime" required />
+    <input type="text" name="problemIds" placeholder="Problem IDs (comma-separated)" required />
+    <button type="submit">Create Contest</button>
+</form>-->
+<form id="createContestForm">
+    <input type="text" id="title" placeholder="Title">
+    <input type="text" id="description" placeholder="Description">
+    <input type="datetime-local" id="startTime">
+    <input type="datetime-local" id="endTime">
 
-<h2>Gán bài tập vào kỳ thi</h2>
-<input id="contestIdInput" placeholder="ID kỳ thi" />
-<input id="problemIdInput" placeholder="ID bài tập" />
-<button onclick="assignProblem()">Gán</button>
+    <div id="problems-container">
+        <div class="problem-row">
+            <input type="number" class="problem-id" placeholder="Problem ID">
+            <input type="number" class="problem-score" placeholder="Score">
+        </div>
+    </div>
 
+    <button type="button" onclick="addProblem()">➕ Add Problem</button>
+    <button type="submit">Create Contest</button>
+</form>
 <script>
-    async function createContest() {
-        const name = document.getElementById("contestName").value;
-        const start = document.getElementById("startTime").value;
-        const end = document.getElementById("endTime").value;
+    //document.getElementById("createContestForm").addEventListener("submit", async function (e) {
+    //    e.preventDefault();
+    //    const data = {
+    //        name: this.name.value,
+    //        description: this.description.value,
+    //        startTime: this.startTime.value,
+    //        endTime: this.endTime.value,
+    //        problemIds: this.problemIds.value.split(",").map(x => parseInt(x.trim()))
+    //    };
 
-        const res = await fetch("http://localhost:5024/api/Contest/create", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                name: name,
-                startTime: start,
-                endTime: end
-            })
-        });
+    //    const response = await fetch("http://localhost:5024/api/Contest/create", {
+    //        method: "POST",
+    //        headers: { "Content-Type": "application/json" },
+    //        body: JSON.stringify(data)
+    //    });
 
-        const result = await res.json();
-        alert("Đã tạo kỳ thi ID: " + result.id);
+    //    const result = await response.json();
+    //    alert("Contest created: " + result.name);
+    //});
+    function addProblem() {
+        const container = document.getElementById("problems-container");
+        const row = document.createElement("div");
+        row.className = "problem-row";
+        row.innerHTML = `
+        <input type="number" class="problem-id" placeholder="Problem ID">
+        <input type="number" class="problem-score" placeholder="Score">
+    `;
+        container.appendChild(row);
     }
 
-    async function assignProblem() {
-        const contestId = document.getElementById("contestIdInput").value;
-        const problemId = parseInt(document.getElementById("problemIdInput").value);
+    document.getElementById("createContestForm").addEventListener("submit", function (e) {
+        e.preventDefault();
 
-        const res = await fetch(`/api/contests/${contestId}/problems`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(problemId)
+        const title = document.getElementById("title").value;
+        const description = document.getElementById("description").value;
+        const startTime = document.getElementById("startTime").value;
+        const endTime = document.getElementById("endTime").value;
+
+        const problemRows = document.querySelectorAll(".problem-row");
+        const problemIds = [];
+
+        problemRows.forEach(row => {
+            const problemId = row.querySelector(".problem-id").value;
+            const score = row.querySelector(".problem-score").value;
+
+            if (problemId && score) {
+                problemIds.push({
+                    problemId: parseInt(problemId),
+                    score: parseInt(score)
+                });
+            }
+            console.log(problemIds)
         });
 
-        if (res.ok) {
-            alert("Đã gán bài tập vào kỳ thi!");
-        } else {
-            const err = await res.text();
-            alert("Lỗi: " + err);
-        }
-    }
+        const data = {
+            name: title ,
+            description,
+            startTime,
+            endTime,
+            problemIds
+        };
+        console.log(data)
+
+        fetch('http://localhost:5024/api/Contest/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then(res => {
+            if (res.ok) {
+                alert("Contest created successfully!");
+            } else {
+                alert("Error creating contest.");
+            }
+        });
+    });
 </script>

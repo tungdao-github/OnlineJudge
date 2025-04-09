@@ -93,8 +93,8 @@ namespace OnlineJudgeAPI.Controllers
                                            Status = s.Status,
                                            result = Regex.Split(s.Result, "&") ,
                                            Details = s.Error,
-                                           ExecutionTime = s.ExecutionTimeMs,
-                                           MemoryUsed = s.MemoryUsageBytes
+                                           //ExecutionTime = s.ExecutionTimeMs,
+                                           //MemoryUsed = s.MemoryUsageBytes
                                        })
                                        .FirstOrDefaultAsync();
 
@@ -139,10 +139,7 @@ namespace OnlineJudgeAPI.Controllers
         [HttpPost("submit")]
         public async Task<ActionResult<Submission>> SubmitCode([FromBody] SubmissionRequest request)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            
             //var userIdClaim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
             //if (userIdClaim == null)
             //    return Unauthorized("User ID not found in token.");
@@ -161,28 +158,28 @@ namespace OnlineJudgeAPI.Controllers
                 Error = string.Empty,
                 Result = "Processing",
                 UserId = userId,
-                ExecutionTimeMs = 0,
-                MemoryUsageBytes = 0,
+                //ExecutionTimeMs = 0,
+                //MemoryUsageBytes = 0,
                 
             };
 
             _context.Submissions.Add(submission);
-            await _context.SaveChangesAsync();
+            //await _context.SaveChangesAsync();
 
             // Cache test cases for the problem
             var cacheKey = $"testcases:{submission.ProblemId}";
             var testCases = await _cache.GetAsync<List<TestCase>>(cacheKey) ??
                             await _context.TestCases.Where(tc => tc.ProblemId == submission.ProblemId).ToListAsync();
 
-            await _cache.SetAsync(cacheKey, testCases, TimeSpan.FromMinutes(10));
+            //await _cache.SetAsync(cacheKey, testCases, TimeSpan.FromMinutes(10));
 
             // Process test cases concurrently but with limited parallelism
             var results = await ProcessTestCasesAsync(testCases, submission, request.ConnectionId);
 
             // Update submission result
             submission.Result = results.Result;
-            submission.ExecutionTimeMs = results.ExecutionTimeMs;
-            submission.MemoryUsageBytes = results.MemoryUsageBytes;
+            //submission.ExecutionTimeMs = results.ExecutionTimeMs;
+            //submission.MemoryUsageBytes = results.MemoryUsageBytes;
             submission.Error = results.Error;
             Console.WriteLine(results.Result + " " + results.ExecutionTimeMs + " " + results.MemoryUsageBytes + " " + results.Error);
                 
@@ -212,10 +209,10 @@ namespace OnlineJudgeAPI.Controllers
         private async Task<submit> ProcessTestCasesAsync(List<TestCase> testCases, Submission submission, string ConnectionId)
         {
             var allInputs = string.Join('\n', testCases.Select(tc => tc.Input.Trim()));
-            var stopwatch = Stopwatch.StartNew();
+            //var stopwatch = Stopwatch.StartNew();
             //var connectionId = _context.ConnectionId;
             var result = await _codeExecutor.RunAndCompileCodeAsync( submission.Code,  testCases, submission.Language, ConnectionId);
-            stopwatch.Stop();
+            //stopwatch.Stop();
             
             var outputLines = result.StandardOutput.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
             var resultOutput = new StringBuilder();
@@ -265,7 +262,7 @@ namespace OnlineJudgeAPI.Controllers
             Console.WriteLine("resultOutput" + resultOutput.ToString());
 
             submission.Status = hasWrongAnswer ? "Wrong Answer" : "Accepted";
-            return new submit { Result = resultOutput.ToString(), ExecutionTimeMs=result.TotalExecutionTimeMs, Error = result.CompilationError};
+            return new submit { Result = resultOutput.ToString(), Error = result.CompilationError};
         }
 
 
@@ -294,6 +291,24 @@ namespace OnlineJudgeAPI.Controllers
             await _context.SaveChangesAsync();
             return Ok(new { message = "Submission judged", status = submission.Status });
         }
+        [HttpGet("contest/{contestId}")]
+public async Task<IActionResult> GetSubmissionsInContest(int contestId)
+{
+    var submissions = await _context.Submissions
+        .Where(s => s.ContestId == contestId)
+        .Select(s => new {
+            s.Id,
+            s.UserId,
+            s.ProblemId,
+            s.Result,
+            
+            s.SubmittedAt
+        })
+        .ToListAsync();
+
+    return Ok(submissions);
+}
+
     }
 
     // Models

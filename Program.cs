@@ -12,6 +12,11 @@ using OnlineJudgeAPI.SignalR;
 
 
 var builder = WebApplication.CreateBuilder(args);
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(5024); // HTTP cho Docker
+    // Nếu bạn cần HTTPS thì phải mount cert vào container (khó), nên tạm thời chạy HTTP là ổn
+});
 builder.Services.AddControllers()
     .AddJsonOptions(opt =>
     {
@@ -135,6 +140,7 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+
 //using (var scope = app.Services.CreateScope())
 //{
 //    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
@@ -142,8 +148,12 @@ var app = builder.Build();
 //}
 // Enable Swagger UI
 app.UseSwagger();
-app.UseSwaggerUI();
-
+//app.UseSwaggerUI();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Online Judge API v1");
+    c.RoutePrefix = "swagger"; // Truy cập: http://localhost:5024/swagger
+});
 // Enable static files
 app.UseStaticFiles();
 
@@ -180,4 +190,5 @@ app.MapHub<TestCaseResultHub>("/testcaseresulthub");
 //    var executor = app.Services.GetRequiredService<CodeExecutor>();
 //    await executor.RunCodeAsync("c++", "int main() { return 0; }", "");
 //});
+
 app.Run();

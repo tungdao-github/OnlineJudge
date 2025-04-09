@@ -25,27 +25,44 @@ namespace OnlineJudgeAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Code")
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.HasKey("Id");
+
+                    b.ToTable("contest");
+                });
+
+            modelBuilder.Entity("OnlineJudgeAPI.Models.ContestParticipant", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("ContestId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Contests");
+                    b.HasIndex("ContestId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("contestparticipant");
                 });
 
             modelBuilder.Entity("OnlineJudgeAPI.Models.ContestProblem", b =>
@@ -63,7 +80,7 @@ namespace OnlineJudgeAPI.Migrations
 
                     b.HasIndex("ProblemId");
 
-                    b.ToTable("ContestProblems");
+                    b.ToTable("contestproblem");
                 });
 
             modelBuilder.Entity("OnlineJudgeAPI.Models.Problem", b =>
@@ -94,7 +111,7 @@ namespace OnlineJudgeAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Problems");
+                    b.ToTable("problem");
                 });
 
             modelBuilder.Entity("OnlineJudgeAPI.Models.TestCase", b =>
@@ -167,19 +184,15 @@ namespace OnlineJudgeAPI.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Error")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<int?>("ContestId")
+                        .HasColumnType("int");
 
-                    b.Property<long>("ExecutionTimeMs")
-                        .HasColumnType("bigint");
+                    b.Property<string>("Error")
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Language")
                         .IsRequired()
                         .HasColumnType("longtext");
-
-                    b.Property<long>("MemoryUsageBytes")
-                        .HasColumnType("bigint");
 
                     b.Property<string>("Output")
                         .IsRequired()
@@ -203,6 +216,8 @@ namespace OnlineJudgeAPI.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ContestId");
 
                     b.HasIndex("ProblemId");
 
@@ -232,7 +247,26 @@ namespace OnlineJudgeAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("user");
+                });
+
+            modelBuilder.Entity("OnlineJudgeAPI.Models.ContestParticipant", b =>
+                {
+                    b.HasOne("OnlineJudgeAPI.Models.Contest", "Contest")
+                        .WithMany("Participants")
+                        .HasForeignKey("ContestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Contest");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("OnlineJudgeAPI.Models.ContestProblem", b =>
@@ -286,6 +320,10 @@ namespace OnlineJudgeAPI.Migrations
 
             modelBuilder.Entity("Submission", b =>
                 {
+                    b.HasOne("OnlineJudgeAPI.Models.Contest", "Contest")
+                        .WithMany()
+                        .HasForeignKey("ContestId");
+
                     b.HasOne("OnlineJudgeAPI.Models.Problem", "Problem")
                         .WithMany("Submissions")
                         .HasForeignKey("ProblemId")
@@ -298,6 +336,8 @@ namespace OnlineJudgeAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Contest");
+
                     b.Navigation("Problem");
 
                     b.Navigation("User");
@@ -306,6 +346,8 @@ namespace OnlineJudgeAPI.Migrations
             modelBuilder.Entity("OnlineJudgeAPI.Models.Contest", b =>
                 {
                     b.Navigation("ContestProblems");
+
+                    b.Navigation("Participants");
                 });
 
             modelBuilder.Entity("OnlineJudgeAPI.Models.Problem", b =>
