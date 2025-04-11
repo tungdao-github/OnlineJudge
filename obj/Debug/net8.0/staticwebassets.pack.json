@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets\\contest-detail.html"
     },
     {
+      "Id": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\contest-standings.html",
+      "PackagePath": "staticwebassets\\contest-standings.html"
+    },
+    {
       "Id": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\contest.cs",
       "PackagePath": "staticwebassets\\contest.cs"
     },
@@ -99,6 +103,10 @@
     {
       "Id": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\submit.js",
       "PackagePath": "staticwebassets\\js\\submit.js"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\leaderboard.html",
+      "PackagePath": "staticwebassets\\leaderboard.html"
     },
     {
       "Id": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\lib\\bootstrap\\LICENSE",

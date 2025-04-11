@@ -19,6 +19,33 @@ namespace OnlineJudgeAPI.Migrations
                 .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("OnlineJudgeAPI.Controllers.ContestStanding", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("ContestId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LastUpdated")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("TotalScore")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContestId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ContestStandings");
+                });
+
             modelBuilder.Entity("OnlineJudgeAPI.Models.Contest", b =>
                 {
                     b.Property<int>("Id")
@@ -41,7 +68,7 @@ namespace OnlineJudgeAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("contest");
+                    b.ToTable("Contests");
                 });
 
             modelBuilder.Entity("OnlineJudgeAPI.Models.ContestParticipant", b =>
@@ -53,6 +80,12 @@ namespace OnlineJudgeAPI.Migrations
                     b.Property<int>("ContestId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("LastSubmissionTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("TotalScore")
+                        .HasColumnType("int");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -62,7 +95,7 @@ namespace OnlineJudgeAPI.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("contestparticipant");
+                    b.ToTable("ContestParticipants");
                 });
 
             modelBuilder.Entity("OnlineJudgeAPI.Models.ContestProblem", b =>
@@ -76,11 +109,14 @@ namespace OnlineJudgeAPI.Migrations
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
+                    b.Property<int?>("Score")
+                        .HasColumnType("int");
+
                     b.HasKey("ContestId", "ProblemId");
 
                     b.HasIndex("ProblemId");
 
-                    b.ToTable("contestproblem");
+                    b.ToTable("ContestProblems");
                 });
 
             modelBuilder.Entity("OnlineJudgeAPI.Models.Problem", b =>
@@ -111,7 +147,7 @@ namespace OnlineJudgeAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("problem");
+                    b.ToTable("Problems");
                 });
 
             modelBuilder.Entity("OnlineJudgeAPI.Models.TestCase", b =>
@@ -190,6 +226,9 @@ namespace OnlineJudgeAPI.Migrations
                     b.Property<string>("Error")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("IsCorrect")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Language")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -198,6 +237,9 @@ namespace OnlineJudgeAPI.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int?>("PassedTestCases")
+                        .HasColumnType("int");
+
                     b.Property<int>("ProblemId")
                         .HasColumnType("int");
 
@@ -205,12 +247,18 @@ namespace OnlineJudgeAPI.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int?>("Score")
+                        .HasColumnType("int");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("SubmittedAt")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<int?>("TotalTestCases")
+                        .HasColumnType("int");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -247,7 +295,26 @@ namespace OnlineJudgeAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("user");
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("OnlineJudgeAPI.Controllers.ContestStanding", b =>
+                {
+                    b.HasOne("OnlineJudgeAPI.Models.Contest", "Contest")
+                        .WithMany()
+                        .HasForeignKey("ContestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Contest");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("OnlineJudgeAPI.Models.ContestParticipant", b =>

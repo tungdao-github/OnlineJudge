@@ -27,6 +27,10 @@ public class Submission
     public User User { get; set; }  // Assuming you have a User model
     public int? ContestId { get; set; }
 
+    public string? IsCorrect { get; set; }
+    public int? Score { get; set; }
+    public int? PassedTestCases { get; set; }
+    public int? TotalTestCases { get; set; }
     public Contest Contest { get; set; }
     public Problem Problem { get; set; }
 }

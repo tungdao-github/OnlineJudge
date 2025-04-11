@@ -98,7 +98,140 @@ public class CodeExecutor
 
         return result;
     }
-   
+    public async Task<ExecutionResult> RunAsync(string sourceCode, string language, string input)
+    {
+        var result = new ExecutionResult();
+
+        // 1. Tạo file tạm
+        string tempDir = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+        Directory.CreateDirectory(tempDir);
+
+        string filePath = Path.Combine(tempDir, GetFileName(language));
+        await File.WriteAllTextAsync(filePath, sourceCode);
+
+        string exePath = string.Empty;
+        string compileCmd = string.Empty;
+        string runCmd = string.Empty;
+
+        // 2. Compile + Run command
+        switch (language.ToLower())
+        {
+            case "cpp":
+                exePath = Path.Combine(tempDir, "a.exe");
+                compileCmd = $"g++ \"{filePath}\" -o \"{exePath}\"";
+                runCmd = $"\"{exePath}\"";
+                break;
+            case "python":
+                runCmd = $"python \"{filePath}\"";
+                break;
+            case "java":
+                compileCmd = $"javac \"{filePath}\"";
+                runCmd = $"java -cp \"{tempDir}\" Main";
+                break;
+            default:
+                result.StandardOutput  = "";
+                result.StandardError = "Unsupported language.";
+                return result;
+        }
+
+        // 3. Compile (nếu có)
+        if (!string.IsNullOrWhiteSpace(compileCmd))
+        {
+            var compile = await RunProcess(compileCmd);
+            if (!string.IsNullOrWhiteSpace(compile.stderr))
+            {
+                result.CompilationError = compile.stderr;
+                return result;
+            }
+        }
+
+        // 4. Run with input
+        var runResult = await RunProcess(runCmd, input);
+
+        result.StandardOutput = runResult.stdout;
+        result.TotalExecutionTimeMs = runResult.timeUsed;
+        result.TotalMemoryUsageBytes = runResult.memoryUsed;
+        result.CompilationError = runResult.stderr;
+
+        // 5. Cleanup
+        try { Directory.Delete(tempDir, true); } catch { }
+
+        return result;
+    }
+
+    private string GetFileName(string language)
+    {
+        return language.ToLower() switch
+        {
+            "cpp" => "main.cpp",
+            "python" => "main.py",
+            "java" => "Main.java",
+            _ => "main.txt"
+        };
+    }
+
+    private async Task<(string stdout, string stderr, long timeUsed, long memoryUsed)> RunProcess(string cmd, string input = "")
+    {
+        var psi = new ProcessStartInfo
+        {
+            FileName = "cmd.exe",
+            Arguments = $"/c {cmd}",
+            RedirectStandardInput = true,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            UseShellExecute = false,
+            CreateNoWindow = true
+        };
+
+        using var process = new Process { StartInfo = psi };
+        var stopwatch = new Stopwatch();
+        process.Start();
+
+        await process.StandardInput.WriteAsync(input);
+        process.StandardInput.Close();
+
+        stopwatch.Start();
+        string output = await process.StandardOutput.ReadToEndAsync();
+        string error = await process.StandardError.ReadToEndAsync();
+        process.WaitForExit();
+        stopwatch.Stop();
+
+        return (output.Trim(), error.Trim(), 0, 0); // memoryUsed = 0 (placeholder)
+    }
+    public async Task<SubmissionResult2> RunCodeAndCompare(Submission submission, TestCase testCase)
+    {
+        var result = new SubmissionResult2();
+
+        var execution = await RunAsync(
+            submission.Code,
+            submission.Language,
+            testCase.Input
+        );
+
+        result.ExecutionTime = execution.TotalExecutionTimeMs;
+        result.MemoryUsed = execution.TotalMemoryUsageBytes;
+        result.output = execution.StandardOutput?.Trim();
+        result.ExpectedOutput = testCase.ExpectedOutput?.Trim();
+        result.error = execution.CompilationError;
+
+        if (!string.IsNullOrWhiteSpace(execution.CompilationError))
+        {
+            result.IsCorrect = false;
+            result.Status = execution.CompilationError.Contains("error") ? "Compilation Error" : "Runtime Error";
+        }
+        else if (Normalize(result.ActualOutput) == Normalize(result.ExpectedOutput))
+        {
+            result.IsCorrect = true;
+            result.Status = "Accepted";
+        }
+        else
+        {
+            result.IsCorrect = false;
+            result.Status = "Wrong Answer";
+        }
+
+        return result;
+    }
     public async Task<ExecutionResult> RunAndCompileCodeAsync(string code, List<TestCase> testCases, string language, string connectionId)
     {
         string exePath = null;
@@ -123,6 +256,7 @@ public class CodeExecutor
 
         return result;
     }
+
     private async Task<TestCaseResult> RunSingleTestCaseAsync(TestCase testCase, string executablePath, string language, string connectionId)
 {
     var psi = new ProcessStartInfo

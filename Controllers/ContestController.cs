@@ -7,9 +7,30 @@ using System;
 using OnlineJudgeAPI.DTOs;
 using OnlineJudgeAPI.Models;
 using Microsoft.AspNetCore.SignalR;
+using System.Security.Claims;
+public class CreateContestRequest
+{
+    public string Title { get; set; }
+    public DateTime StartTime { get; set; }
+    public DateTime EndTime { get; set; }
+    public string Description { get; set; }
+    public List<ProblemScoreDto> Problems { get; set; }
+}
 
-[Route("api/[controller]")]
+public class ProblemScoreDto
+{
+    public int ProblemId { get; set; }
+    public int Score { get; set; }
+}
+public class ContestDto
+    {
+        public string Name { get; set; } = string.Empty;
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public List<int> ProblemIds { get; set; } = new();
+    }
 [ApiController]
+[Route("api/[controller]")]
 public class ContestController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
@@ -18,77 +39,138 @@ public class ContestController : ControllerBase
     {
         _context = context;
     }
+    [HttpGet]
+    public IActionResult GetContests()
+    {
+        var contests = _context.Contests.ToList();
+        return Ok(contests);
+    }
+
+    // GET: api/contest/5
+    [HttpGet("{id}")]
+    public IActionResult GetContest(int id)
+    {
+        var contest = _context.Contests.FirstOrDefault(c => c.Id == id);
+        if (contest == null)
+            return NotFound();
+
+        return Ok(contest);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateContest(int id, [FromBody] Contest updated)
+    {
+        var contest = _context.Contests.FirstOrDefault(c => c.Id == id);
+        if (contest == null)
+            return NotFound();
+
+        contest.Name = updated.Name;
+        contest.StartTime = updated.StartTime;
+        contest.EndTime = updated.EndTime;
+        contest.Description = updated.Description;
+
+        await _context.SaveChangesAsync();
+        return Ok(contest);
+    }
+
+    // DELETE: api/contest/5
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteContest(int id)
+    {
+        var contest = _context.Contests.FirstOrDefault(c => c.Id == id);
+        if (contest == null)
+            return NotFound();
+
+        _context.Contests.Remove(contest);
+        await _context.SaveChangesAsync();
+        return NoContent();
+    }
+
     [HttpPost("create")]
     public async Task<IActionResult> CreateContest(CreateContestRequest request)
     {
         var contest = new Contest
         {
-            Name = request.Name,
+            Name = request.Title,
             StartTime = request.StartTime,
             EndTime = request.EndTime,
-            Description = request.Description,
-            ContestProblems = request.ProblemIds.Select(pid => new ContestProblem { ProblemId = pid.problemId }).ToList()
+
+            ContestProblems = request.Problems.Select(pid => new ContestProblem
+            {
+                ProblemId = pid.ProblemId,
+                Score = pid.Score // default
+            }).ToList(),
+            Description = request.Description
         };
 
         _context.Contests.Add(contest);
         await _context.SaveChangesAsync();
         return Ok(contest);
     }
-    // GET: api/contest/{contestId}/problems
 
-    [HttpGet("api/contests")]
-    public async Task<IActionResult> GetAllContests()
+    [HttpPost("{contestId}/join")]
+    public async Task<IActionResult> JoinContest(int contestId)
     {
-        var contests = await _context.Contests.ToListAsync();
-        return Ok(contests);
-    }
+        var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0");
 
-    [HttpGet("api/contests/{id}")]
-    public async Task<IActionResult> GetContestDetail(int id)
+        if (_context.ContestParticipants.Any(p => p.ContestId == contestId && p.UserId == userId))
+            return BadRequest("Already joined");
+
+        var participant = new ContestParticipant
+        {
+            ContestId = contestId,
+            UserId = userId,
+        };
+
+        _context.ContestParticipants.Add(participant);
+        await _context.SaveChangesAsync();
+        return Ok("Joined");
+    }
+    [HttpGet("{contestId}/problems")]
+    public async Task<IActionResult> GetProblemsInContest(int contestId)
     {
         var contest = await _context.Contests
             .Include(c => c.ContestProblems)
             .ThenInclude(cp => cp.Problem)
-            .FirstOrDefaultAsync(c => c.Id == id);
+            .FirstOrDefaultAsync(c => c.Id == contestId);
 
         if (contest == null)
-            return NotFound();
+            return NotFound("Contest not found");
 
-        return Ok(contest);
+        var problems = contest.ContestProblems
+           
+            .Select((cp, index) => new
+            {
+                ProblemId = cp.Problem.Id,
+                Title = cp.Problem.Title,
+                Description = cp.Problem.Description.Length > 100
+                    ? cp.Problem.Description.Substring(0, 100) + "..."
+                    : cp.Problem.Description,
+                
+                Label = ((char)('A' + index)).ToString(), // A, B, C...
+                MaxScore = cp.Problem.TestCases.Count
+            })
+            .ToList();
+
+        return Ok(problems);
     }
-    [HttpGet("api/contests/{contestId}/submissions")]
-    public async Task<IActionResult> GetSubmissionsInContest(int contestId, int? userId = null)
+
+    [HttpGet("{id}/standings")]
+    public async Task<IActionResult> GetStandings(int id)
     {
-        var submissions = _context.Submissions
-            .Where(s => s.ContestId == contestId);
-
-        if (userId != null)
-            submissions = submissions.Where(s => s.UserId == userId);
-
-        var result = await submissions
-            .Include(s => s.Problem)
-            .Include(s => s.User)
+        var standings = await _context.ContestStandings
+            .Where(cs => cs.ContestId == id)
+            .OrderByDescending(cs => cs.TotalScore)
+            .ThenBy(cs => cs.LastUpdated)
+            .Select(cs => new
+            {
+                cs.UserId,
+                Username = cs.User.Username,
+                cs.TotalScore,
+                cs.LastUpdated
+            })
             .ToListAsync();
 
-        return Ok(result);
+        return Ok(standings);
     }
-    //[HttpGet("api/contests/{contestId}/leaderboard")]
-    //public async Task<IActionResult> GetLeaderboard(int contestId)
-    //{
-    //    var leaderboard = await _context.Submissions
-    //        .Where(s => s.ContestId == contestId && s.Passed == true)
-    //        .GroupBy(s => new { s.UserId, s.User.UserName })
-    //        .Select(g => new {
-    //            g.Key.UserId,
-    //            g.Key.UserName,
-    //            TotalScore = g.Sum(s => s.Score)
-    //        })
-    //        .OrderByDescending(x => x.TotalScore)
-    //        .ToListAsync();
-
-    //    // Gửi SignalR nếu cần cập nhật real-time
-    //    await _hubContext.Clients.All.SendAsync("UpdateLeaderboard", leaderboard);
-
-    //    return Ok(leaderboard);
-    //}
 }

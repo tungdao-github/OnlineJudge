@@ -1,23 +1,68 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title></title>
-</head>
-<body>
-    <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const contestId = urlParams.get('id');
+﻿<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        font-family: sans-serif;
+    }
 
-        fetch(`http://localhost:5024/api/Contest/api/contests/${contestId}`)
-            .then(res => res.json())
-            .then(contest => {
-                console.log(JSON.stringify(contest));
-                document.body.innerHTML += `<h1 >${contest.name}</h1>`;
-                contest.contestProblems.forEach(p => {
-                    document.body.innerHTML += `<p><a href="problem.html?problemId=${p.problemId}">${p.problem.title} - ${p.score} điểm</a></p>`;
-                });
-            });
-    </script>
-</body>
-</html>
+    th, td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f5f5f5;
+    }
+
+    tr:hover {
+        background-color: #f0f0f0;
+    }
+
+    a {
+        color: #007bff;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+        a:hover {
+            text-decoration: underline;
+        }
+</style>
+<h1 id="title">Loading...</h1>
+
+<table id="problem-table">
+    <thead>
+        <tr>
+            <th>Thứ tự</th>
+            <th>Tên bài</th>
+            <th>Mô tả</th>
+            <th>Điểm tối đa</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get("id");
+
+    fetch(`http://localhost:5024/api/Contest/${id}/problems`)
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("title").textContent = "Danh sách bài trong contest";
+            const tbody = document.querySelector("#problem-table tbody");
+
+            const rows = data.map(p => `
+        <tr>
+          <td>${p.label}</td>
+          <td><a href="/problem.html?problemId=${p.problemId}&contestId=${id}">${p.title}</a></td>
+          <td>${p.description}</td>
+          <td>${p.maxScore}</td>
+        </tr>
+      `);
+
+            tbody.innerHTML = rows.join('');
+        });
+</script>

@@ -92,7 +92,12 @@ function setupSubmission(form, token, problemId, languageSelect) {
         localStorage.setItem('code', code);
         localStorage.setItem('language', language);
         localStorage.setItem('problemId', problemId);
-
-        location.href = `result.html`;
+        const urlParams = new URLSearchParams(window.location.search);
+        //const problemId = urlParams.get("problemId");
+        console.log(urlParams);
+        const contestId = urlParams.get("contestId");
+        
+        
+        location.href = `result.html?problemId=` + problemId +"&contestId=" +contestId ;
     };
 }

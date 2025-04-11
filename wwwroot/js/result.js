@@ -89,6 +89,7 @@
         const language = localStorage.getItem('language');
         const problemId = localStorage.getItem('problemId');
         const token = localStorage.getItem('token');
+        const contestId = new URLSearchParams(location.search).get("contestId");
         if (!token || isTokenExpired(token)) {
             alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
             localStorage.removeItem("token");
@@ -106,7 +107,8 @@
                 ProblemId: Number(problemId),
                 Code: code,
                 Language: language,
-                ConnectionId: connectionId
+                ConnectionId: connectionId,
+                contestId: contestId
             }),
             cache: 'no-store'
         });

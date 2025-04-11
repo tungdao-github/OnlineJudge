@@ -121,3 +121,4 @@ C:\Users\TUNG\source\repos\OnlineJudgeAPI\obj\Debug\net8.0\OnlineJudgeAPI.RazorA
 C:\Users\TUNG\source\repos\OnlineJudgeAPI\obj\Debug\net8.0\OnlineJudgeAPI.sourcelink.json
 C:\Users\TUNG\source\repos\OnlineJudgeAPI\obj\Debug\net8.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\TUNG\source\repos\OnlineJudgeAPI\obj\Debug\net8.0\scopedcss\projectbundle\OnlineJudgeAPI.bundle.scp.css
+C:\Users\TUNG\source\repos\OnlineJudgeAPI\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

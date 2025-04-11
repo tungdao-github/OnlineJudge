@@ -32,6 +32,175 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "ContestController",
+    "Method": "GetContests",
+    "RelativePath": "api/Contest",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ContestController",
+    "Method": "JoinContest",
+    "RelativePath": "api/Contest/{contestId}/join",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "contestId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ContestController",
+    "Method": "GetProblemsInContest",
+    "RelativePath": "api/Contest/{contestId}/problems",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "contestId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ContestController",
+    "Method": "GetContest",
+    "RelativePath": "api/Contest/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ContestController",
+    "Method": "UpdateContest",
+    "RelativePath": "api/Contest/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "updated",
+        "Type": "OnlineJudgeAPI.Models.Contest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ContestController",
+    "Method": "DeleteContest",
+    "RelativePath": "api/Contest/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ContestController",
+    "Method": "GetStandings",
+    "RelativePath": "api/Contest/{id}/standings",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ContestController",
+    "Method": "CreateContest",
+    "RelativePath": "api/Contest/create",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "CreateContestRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "OnlineJudgeAPI.Controllers.ContestParticipantController",
+    "Method": "GetContestDetail",
+    "RelativePath": "api/ContestParticipant/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "OnlineJudgeAPI.Controllers.ContestParticipantController",
+    "Method": "GetAvailableContests",
+    "RelativePath": "api/ContestParticipant/list",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LeaderboardController",
+    "Method": "GetLeaderboard",
+    "RelativePath": "api/leaderboard/contest/{contestId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "contestId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "OnlineJudgeAPI.Controllers.ProblemsController",
     "Method": "GetProblems",
     "RelativePath": "api/problems",
@@ -179,6 +348,22 @@
   },
   {
     "ContainingType": "OnlineJudgeAPI.Controllers.SubmissionsController",
+    "Method": "GetSubmissionsInContest",
+    "RelativePath": "api/Submissions/contest/{contestId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "contestId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "OnlineJudgeAPI.Controllers.SubmissionsController",
     "Method": "GetResult",
     "RelativePath": "api/Submissions/GetResult/{id}",
     "HttpMethod": "GET",
@@ -279,6 +464,22 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "OnlineJudgeAPI.Controllers.SubmissionsController",
+    "Method": "Submit",
+    "RelativePath": "api/Submissions/submit2",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "OnlineJudgeAPI.Controllers.SubmissionDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "OnlineJudgeAPI.Controllers.TestCasesController",

@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bảng xếp hạng Contest</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        tr:hover {
+            background-color: #fafafa;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 id="title">Bảng xếp hạng</h1>
+
+    <table id="leaderboard-table">
+        <thead>
+            <tr>
+                <th>Hạng</th>
+                <th>User ID</th>
+                <th>Tổng điểm</th>
+                <th>Thời gian submit sớm nhất</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const contestId = params.get("contestId");
+
+        fetch(`/api/leaderboard/contest/${contestId}`)
+            .then(res => res.json())
+            .then(data => {
+                const tbody = document.querySelector("#leaderboard-table tbody");
+                tbody.innerHTML = "";
+
+                data.forEach((item, index) => {
+                    const row = `
+                <tr>
+                  <td>${index + 1}</td>
+                  <td>${item.userId}</td>
+                  <td>${item.totalScore}</td>
+                  <td>${new Date(item.earliestAcceptedSubmission).toLocaleString()}</td>
+                </tr>
+              `;
+                    tbody.innerHTML += row;
+                });
+            });
+    </script>
+
+</body>
+</html>

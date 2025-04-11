@@ -1,11 +1,69 @@
-﻿<div id="contest-list"></div>
-<script>
-    fetch("http://localhost:5024/api/Contest/api/contests").then(res => res.json()).then(data => {
-        const listDiv = document.getElementById("contest-list");
-        data.forEach(contest => {
-            const div = document.createElement("div");
-            div.innerHTML = `<a href="/contest-detail.html?id=${contest.id}">${contest.name}</a>`;
-            listDiv.appendChild(div);
-        });
-    });
-</script>
+﻿<head>
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-family: sans-serif;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f5f5f5;
+        }
+
+        tr:hover {
+            background-color: #f0f0f0;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+            a:hover {
+                text-decoration: underline;
+            }
+    </style>
+</head>
+
+<body>
+    <h1>Danh sách Contest</h1>
+    <table id="contest-table">
+        <thead>
+            <tr>
+                <th>Tên</th>
+                <th>Mô tả</th>
+                <th>Thời gian bắt đầu</th>
+                <th>Thời gian kết thúc</th>
+                <th>Bảng xếp hạng</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        fetch('/api/contest')
+            .then(res => res.json())
+            .then(data => {
+                const tbody = document.querySelector('#contest-table tbody');
+                const rows = data.map(contest => `
+                        <tr>
+                            <td><a href="/contest-detail.html?id=${contest.id}">${contest.name}</a></td>
+                            <td>${contest.description ?? ''}</td>
+                            <td>${new Date(contest.startTime).toLocaleString()}</td>
+                            <td>${new Date(contest.endTime).toLocaleString()}</td>
+                            <td> <a href="leaderboard.html?contestId=${contest.id}"> Bảng xếp hạng </a></td>
+                        </tr>
+                    `);
+                tbody.innerHTML = rows.join('');
+            });
+    </script>
+</body>

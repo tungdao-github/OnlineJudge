@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Bảng xếp hạng contest</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h2>Bảng xếp hạng cuộc thi</h2>
+    <table id="standingsTable">
+        <thead>
+            <tr>
+                <th>Xếp hạng</th>
+                <th>Tên người dùng</th>
+                <th>Tổng điểm</th>
+                <th>Thời gian nộp cuối</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+    const contestId = 1; // đổi thành ContestId động nếu cần
+
+    // Load bảng xếp hạng ban đầu
+    async function loadStandings() {
+      const res = await fetch(`/api/contests/${contestId}/standings`);
+      const data = await res.json();
+
+      updateTable(data);
+    }
+
+    function updateTable(data) {
+      const tbody = document.querySelector("#standingsTable tbody");
+      tbody.innerHTML = "";
+
+      data.sort((a, b) => b.totalScore - a.totalScore || new Date(a.lastSubmissionTime) - new Date(b.lastSubmissionTime));
+
+      data.forEach((entry, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${entry.username}</td>
+          <td>${entry.totalScore}</td>
+          <td>${new Date(entry.lastSubmissionTime).toLocaleString()}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    // Kết nối SignalR
+    const connection = new signalR.HubConnectionBuilder()
+      .withUrl("/rankingHub")
+      .build();
+
+    connection.on("ReceiveRankingUpdate", async (update) => {
+      console.log("Real-time update:", update);
+      await loadStandings(); // reload toàn bảng (có thể tối ưu sau)
+    });
+
+    connection.start().then(() => {
+      connection.invoke("JoinContestGroup", contestId);
+      loadStandings();
+    });
+    </script>
+</body>
+</html>

@@ -69,6 +69,7 @@ var key = Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:SecretKey"])
 //        };
 
 //    });
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -174,6 +175,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapHub<TestCaseResultHub>("/testCaseHub");
 app.MapHub<TestCaseResultHub>("/testcaseresulthub");
+app.MapHub<LeaderboardHub>("/leaderboardHub");
 //app.MapHub<ContestHub>("/contestHub");
 //app.Lifetime.ApplicationStarted.Register(async () =>
 //{

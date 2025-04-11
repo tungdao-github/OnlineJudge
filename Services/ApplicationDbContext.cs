@@ -48,6 +48,7 @@ namespace OnlineJudgeAPI.Services
         public DbSet<Contest> Contests { get; set; }
         public DbSet<ContestProblem> ContestProblems { get; set; }
         public DbSet<ContestParticipant> ContestParticipants { get; set; }
+        public DbSet<ContestStanding> ContestStandings { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserRole>()
