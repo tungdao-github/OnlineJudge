@@ -13,7 +13,7 @@ using System.Reflection;
 
 [assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("a2b5a4df-7acb-46b2-8f99-56a539fdc2c1")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("OnlineJudgeAPI")]
-[assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
+[assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4ea9e4c76df41cae916b9061ef9ec150f5e74962")]
 [assembly: System.Reflection.AssemblyProductAttribute("OnlineJudgeAPI")]
