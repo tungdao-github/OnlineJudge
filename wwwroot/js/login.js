@@ -46,11 +46,14 @@ async function login() {
             return;
         }
 
-        const { token } = await res.json();
-        localStorage.setItem("token", token);
-        console.log("Token:", token);
+        const  result  = await res.json();
+        localStorage.setItem("token", result.token);
+        console.log(result.userId);
+        localStorage.setItem("userId", result.userId);
+        alert(result.userId);
+        // console.log("Token:", token);
 
-        const payload = decodeJwt(token);
+        const payload = decodeJwt(result.token);
         const roleKey = Object.keys(payload).find(k => k.toLowerCase().includes("role"));
         const roles = payload[roleKey];
         console.log(roles);

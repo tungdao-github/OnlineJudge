@@ -22,7 +22,7 @@ namespace OnlineJudgeAPI.Controllers
     public class ContestStanding
     {
         public int Id { get; set; }
-        public int ContestId { get; set; }
+        public int? ContestId { get; set; }
         public int UserId { get; set; }
         public int? TotalScore { get; set; } // Tổng số test case đúng
         public DateTime LastUpdated { get; set; }
@@ -58,6 +58,7 @@ namespace OnlineJudgeAPI.Controllers
             public long MemoryUsageBytes { get; set; }
             public string IsCorrect { get; set; }
         public int? Score { get; set; }
+        public int PassedTestCases { get; set; }
     }
     public class SubmissionDto
     {
@@ -103,26 +104,7 @@ namespace OnlineJudgeAPI.Controllers
             return int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0");
 
         }
-        [HttpPost("submit2")]
-        public async Task<IActionResult> Submit([FromBody] SubmissionDto dto)
-        {
-            var submission = new Submission
-            {
-                UserId = GetCurrentUserId(),
-                ProblemId = dto.ProblemId,
-                Code = dto.Code,
-                Language = dto.Language,
-                ContestId = dto.ContestId,
-                SubmittedAt = DateTime.UtcNow
-            };
-
-            _context.Submissions.Add(submission);
-            await _context.SaveChangesAsync();
-
-            // TODO: Gửi submission vào queue chấm
-            return Ok(new { submission.Id });
-        }
-
+      
         //[HttpGet("GetResult/{id}")]
         //public async Task<ActionResult<SubmissionResult>> GetResult(int id)
         //{
@@ -165,6 +147,26 @@ namespace OnlineJudgeAPI.Controllers
 
             return Ok(result);
         }
+
+        public class SubmissionsProblemUser {
+            public int UserId {get; set;}
+            public int ProblemId {get; set;}
+            public string code {get; set;}
+            public string status {get; set;}
+            public DateTime SubmittedAt { get; set; }
+        }
+        [HttpGet("historyproblemuser")]
+        public async Task<List<SubmissionsProblemUser>>  getHistoryByProblem(int problemId, int userId) {
+            List<SubmissionsProblemUser> submissions = await _context.Submissions.Where(s => s.ProblemId  == problemId && s.UserId == userId).Select(s => new SubmissionsProblemUser {
+                UserId = s.UserId,
+                ProblemId = s.ProblemId,
+                code = s.Code,
+                status = s.Status,
+                SubmittedAt = s.SubmittedAt,
+                
+            }).OrderByDescending(p => p.SubmittedAt).ToListAsync();
+            return submissions;
+        }
         [HttpGet("history")]
         //[Authorize(Roles = "User,Admin")]
         public async Task<ActionResult<IEnumerable<SubmissionHistoryDto>>> GetSubmissionHistory()
@@ -190,155 +192,7 @@ namespace OnlineJudgeAPI.Controllers
 
             return Ok(history);
         }
-        //public async Task<SubmissionResult> JudgeAsync(Submission submission)
-        //{
-        //    var testCases = _db.TestCases
-        //        .Where(tc => tc.ProblemId == submission.ProblemId);
-
-        //    // Nếu là contest → lọc test case thuộc contest
-        //    if (submission.ContestId.HasValue)
-        //    {
-        //        testCases = testCases.Where(tc => tc.ContestId == submission.ContestId);
-        //    }
-
-        //    var results = await RunTestCases(submission.Code, testCases.ToList());
-
-        //    submission.Score = results.Count(r => r.IsPassed); // hoặc tính điểm theo từng test case
-
-        //    if (results.All(r => r.IsPassed))
-        //    {
-        //        submission.IsCorrect = "true";
-
-        //        // Gửi update realtime
-        //        await _hubContext.Clients
-        //            .Group($"contest-{submission.ContestId}")
-        //            .SendAsync("LeaderboardUpdated", submission.ContestId);
-        //    }
-
-        //    submission.Result = Serialize(results);
-
-        //    _db.Submissions.Add(submission);
-        //    await _db.SaveChangesAsync();
-
-        //    return new SubmissionResult
-        //    {
-        //        Passed = results.Count(r => r.IsPassed),
-        //        Total = results.Count
-        //    };
-        //}
-        //[Authorize(Roles = "User,Admin")]
-        //[Authorize]
-        //[HttpPost("submit")]
-        //public async Task<ActionResult<Submission>> SubmitCode([FromBody] SubmissionRequest request)
-        //{
-
-        //    //var userIdClaim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
-        //    //if (userIdClaim == null)
-        //    //    return Unauthorized("User ID not found in token.");
-        //    var userIdClaim = User.FindFirst("userId")?.Value;
-        //    var contestId = request.contestId;
-        //    if (string.IsNullOrEmpty(userIdClaim))
-        //        return Unauthorized("User ID not found in token.");
-
-        //    int userId = int.Parse(userIdClaim);
-        //    //int userId = int.Parse(userIdClaim.Value);
-        //    var submission = new Submission
-        //    {
-        //        ProblemId = request.ProblemId,
-        //        Code = request.Code,
-        //        Language = request.Language,
-        //        Status = "Pending",
-        //        Error = string.Empty,
-        //        Result = "Processing",
-        //        UserId = userId,
-        //        //ExecutionTimeMs = 0,
-        //        //MemoryUsageBytes = 0,
-
-        //    };
-
-        //    _context.Submissions.Add(submission);
-        //    //await _context.SaveChangesAsync();
-
-        //    // Cache test cases for the problem
-        //    var cacheKey = $"testcases:{submission.ProblemId}";
-        //    var testCases = await _cache.GetAsync<List<TestCase>>(cacheKey) ??
-        //                    await _context.TestCases.Where(tc => tc.ProblemId == submission.ProblemId).ToListAsync();
-
-        //    //await _cache.SetAsync(cacheKey, testCases, TimeSpan.FromMinutes(10));
-
-        //    // Process test cases concurrently but with limited parallelism
-        //    var results = await ProcessTestCasesAsync(testCases, submission, request.ConnectionId);
-        //    submission.ContestId = contestId;
-        //    // Update submission result
-        //    submission.Result = results.Result;
-        //    submission.Score = results.Score;
-        //    //submission.ExecutionTimeMs = results.ExecutionTimeMs;
-        //    //submission.MemoryUsageBytes = results.MemoryUsageBytes;
-        //    submission.Error = results.Error;
-        //    Console.WriteLine(results.Result + " " + results.ExecutionTimeMs + " " + results.MemoryUsageBytes + " " + results.Error);
-        //    if (submission.IsCorrect == "true" && submission.ContestId != null)
-        //    {
-        //        await _hubContext.Clients
-        //            .Group($"contest-{submission.ContestId}")
-        //            .SendAsync("LeaderboardUpdated", submission.ContestId);
-        //    }
-        //    int passed = 0;
-        //    foreach (var testCase in testCases)
-        //    {
-        //        var result = await _codeExecutor.RunCodeAndCompare(submission, testCase);
-        //        if (result.Status == "Accepted") passed++;
-        //    }
-
-        //    submission.PassedTestCases = passed;
-        //    submission.TotalTestCases = testCases.Count;
-
-        //    await _context.SaveChangesAsync();
-
-        //    // Nếu trong contest thì cập nhật standings
-        //    if (contestId != null)
-        //    {
-        //        var standing = await _context.ContestStandings
-        //            .FirstOrDefaultAsync(s => s.ContestId == contestId && s.UserId == userId);
-
-        //        if (standing == null)
-        //        {
-        //            standing = new ContestStanding
-        //            {
-        //                ContestId = contestId,
-        //                UserId = userId,
-        //                TotalScore = results.Score,
-        //                LastUpdated = DateTime.UtcNow
-        //            };
-        //            _context.ContestStandings.Add(standing);
-        //        }
-        //        else
-        //        {
-        //            standing.TotalScore += passed;
-        //            standing.LastUpdated = DateTime.UtcNow;
-        //            _context.ContestStandings.Update(standing);
-        //        }
-
-        //        await _context.SaveChangesAsync();
-
-        //        // Gửi real-time standings update
-        //        await _hubContext.Clients.Group($"contest_{contestId}").SendAsync("UpdateStandings", contestId);
-        //    }
-
-        //    await _context.SaveChangesAsync();
-        //    //await _contestHub.Clients.Group($"contest-{request.ContestId}")
-        //        //.SendAsync("ReceiveTestResult", new
-        //        //{
-        //        //    SubmissionId = submission.Id,
-        //        //    ProblemId = submission.ProblemId,
-        //        //    Output = results.Result,
-        //        //    //Passed = result.Score == 100
-        //        //});
-        //    // Send real-time notification
-        //    await _notificationService.SendSubmissionUpdate(submission);
-
-        //    return Ok(new { message = "Submission received!", submissionId = submission.Id });
-        //}
-
+     
         //private async Task<submit> ProcessTestCasesAsync(List<TestCase> testCases, Submission submission, string ConnectionId)
         //{
         //    bool ok = true;
@@ -458,26 +312,30 @@ namespace OnlineJudgeAPI.Controllers
                             await _context.TestCases.Where(tc => tc.ProblemId == submission.ProblemId).ToListAsync();
 
             var results = await ProcessTestCasesAsync(testCases, submission, request.ConnectionId);
+            
             submission.ContestId = contestId;
-            submission.Result = results.Result;
+            submission.Result = _codeExecutor.Results;
             submission.Score = results.Score;
             submission.Error = results.Error;
 
-            int passed = 0;
-            foreach (var testCase in testCases)
-            {
-                var result = await _codeExecutor.RunCodeAndCompare(submission, testCase);
-                if (result.Status == "Accepted") passed++;
-            }
-
-            submission.PassedTestCases = passed;
+            // int passed = 0;
+            // foreach (var testCase in testCases)
+            // {
+            //     var result = await _codeExecutor.RunCodeAndCompare(submission, testCase);
+            //     if (result.Status == "Accepted") passed++;
+            // }
+            submission.ContestId = contestId;
+            submission.Result = _codeExecutor.Results;
+            submission.Score = results.Score;
+            submission.Error = results.Error;
+            submission.PassedTestCases = results.PassedTestCases;
             submission.TotalTestCases = testCases.Count;
+            // submission.PassedTestCases = passed;
+            // submission.TotalTestCases = testCases.Count;
 
             await _context.SaveChangesAsync();
-
-            // Update standings if contest
-            if (contestId != null)
-            {
+            if(contestId != null)
+{
                 var standing = await _context.ContestStandings
                     .FirstOrDefaultAsync(s => s.ContestId == contestId && s.UserId == userId);
 
@@ -494,25 +352,31 @@ namespace OnlineJudgeAPI.Controllers
                 }
                 else
                 {
-                    standing.TotalScore += passed;
+                    standing.TotalScore += results.PassedTestCases;
                     standing.LastUpdated = DateTime.UtcNow;
                     _context.ContestStandings.Update(standing);
                 }
 
                 await _context.SaveChangesAsync();
 
-                await _hubContext.Clients.Group($"contest_{contestId}").SendAsync("UpdateStandings", contestId);
+                await _hubContext.Clients.Group($"contest_{contestId}")
+                    .SendAsync("UpdateStandings", contestId);
             }
-
-            await _notificationService.SendSubmissionUpdate(submission);
-
             return Ok(new { message = "Submission received!", submissionId = submission.Id });
         }
 
+        string NormalizeOutput(string output)
+        {
+            return Regex.Replace(output, @"\s+", " ") // chuẩn hóa khoảng trắng
+                        .Trim()                       // bỏ đầu/cuối
+                        .Replace("\r\n", "\n")        // chuẩn hóa dòng mới
+                        .Normalize(NormalizationForm.FormC); // Unicode normalization
+        }
         private async Task<submit> ProcessTestCasesAsync(List<TestCase> testCases, Submission submission, string connectionId)
         {
             bool ok = true;
             var result = await _codeExecutor.RunAndCompileCodeAsync(submission.Code, testCases, submission.Language, connectionId);
+            Console.WriteLine("Test cases returned: " + result.TestCaseResults.Count);
             var outputLines = result.StandardOutput.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
             var resultOutput = new StringBuilder();
 
@@ -539,31 +403,59 @@ namespace OnlineJudgeAPI.Controllers
             int passedCount = 0;
             int lineIndex = 0;
 
-            for (int i = 0; i < testCases.Count; i++)
-            {
-                var expected = testCases[i].ExpectedOutput.Trim().Normalize(NormalizationForm.FormC);
-                var expectedLines = expected.Split('\n', StringSplitOptions.RemoveEmptyEntries);
-                var actualLines = outputLines.Skip(lineIndex).Take(expectedLines.Length).ToArray();
-                lineIndex += expectedLines.Length;
+            // for (int i = 0; i < testCases.Count; i++)
+            // {
+            //     var expected = testCases[i].ExpectedOutput.Trim().Normalize(NormalizationForm.FormC);
+            //     var expectedLines = expected.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+            //     var actualLines = outputLines.Skip(lineIndex).Take(expectedLines.Length).ToArray();
+            //     lineIndex += expectedLines.Length;
 
-                var actual = string.Join('\n', actualLines).Trim().Normalize(NormalizationForm.FormC);
+            //     Console.WriteLine("actualLines = " + actualLines );
+            //     var actual = string.Join('\n', actualLines).Trim().Normalize(NormalizationForm.FormC);
+            //     // var normalizedExpected = expected.Replace("\r\n", "\n").Trim();
+            //     // var normalizedActual = actual.Replace("\r\n", "\n").Trim();
+            //     //  expected = expected.Replace("\r\n", "\n").Trim();
+            //     //  actual = actual.Replace("\r\n", "\n").Trim();
+            //     // Console.WriteLine("normalizedExpected == normalizedActual = " +  normalizedExpected + " " + normalizedActual + " = " + normalizedExpected == normalizedActual);
+            //     // Console.WriteLine("Expected Output (each character):");
+            //     // foreach (char c in expected)
+            //     // {
+            //     //     Console.Write($"{c}-");
+            //     // }
 
-                if (expected != actual)
-                {
-                    resultOutput.AppendLine($"Testcase {testCases[i].Id}: Wrong Answer&");
-                    ok = false;
-                }
-                else
-                {
-                    resultOutput.AppendLine($"Testcase {testCases[i].Id}: Accepted&");
-                    passedCount++;
-                }
-            }
+            //     // Console.WriteLine("Actual Output (each character):");
+            //     // foreach (char c in actual)
+            //     // {
+            //     //     Console.Write($"{c}-");
+            //     // }
+            //     // Console.WriteLine("Expected Output:");
+            //     // Console.WriteLine($"[{expected.Length}]");
+
+            //     // Console.WriteLine("Actual Output:");
+            //     // Console.WriteLine($"[{actual.Length}]");
+
+            //     // Console.WriteLine("Comparison result: " + (expected.Trim().Equals(actual.Trim())));
+            //     // Console.WriteLine("expected == actual = " + expected + " " + actual + " = " + (expected == actual));
+            //     // Console.WriteLine(actual);
+            //     // Console.WriteLine(expected);
+
+            //     if (!expected.Trim().Equals(actual.Trim()))
+            //     {
+            //         resultOutput.AppendLine($"Testcase {testCases[i].Id}: Wrong Answer&");
+            //         ok = false;
+            //     }
+            //     else
+            //     {
+            //         resultOutput.AppendLine($"Testcase {testCases[i].Id}: Accepted&");
+            //         passedCount++;
+            //     }
+            // }
 
             int score = (int)Math.Round(100.0 * passedCount / testCases.Count);
 
             submission.IsCorrect = passedCount == testCases.Count && ok ? "true" : "false";
             submission.Status = passedCount == testCases.Count && ok? "Accepted" : "Wrong Answer";
+            submission.Status = _codeExecutor.status == true ? "Accepted" : "Wrong Answer"; 
             submission.Score = passedCount;
 
             return new submit
@@ -571,9 +463,10 @@ namespace OnlineJudgeAPI.Controllers
                 ExecutionTimeMs = result.TotalExecutionTimeMs,
                 MemoryUsageBytes = result.TotalMemoryUsageBytes,
                 Error = "",
-                Result = resultOutput.ToString(),
+                Result = _codeExecutor.Results,
                 Score = score,
-                IsCorrect = submission.IsCorrect
+                IsCorrect = submission.IsCorrect,
+                 PassedTestCases = passedCount
             };
         }
 
@@ -629,7 +522,7 @@ public async Task<IActionResult> GetSubmissionsInContest(int contestId)
         public string Code { get; set; }
         public string Language { get; set; }
         public string ConnectionId { get; set; }
-        public int contestId { get; set; }
+        public int? contestId { get; set; }
     }
 
     public class JudgeRequest

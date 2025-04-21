@@ -3,20 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{5C8F3EDF-03A5-4DD2-BEAB-56DDE15AA003}|OnlineJudgeAPI.csproj|c:\\users\\tung\\source\\repos\\onlinejudgeapi\\controllers\\contestcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5C8F3EDF-03A5-4DD2-BEAB-56DDE15AA003}|OnlineJudgeAPI.csproj|solutionrelative:controllers\\contestcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5C8F3EDF-03A5-4DD2-BEAB-56DDE15AA003}|OnlineJudgeAPI.csproj|c:\\users\\tung\\source\\repos\\onlinejudgeapi\\wwwroot\\user.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{5C8F3EDF-03A5-4DD2-BEAB-56DDE15AA003}|OnlineJudgeAPI.csproj|solutionrelative:wwwroot\\user.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5C8F3EDF-03A5-4DD2-BEAB-56DDE15AA003}|OnlineJudgeAPI.csproj|c:\\users\\tung\\source\\repos\\onlinejudgeapi\\wwwroot\\listproblems.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{5C8F3EDF-03A5-4DD2-BEAB-56DDE15AA003}|OnlineJudgeAPI.csproj|solutionrelative:wwwroot\\listproblems.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5C8F3EDF-03A5-4DD2-BEAB-56DDE15AA003}|OnlineJudgeAPI.csproj|c:\\users\\tung\\source\\repos\\onlinejudgeapi\\services\\codeexecutor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5C8F3EDF-03A5-4DD2-BEAB-56DDE15AA003}|OnlineJudgeAPI.csproj|solutionrelative:services\\codeexecutor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5C8F3EDF-03A5-4DD2-BEAB-56DDE15AA003}|OnlineJudgeAPI.csproj|c:\\users\\tung\\source\\repos\\onlinejudgeapi\\wwwroot\\leaderboard.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{5C8F3EDF-03A5-4DD2-BEAB-56DDE15AA003}|OnlineJudgeAPI.csproj|solutionrelative:wwwroot\\leaderboard.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{5C8F3EDF-03A5-4DD2-BEAB-56DDE15AA003}|OnlineJudgeAPI.csproj|c:\\users\\tung\\source\\repos\\onlinejudgeapi\\controllers\\contestcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C8F3EDF-03A5-4DD2-BEAB-56DDE15AA003}|OnlineJudgeAPI.csproj|solutionrelative:controllers\\contestcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5C8F3EDF-03A5-4DD2-BEAB-56DDE15AA003}|OnlineJudgeAPI.csproj|c:\\users\\tung\\source\\repos\\onlinejudgeapi\\wwwroot\\listproblems.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{5C8F3EDF-03A5-4DD2-BEAB-56DDE15AA003}|OnlineJudgeAPI.csproj|solutionrelative:wwwroot\\listproblems.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{5C8F3EDF-03A5-4DD2-BEAB-56DDE15AA003}|OnlineJudgeAPI.csproj|c:\\users\\tung\\source\\repos\\onlinejudgeapi\\wwwroot\\leaderboard.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{5C8F3EDF-03A5-4DD2-BEAB-56DDE15AA003}|OnlineJudgeAPI.csproj|solutionrelative:wwwroot\\leaderboard.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5C8F3EDF-03A5-4DD2-BEAB-56DDE15AA003}|OnlineJudgeAPI.csproj|c:\\users\\tung\\source\\repos\\onlinejudgeapi\\wwwroot\\contest.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -49,10 +53,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{5C8F3EDF-03A5-4DD2-BEAB-56DDE15AA003}|OnlineJudgeAPI.csproj|c:\\users\\tung\\source\\repos\\onlinejudgeapi\\controllers\\submissionscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5C8F3EDF-03A5-4DD2-BEAB-56DDE15AA003}|OnlineJudgeAPI.csproj|solutionrelative:controllers\\submissionscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5C8F3EDF-03A5-4DD2-BEAB-56DDE15AA003}|OnlineJudgeAPI.csproj|c:\\users\\tung\\source\\repos\\onlinejudgeapi\\wwwroot\\user.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{5C8F3EDF-03A5-4DD2-BEAB-56DDE15AA003}|OnlineJudgeAPI.csproj|solutionrelative:wwwroot\\user.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5C8F3EDF-03A5-4DD2-BEAB-56DDE15AA003}|OnlineJudgeAPI.csproj|c:\\users\\tung\\source\\repos\\onlinejudgeapi\\dtos\\contestresultdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -393,7 +393,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 318,
-          "SelectedChildIndex": 26,
+          "SelectedChildIndex": 50,
           "Children": [
             {
               "$type": "Bookmark",
@@ -433,7 +433,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "leaderboard.html",
               "DocumentMoniker": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\leaderboard.html",
               "RelativeDocumentMoniker": "wwwroot\\leaderboard.html",
@@ -480,7 +480,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "contest-detail.html",
               "DocumentMoniker": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\contest-detail.html",
               "RelativeDocumentMoniker": "wwwroot\\contest-detail.html",
@@ -576,7 +576,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "contest.html",
               "DocumentMoniker": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\contest.html",
               "RelativeDocumentMoniker": "wwwroot\\contest.html",
@@ -600,7 +600,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "LeaderboardController.cs",
               "DocumentMoniker": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\Controllers\\LeaderboardController.cs",
               "RelativeDocumentMoniker": "Controllers\\LeaderboardController.cs",
@@ -648,7 +648,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "createcontest.html",
               "DocumentMoniker": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\createcontest.html",
               "RelativeDocumentMoniker": "wwwroot\\createcontest.html",
@@ -660,16 +660,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "ContestController.cs",
               "DocumentMoniker": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\Controllers\\ContestController.cs",
               "RelativeDocumentMoniker": "Controllers\\ContestController.cs",
               "ToolTip": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\Controllers\\ContestController.cs",
               "RelativeToolTip": "Controllers\\ContestController.cs",
-              "ViewState": "AgIAAH8AAAAAAAAAAAAowJEAAAAdAAAAAAAAAA==",
+              "ViewState": "AgIAAH8AAAAAAAAAAAAowI0AAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-07T08:19:34.98Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-07T08:19:34.98Z"
             },
             {
               "$type": "Document",
@@ -685,7 +684,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "ContestProblem.cs",
               "DocumentMoniker": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\Models\\ContestProblem.cs",
               "RelativeDocumentMoniker": "Models\\ContestProblem.cs",
@@ -949,15 +948,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 0,
               "Title": "user.html",
               "DocumentMoniker": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\user.html",
               "RelativeDocumentMoniker": "wwwroot\\user.html",
               "ToolTip": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\user.html",
               "RelativeToolTip": "wwwroot\\user.html",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAACIAAAAAAAAAAAAswDgAAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2025-04-04T07:57:42.688Z"
+              "WhenOpened": "2025-04-04T07:57:42.688Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -1225,19 +1225,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "listProblems.html",
               "DocumentMoniker": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\listProblems.html",
               "RelativeDocumentMoniker": "wwwroot\\listProblems.html",
               "ToolTip": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\listProblems.html",
               "RelativeToolTip": "wwwroot\\listProblems.html",
-              "ViewState": "AgIAABUAAAAAAAAAAAAAABkAAAArAAAAAAAAAA==",
+              "ViewState": "AgIAADEAAAAAAAAAAAAqwIMAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2025-04-03T04:04:33.421Z"
+              "WhenOpened": "2025-04-03T04:04:33.421Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "register.js",
               "DocumentMoniker": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\register.js",
               "RelativeDocumentMoniker": "wwwroot\\js\\register.js",
@@ -1309,7 +1310,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "result.js",
               "DocumentMoniker": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\wwwroot\\js\\result.js",
               "RelativeDocumentMoniker": "wwwroot\\js\\result.js",
@@ -1429,13 +1430,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "CodeExecutor.cs",
               "DocumentMoniker": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\Services\\CodeExecutor.cs",
               "RelativeDocumentMoniker": "Services\\CodeExecutor.cs",
               "ToolTip": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\Services\\CodeExecutor.cs",
               "RelativeToolTip": "Services\\CodeExecutor.cs",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAiwEcAAAA6AAAAAAAAAA==",
+              "ViewState": "AgIAAE8AAAAAAAAAAAArwGEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-01T01:29:16.418Z",
               "EditorCaption": ""
@@ -1538,7 +1539,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "SubmissionsController.cs",
               "DocumentMoniker": "C:\\Users\\TUNG\\source\\repos\\OnlineJudgeAPI\\Controllers\\SubmissionsController.cs",
               "RelativeDocumentMoniker": "Controllers\\SubmissionsController.cs",

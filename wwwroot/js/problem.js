@@ -31,8 +31,11 @@ const isInViewport = el => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+
     const token = localStorage.getItem('token');
-    const problemId = +new URLSearchParams(location.search).get("problemId");
+    const problemId = new URLSearchParams(location.search).get("problemId");
+    const userId = localStorage.getItem("userId");
+    document.querySelector("p #historySubmitProblem").href = '/historyProblem.html?problemId=' + problemId;
     if (!problemId) return alert("Không tìm thấy problemId trên URL!");
 
     const editorContainer = document.getElementById('editor-container');
@@ -53,11 +56,20 @@ async function loadProblem(problemId, token) {
 
         if (!res.ok) throw new Error();
 
-        const { title, description, inputFormat, outputFormat, inputSample, outputSample } = await res.json();
+        const {
+            title,
+            description,
+            inputFormat,
+            constraints,
+             outputFormat,
+            inputSample,
+            outputSample
+        } = await res.json();
 
         document.getElementById("title").textContent = title;
         document.getElementById("description").textContent = description;
         document.getElementById("inputfomat").textContent = inputFormat;
+        document.getElementById("constraints").textContent = constraints
         document.getElementById("outputfomat").textContent = outputFormat;
         document.getElementById("inputSample").textContent = inputSample;
         document.getElementById("outputSample").textContent = outputSample;

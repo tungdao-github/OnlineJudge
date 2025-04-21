@@ -22,12 +22,15 @@ namespace OnlineJudgeAPI.Controllers
         }
 
         // GET: /api/problems
+        // [HttpGet]
+        // public async Task<ActionResult<List<Problem>>> GetProblems()
+        // {
+        //     return await _context.Problems.ToListAsync();
+        // }
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Problem>>> GetProblems()
-        {
+        public async Task<ActionResult<List<Problem>>> getProblems() {
             return await _context.Problems.ToListAsync();
         }
-
         // GET: /api/problems/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<Problem>> GetProblem(int id)
@@ -52,7 +55,7 @@ namespace OnlineJudgeAPI.Controllers
 
         //    return CreatedAtAction(nameof(GetProblem), new { id = problem.Id }, problem);
         //}
-        [Authorize(Roles = "Admin")]
+        // [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateProblem([FromBody] ProblemCreateDTO dto)
         {
@@ -64,10 +67,12 @@ namespace OnlineJudgeAPI.Controllers
                 Title = dto.Title,
                 Description = dto.Description,
                 InputFormat = dto.InputFormat,
+                Constraints = dto.Constraints,
                 OutputFormat = dto.OutputFormat,
                 InputSample = dto.InputSample,
                 OutputSample = dto.OutputSample,
-                
+                DoKho = dto.DoKho,
+                DangBai = dto.DangBai,
                 //ExpectedOutput = dto.ExpectedOutput,
                 TestCases = dto.TestCases
             };
@@ -91,6 +96,7 @@ namespace OnlineJudgeAPI.Controllers
         //    return Ok(problem);
         //}
         // PUT: /api/problems/{id}
+        
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProblem(int id, Problem problem)
         {
@@ -121,6 +127,7 @@ namespace OnlineJudgeAPI.Controllers
         }
 
         // DELETE: /api/problems/{id}
+        // [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProblem(int id)
         {
@@ -183,6 +190,7 @@ namespace OnlineJudgeAPI.Controllers
         //    await _context.SaveChangesAsync();
         //    return Ok(new { message = "Test cases added successfully!" });
         //}
+        // [Authorize(Roles = "1")]
         [HttpPost("{id}/testcases")]
         public async Task<IActionResult> AddTestCases(int id, [FromBody] TestCaseRequest request)
         {

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineJudgeAPI.Services;
 
@@ -10,9 +11,11 @@ using OnlineJudgeAPI.Services;
 namespace OnlineJudgeAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250419035233_InitWebDB")]
+    partial class InitWebDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -128,14 +131,8 @@ namespace OnlineJudgeAPI.Migrations
                     b.Property<string>("Constraints")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("DangBai")
-                        .HasColumnType("longtext");
-
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("DoKho")
                         .HasColumnType("longtext");
 
                     b.Property<string>("InputFormat")

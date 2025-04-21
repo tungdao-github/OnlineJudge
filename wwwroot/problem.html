@@ -70,27 +70,36 @@
 
     <header>
         <h1>🚀 Gửi Code</h1>
-        <nav><a href="/index.html">🏠 Trang chủ</a></nav>
-
+        <nav><a href="/index.html">🏠 Trang chủ</a></nav> 
+        <p><a id ="historySubmitProblem" href="#">🏠 Lịch sử submit</a></p>
+        <!-- <script>
+            document.querySelector("p #historySubmitProblem").href="/historyProblem.html";
+        </script> -->
     </header>
     <h3 >Title:</h3>
-    <p style="background:white; color:black;" id="title"></p>
+    <pre style="background:white; color:black;" id="title"></pre>
     <h3 >Mô tả:</h3>
-    <p style="background: white; color: black;" id="description"></p>
+    <pre style="background: white; color: black;" id="description"></pre>
     <h3 >Định dạng đầu vào:</h3>
-    <p style="background: white; color: black;" id="inputfomat"></p>
+    <pre style="background: white; color: black;" id="inputfomat"></pre>
+    <h3> Constraints:</h3>
+    <pre style="background: white; color: black;" id="constraints"></pre>
     <h3>Định dạng đầu ra:</h3>
-    <p style="background: white; color: black;"id="outputfomat"></p>
+    <pre style="background: white; color: black;"id="outputfomat"></pre>
     <h3> Input Mẫu0:</h3>
-    <p style="background: white; color: black;"id="inputSample"></p>
+    <pre style="background: white; color: black;"id="inputSample"></pre>
+    
     <h3>Output Mẫu0:</h3>
-    <p style="background: white; color: black;" id="outputSample"></p>
+    <pre style="background: white; color: black;" id="outputSample"></pre>
     <main>
         <label for="language">Ngôn ngữ:</label>
         <select id="language">
             <option value="cpp">C++</option>
             <option value="python">Python</option>
             <option value="c">C</option>
+            <option value="cs">C#</option>
+            <option value="java">java</option>
+            <option value="js">JavaScript</option>
         </select>
 
         <form id="submit-form">

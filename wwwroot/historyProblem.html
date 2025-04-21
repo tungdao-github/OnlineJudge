@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lịch sử Submit</title>
+
+    <!-- PrismJS for syntax highlighting -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script> -->
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    
+    <!-- PrismJS core first -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    
+    <!-- Load dependencies in the correct order -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-cpp.min.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .submission-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 24px;
+            padding: 20px;
+            transition: 0.3s;
+        }
+
+        .submission-card:hover {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .status {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .status.Accepted {
+            color: #28a745;
+        }
+
+        /* .status["Wrong Answer"],
+        .status.Wrong {
+            color: #dc3545;
+        } */
+
+        .submittedAt {
+            font-size: 0.85em;
+            color: #555;
+            margin-bottom: 12px;
+        }
+
+        pre {
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.95em;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Lịch sử Submit của bạn</h1>
+
+    <div id="submissions-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const problemId = new URLSearchParams(location.search).get("problemId");
+            const userId = localStorage.getItem("userId");
+
+            try {
+                let response = await fetch(`http://localhost:5024/api/Submissions/historyproblemuser?problemId=${problemId}&userId=${userId}`);
+                if (!response.ok) throw new Error("Không thể tải submissions. Vui lòng thử lại sau.");
+
+                let result = await response.json();
+                const container = document.getElementById("submissions-container");
+
+                result.forEach((element) => {
+                    const card = document.createElement("div");
+                    card.className = "submission-card";
+
+                    const status = document.createElement("div");
+                    status.className = "status " + element.status.replace(" ", "");
+                    status.textContent = "Kết quả: " + element.status;
+
+                    const submittedAt = document.createElement("div");
+                    submittedAt.className = "submittedAt";
+                    submittedAt.textContent = "Thời gian nộp: " + new Date(element.submittedAt).toLocaleString();
+
+                    const pre = document.createElement("pre");
+                    const code = document.createElement("code");
+                    code.className = "language-cpp";
+                    code.textContent = element.code;
+
+                    pre.appendChild(code);
+                    card.appendChild(status);
+                    card.appendChild(submittedAt);
+                    card.appendChild(pre);
+                    container.appendChild(card);
+                    setTimeout(() => Prism.highlightElement(code), 0);
+                    // Prism.highlightElement(code);
+                });
+
+            } catch (error) {
+                console.error("Fetch error:", error);
+                const errorBox = document.createElement("div");
+                errorBox.textContent = "Không thể tải dữ liệu. Vui lòng thử lại sau.";
+                errorBox.style.color = "red";
+                document.body.appendChild(errorBox);
+            }
+        });
+    </script>
+</body>
+
+</html>

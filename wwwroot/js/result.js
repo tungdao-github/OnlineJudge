@@ -1,4 +1,6 @@
-﻿document.addEventListener("DOMContentLoaded", async () => {
+﻿let count = 1;
+
+document.addEventListener("DOMContentLoaded", async () => {
     function isTokenExpired(token) {
         try {
             const payload = JSON.parse(atob(token.split('.')[1]));
@@ -25,19 +27,20 @@
 
         if (!data.result || !Array.isArray(data.result)) return;
 
-        data.result.forEach((test, index) => {
-            appendTestCaseResult({
-                index: index + 1,
-                input: test.input,
-                output: test.actualOutput,
-                expectedOutput: test.expectedOutput,
-                passed: test.passed,
-                executionTime: test.executionTimeMs,
-                memoryUsage: test.memoryUsageBytes
-            });
-        });
+        // data.result.forEach((test, index) => {
+        //     appendTestCaseResult({
+        //         index: index + 1,
+        //         input: test.input,
+        //         output: test.actualOutput,
+        //         expectedOutput: test.expectedOutput,
+        //         passed: test.passed,
+        //         executionTime: test.executionTimeMs,
+        //         memoryUsage: test.memoryUsageBytes
+        //     });
+        // });
     };
 
+    
     const appendTestCaseResult = (data) => {
         const container = document.getElementById("testcase-results");
         const div = document.createElement("div");
@@ -46,9 +49,9 @@
         div.style.marginBottom = "10px";
         div.style.backgroundColor = data.passed ? "#e0ffe0" : "#ffe0e0";
         div.innerHTML = `
-            
+            <h3> Testcase ${count++} </h3>
              <strong>Error:</strong><br><pre>${!data.compilationError ? "Không có" : data.compilationError?.trim() }</pre>
-            📥 <strong>Input:</strong><br><pre>${data.input?.trim()}</pre>
+            📥 < strong >Input:</><br><pre>${data.input?.trim()}</pre>
             🧾 <strong>Output:</strong><br><pre>${data.actualOutput?.trim()}</pre>
             🎯 <strong>Expected:</strong><br><pre>${data.expectedOutput?.trim()}</pre>
             ✅ <strong>Passed:</strong> ${data.passed ? "✔️" : "❌"}<br>
@@ -90,6 +93,7 @@
         const problemId = localStorage.getItem('problemId');
         const token = localStorage.getItem('token');
         const contestId = new URLSearchParams(location.search).get("contestId");
+        
         if (!token || isTokenExpired(token)) {
             alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
             localStorage.removeItem("token");
@@ -108,7 +112,7 @@
                 Code: code,
                 Language: language,
                 ConnectionId: connectionId,
-                contestId: contestId
+                contestId: contestId == null ? null : Number(contestId)
             }),
             cache: 'no-store'
         });

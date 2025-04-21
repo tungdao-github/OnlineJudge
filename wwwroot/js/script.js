@@ -6,7 +6,10 @@
     const inputFormat = document.getElementById("inputFormat").value;
     const outputFormat = document.getElementById("outputFormat").value;
     const inputSample = document.getElementById("inputSample").value;
+    const constraints = document.getElementById("constraints").value;
     const outputSample = document.getElementById("outputSample").value;
+    const doKho = document.getElementById("doKho").value;
+    const dangBai = document.getElementById("dangBai").value;
     console.log(inputSample + " " + outputSample)
     const token = localStorage.getItem("token") || sessionStorage.getItem("token");
     console.log(token)
@@ -19,7 +22,19 @@
         let response = await fetch("/api/problems", {
             method: "POST",
             headers: { "Authorization": "Bearer " + token, "Content-Type": "application/json" },
-            body: JSON.stringify({ title, description, inputFormat, outputFormat, inputSample, outputSample, contestId: 1, testCases: [] })
+            body: JSON.stringify({
+                title,
+                description,
+                inputFormat,
+                constraints,
+                outputFormat,
+                inputSample,
+                outputSample,
+                doKho,
+                dangBai,
+                contestId: 1,
+                testCases: []
+            })
         });
 
         let problem = await response.json();
