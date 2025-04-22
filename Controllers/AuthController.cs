@@ -75,8 +75,9 @@ public class AuthController : ControllerBase
     // }
     [HttpPost("Login")]
     public async Task<IActionResult> Login(LoginDto dto) {
-        var user = _context.Users.FirstOrDefault(u => u.Username == dto.Username);
-        if(user == null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash)) {
+        var user = _context.Users.Include(u => u.UserRoles)
+            .ThenInclude(ur => ur.Role).FirstOrDefault(u => u.Username == dto.Username);
+        if (user == null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash)) {
             return Unauthorized("Tai khoan hoac mat khau khong dung");
         }
         else {

@@ -57,9 +57,13 @@ async function login() {
         const roleKey = Object.keys(payload).find(k => k.toLowerCase().includes("role"));
         const roles = payload[roleKey];
         console.log(roles);
-        if (Array.isArray(roles) ? roles.includes("Admin") : roles === "Admin") {
+        console.log(Array.isArray(roles));
+        Array.isArray(roles) ? roles.includes("Admin") : roles == "Admin";
+        if (Array.isArray(roles) ? roles.includes("Admin") : roles == "Admin") {
+            console.log("Admin")
             window.location.href = "/admin.html";
         } else {
+            console.log("user")
             window.location.href = "/user.html";
         }
     } catch (err) {

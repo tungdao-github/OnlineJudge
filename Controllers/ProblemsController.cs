@@ -21,67 +21,66 @@ namespace OnlineJudgeAPI.Controllers
             _context = context;
         }
 
-        // GET: /api/problems
-        // [HttpGet]
-        // public async Task<ActionResult<List<Problem>>> GetProblems()
-        // {
-        //     return await _context.Problems.ToListAsync();
-        // }
+     
         [HttpGet]
-        public async Task<ActionResult<List<Problem>>> getProblems() {
+        public async Task<ActionResult<List<Problem>>> GetProblems() {
             return await _context.Problems.ToListAsync();
         }
-        // GET: /api/problems/{id}
+      
         [HttpGet("{id}")]
-        public async Task<ActionResult<Problem>> GetProblem(int id)
-        {
-            var problem = await _context.Problems.FindAsync(id);
-
-            if (problem == null)
-            {
-                return NotFound();
-            }
-
-            return problem;
+        public async Task<ActionResult<Problem>> GetProblem(int id) {
+            var problem = await _context.Problems.FirstAsync(p => p.Id == id);
+            if(problem == null) return NotFound("Khong tim thay problem");
+             return problem;
         }
-
-        // POST: /api/problems
-        //
-        //[HttpPost]
-        //public async Task<ActionResult<Problem>> CreateProblem([FromBody]Problem problem)
-        //{
-        //    _context.Problems.Add(problem);
-        //    await _context.SaveChangesAsync();
-
-        //    return CreatedAtAction(nameof(GetProblem), new { id = problem.Id }, problem);
-        //}
-        // [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> CreateProblem([FromBody] ProblemCreateDTO dto)
-        {
-            //var contest = await _context.Contests.FindAsync(dto.ContestId);
-            //if (contest == null) return BadRequest("Contest not found");
+        public async Task<ActionResult<Problem>> CreateProblem([FromBody]  ProblemCreateDTO dto) {
+           
+           var problem = new Problem{
+                        Title = dto.Title,
+                        Description = dto.Description,
+                        InputFormat = dto.InputFormat,
+                        Constraints = dto.Constraints,
+                        OutputFormat = dto.OutputFormat,
+                        InputSample = dto.InputSample,
+                        OutputSample = dto.OutputSample,
+                        DoKho = dto.DoKho,
+                        DangBai = dto.DangBai,
+                        
+                        TestCases = dto.TestCases
 
-            var problem = new Problem
-            {
-                Title = dto.Title,
-                Description = dto.Description,
-                InputFormat = dto.InputFormat,
-                Constraints = dto.Constraints,
-                OutputFormat = dto.OutputFormat,
-                InputSample = dto.InputSample,
-                OutputSample = dto.OutputSample,
-                DoKho = dto.DoKho,
-                DangBai = dto.DangBai,
-                //ExpectedOutput = dto.ExpectedOutput,
-                TestCases = dto.TestCases
-            };
-
+           };
             _context.Problems.Add(problem);
-            await _context.SaveChangesAsync();
+           await _context.SaveChangesAsync();
+           return Ok(problem);
+           }
+        // [Authorize(Roles = "Admin")]
+        // [HttpPost]
+        // public async Task<IActionResult> CreateProblem([FromBody] ProblemCreateDTO dto)
+        // {
+        //     //var contest = await _context.Contests.FindAsync(dto.ContestId);
+        //     //if (contest == null) return BadRequest("Contest not found");
 
-            return Ok(problem);
-        }
+        //     var problem = new Problem
+        //     {
+        //         Title = dto.Title,
+        //         Description = dto.Description,
+        //         InputFormat = dto.InputFormat,
+        //         Constraints = dto.Constraints,
+        //         OutputFormat = dto.OutputFormat,
+        //         InputSample = dto.InputSample,
+        //         OutputSample = dto.OutputSample,
+        //         DoKho = dto.DoKho,
+        //         DangBai = dto.DangBai,
+        //         //ExpectedOutput = dto.ExpectedOutput,
+        //         TestCases = dto.TestCases
+        //     };
+
+        //     _context.Problems.Add(problem);
+        //     await _context.SaveChangesAsync();
+
+        //     return Ok(problem);
+        // }
         //[Authorize(Roles = "Admin")]
         //[HttpPost]
         //public async Task<IActionResult> CreateProblem([FromBody] Problem problem)
@@ -143,53 +142,13 @@ namespace OnlineJudgeAPI.Controllers
             return NoContent();
         }
 
-        // API thêm test case số lượng lớn
-        //[HttpPost("{id}/testcases")]
-        //public async Task<IActionResult> AddTestCases(int id, List<TestCase> testCases)
-        //{
-        //    var problem = await _context.Problems.FindAsync(id);
-        //    if (problem == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    foreach (var testCase in testCases)
-        //    {
-        //        testCase.ProblemId = id;
-        //    }
-
-        //    _context.TestCases.AddRange(testCases);
-        //    await _context.SaveChangesAsync();
-        //    return Ok(new { message = "Test cases added successfully!" });
-        //}
+        
         public class TestCaseRequest
         {
             public List<TestCase> TestCases { get; set; }
         }
 
-        //[HttpPost("{id}/testcases")]
-        //public async Task<IActionResult> AddTestCases(int id, [FromBody] TestCaseRequest request)
-        //{
-        //    var problem = await _context.Problems.FindAsync(id);
-        //    if (problem == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    Console.WriteLine(request.TestCases);
-        //    if (request?.TestCases == null || !request.TestCases.Any())
-        //    {
-        //        return BadRequest(new { message = "The testCases field is required." });
-        //    }
-
-        //    foreach (var testCase in request.TestCases)
-        //    {
-        //        testCase.ProblemId = id;
-        //    }
-
-        //    _context.TestCases.AddRange(request.TestCases);
-        //    await _context.SaveChangesAsync();
-        //    return Ok(new { message = "Test cases added successfully!" });
-        //}
+       
         // [Authorize(Roles = "1")]
         [HttpPost("{id}/testcases")]
         public async Task<IActionResult> AddTestCases(int id, [FromBody] TestCaseRequest request)
