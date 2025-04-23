@@ -300,8 +300,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>hvnu4oy812</Fingerprint>
-      <Integrity>XdgWGQrClbNrwelt2msCjkh0FAM1xsPhL655bLa4X1A=</Integrity>
+      <Fingerprint>04w3oif1zh</Fingerprint>
+      <Integrity>UJWAihqakphWsvvCmzxeFBc2Wm3A5Jq753zGPJXmr+k=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\listProblems.js'))</OriginalItemSpec>

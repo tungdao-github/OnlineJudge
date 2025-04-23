@@ -3,8 +3,25 @@
 };
 
 async function fetchProblems() {
+     const token = localStorage.getItem('token');
+     console.log(token)
     try {
-        const response = await fetch("http://localhost:5024/api/problems");
+        // const token = localStorage.getItem('token');
+        // const response = await fetch("http://localhost:5024/api/problems", {
+        //     method: 'GET',
+        //     headers: {
+        //         'Authorization': `Bearer ${token}`, // Attach the token
+        //         'Content-Type': 'application/json'
+        //     }
+        // });
+
+        const response = await fetch('http://localhost:5024/api/problems', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`, // Attach the token
+                'Content-Type': 'application/json'
+            }
+        });
         if (!response.ok) throw new Error("Không thể tải danh sách bài tập!");
 
         const problems = await response.json();

@@ -131,16 +131,7 @@ public class CodeExecutor
         return s.Replace("\r\n", "\n").Trim().Split('\n').Select(line => line.Trim()).ToList();
     }
 
-    private string GetFileName(string language)
-    {
-        return language.ToLower() switch
-        {
-            "cpp" => "main.cpp",
-            "python" => "main.py",
-            "java" => "Main.java",
-            _ => "main.txt"
-        };
-    }
+   
 
     
     public async Task<ExecutionResult> RunAndCompileCodeAsync(string code, List<TestCase> testCases, string language, string connectionId)

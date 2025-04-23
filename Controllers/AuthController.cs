@@ -52,7 +52,8 @@ public class AuthController : ControllerBase
             return BadRequest("Tai khoan hoac mat khau da ton tai");
         }
         else{
-            await _context.Users.AddAsync(new User{Email = dto.Email, Username = dto.Username, PasswordHash  = dto.Password, UserRoles = _context.Roles.Select(r => new UserRole { RoleId = r.Id }).ToList() });
+            var roles = await _context.Roles.Where(r => dto.RoleIds.Contains(r.Id)).ToListAsync();
+            await _context.Users.AddAsync(new User{Email = dto.Email, Username = dto.Username, PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password), UserRoles = roles.Select(r => new UserRole { RoleId = r.Id }).ToList() });
             await _context.SaveChangesAsync();
             return Ok(new{message = "Dang ki thanh cong"});
         }

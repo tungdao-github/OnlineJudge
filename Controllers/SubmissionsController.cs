@@ -68,6 +68,7 @@ namespace OnlineJudgeAPI.Controllers
         public int? ContestId { get; set; } // optional
         
     }
+    
     [Route("api/[controller]")]
     [ApiController]
     public class SubmissionsController : ControllerBase
@@ -168,7 +169,7 @@ namespace OnlineJudgeAPI.Controllers
             return submissions;
         }
         [HttpGet("history")]
-        //[Authorize(Roles = "User,Admin")]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<SubmissionHistoryDto>>> GetSubmissionHistory()
         {
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0");
@@ -192,8 +193,10 @@ namespace OnlineJudgeAPI.Controllers
 
             return Ok(history);
         }
-            [HttpPost("submit")]
-            public async Task<ActionResult<Submission>> SubmitCode([FromBody] SubmissionRequest submissionRequest) {
+        
+        [HttpPost("submit")]
+        [Authorize(Roles = "Admin,User")]
+        public async Task<ActionResult<Submission>> SubmitCode([FromBody] SubmissionRequest submissionRequest) {
                 var userIdClaim = User.FindFirst("userId")?.Value;
                 if(string.IsNullOrEmpty(userIdClaim))
                     return Unauthorized("User ID khong tim thay trong token");

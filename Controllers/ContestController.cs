@@ -8,6 +8,7 @@ using OnlineJudgeAPI.DTOs;
 using OnlineJudgeAPI.Models;
 using Microsoft.AspNetCore.SignalR;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 public class CreateContestRequest
 {
     public string Title { get; set; }
@@ -87,6 +88,7 @@ public class ContestController : ControllerBase
     }
 
     [HttpPost("create")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> CreateContest(CreateContestRequest request)
     {
         var contest = new Contest

@@ -21,8 +21,9 @@ namespace OnlineJudgeAPI.Controllers
             _context = context;
         }
 
-     
+        [Authorize(Roles = "Admin,User")]
         [HttpGet]
+        // 
         public async Task<ActionResult<List<Problem>>> GetProblems() {
             return await _context.Problems.ToListAsync();
         }
@@ -33,6 +34,7 @@ namespace OnlineJudgeAPI.Controllers
             if(problem == null) return NotFound("Khong tim thay problem");
              return problem;
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<Problem>> CreateProblem([FromBody]  ProblemCreateDTO dto) {
            
