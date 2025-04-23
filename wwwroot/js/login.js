@@ -50,7 +50,7 @@ async function login() {
         localStorage.setItem("token", result.token);
         console.log(result.userId);
         localStorage.setItem("userId", result.userId);
-        alert(result.userId);
+        // alert(result.userId);
         // console.log("Token:", token);
 
         const payload = decodeJwt(result.token);

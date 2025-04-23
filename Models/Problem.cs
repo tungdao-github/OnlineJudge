@@ -24,6 +24,7 @@ namespace OnlineJudgeAPI.Models
         public string? OutputSample { get; set; } = "";
         public string? DoKho{get; set;}
         public string? DangBai{get; set;}
+        public int maxScore { get; set;}
         public List<TestCase>? TestCases { get; set; } = new List<TestCase>() { new TestCase() { } };
         [JsonIgnore]
         public ICollection<Submission>? Submissions { get; set; }

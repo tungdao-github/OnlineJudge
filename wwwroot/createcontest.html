@@ -1,55 +1,68 @@
-﻿<!--<form id="createContestForm">
-    <input type="text" name="name" placeholder="Contest Name" required />
-    <textarea name="description" placeholder="Description"></textarea>
-    <input type="datetime-local" name="startTime" required />
-    <input type="datetime-local" name="endTime" required />
-    <input type="text" name="problemIds" placeholder="Problem IDs (comma-separated)" required />
-    <button type="submit">Create Contest</button>
-</form>-->
-<form id="createContestForm">
-    <input type="text" id="title" placeholder="Title">
-    <input type="text" id="description" placeholder="Description">
-    <input type="datetime-local" id="startTime">
-    <input type="datetime-local" id="endTime">
+﻿<form id="createContestForm">
+    <input type="text" id="title" placeholder="Title" required />
+    <input type="text" id="description" placeholder="Description" required />
+    <input type="datetime-local" id="startTime" required />
+    <input type="datetime-local" id="endTime" required />
 
     <div id="problems-container">
         <div class="problem-row">
-            <input type="number" class="problem-id" placeholder="Problem ID">
-            <input type="number" class="problem-score" placeholder="Score">
+            <select class="problem-id"></select>
+            <input type="number" class="problem-score" placeholder="Score" required />
         </div>
     </div>
+
     <link rel="stylesheet" href="css/style.css" />
+
     <button type="button" onclick="addProblem()">➕ Add Problem</button>
     <button type="submit">Create Contest</button>
 </form>
+
 <script>
-    //document.getElementById("createContestForm").addEventListener("submit", async function (e) {
-    //    e.preventDefault();
-    //    const data = {
-    //        name: this.name.value,
-    //        description: this.description.value,
-    //        startTime: this.startTime.value,
-    //        endTime: this.endTime.value,
-    //        problemIds: this.problemIds.value.split(",").map(x => parseInt(x.trim()))
-    //    };
+    let allProblems = [];
 
-    //    const response = await fetch("http://localhost:5024/api/Contest/create", {
-    //        method: "POST",
-    //        headers: { "Content-Type": "application/json" },
-    //        body: JSON.stringify(data)
-    //    });
+    async function loadProblemList() {
+        try {
+            const res = await fetch('http://localhost:5024/api/problems/api/problemsInContest');
+            allProblems = await res.json();
+            populateAllSelects();
+        } catch (error) {
+            console.error("Error loading problems:", error);
+            alert("Failed to load problems.");
+        }
+    }
 
-    //    const result = await response.json();
-    //    alert("Contest created: " + result.name);
-    //});
+    function populateSelect(select) {
+        select.innerHTML = ""; // clear old options
+        allProblems.forEach(p => {
+            const option = document.createElement("option");
+            option.value = p.id;
+            option.textContent = p.title;
+            select.appendChild(option);
+        });
+    }
+
+    function populateAllSelects() {
+        const selects = document.querySelectorAll(".problem-id");
+        selects.forEach(select => populateSelect(select));
+    }
+
     function addProblem() {
         const container = document.getElementById("problems-container");
         const row = document.createElement("div");
         row.className = "problem-row";
-        row.innerHTML = `
-        <input type="number" class="problem-id" placeholder="Problem ID">
-        <input type="number" class="problem-score" placeholder="Score">
-    `;
+
+        const select = document.createElement("select");
+        select.className = "problem-id";
+        populateSelect(select);
+
+        const scoreInput = document.createElement("input");
+        scoreInput.type = "number";
+        scoreInput.className = "problem-score";
+        scoreInput.placeholder = "Score";
+        scoreInput.required = true;
+
+        row.appendChild(select);
+        row.appendChild(scoreInput);
         container.appendChild(row);
     }
 
@@ -74,18 +87,17 @@
                     score: parseInt(score)
                 });
             }
-            //console.log(problemIds)
         });
 
         const data = {
-            title ,
-            
+            title,
+            description,
             startTime,
             endTime,
-            problems: problems ,
-            description
+            problems
         };
-        console.log(data)
+
+        console.log(data);
 
         fetch('http://localhost:5024/api/Contest/create', {
             method: 'POST',
@@ -96,9 +108,13 @@
         }).then(res => {
             if (res.ok) {
                 alert("Contest created successfully!");
+                location.reload(); // Optional: refresh after success
             } else {
                 alert("Error creating contest.");
             }
         });
     });
+
+    // Initial load
+    loadProblemList();
 </script>

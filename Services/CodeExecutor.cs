@@ -18,6 +18,8 @@ public class CodeExecutor
 {
     public string Results = "";
     public  bool status = true;
+    public int soDiemTrenTestCase = 0;
+    public int Score = 0;
     private const int TimeoutMilliseconds = 9000;
     private readonly IHubContext<TestCaseResultHub> _hubContext;
 
@@ -26,22 +28,7 @@ public class CodeExecutor
         _hubContext = hubContext;
     }
 
-    // private string Normalize(string s)
-    // {
-    //     if (string.IsNullOrWhiteSpace(s)) return "";
-    //     return string.Join('\n', s.Trim().Replace("\r\n", "\n").Split('\n').Select(x => x.TrimEnd()));
-    // }
-    // private string Normalize(string s)
-    // {
-    //     if (string.IsNullOrWhiteSpace(s)) return "";
-    //     return string.Join("\n", s
-    //         .Replace("\r\n", "\n")
-    //         .Trim()
-    //         .Split('\n')
-    //         .Select(line => line.Trim()) // trim cả đầu lẫn cuối dòng
-    //         .Where(line => !string.IsNullOrWhiteSpace(line)) // loại bỏ dòng trắng
-    //     );
-    // }
+   
     private string Normalize(string s)
     {
         if (string.IsNullOrWhiteSpace(s)) return "";
@@ -71,6 +58,11 @@ public class CodeExecutor
                 return await CompileAsync("gcc", $"-O2 \"{tempFile}\" -o \"{exeFile}\"", tempFile, exeFile);
             case "python":
                 tempFile += ".py";
+                await File.WriteAllTextAsync(tempFile, code);
+                return tempFile;
+            case "javascript":
+            case "js":
+                tempFile += ".js";
                 await File.WriteAllTextAsync(tempFile, code);
                 return tempFile;
             default:
@@ -104,7 +96,7 @@ public class CodeExecutor
 
         return outputFile;
     }
-    public async Task<ExecutionResult> RunCodeAsync(string executablePath, List<TestCase> testCases, string language, string connectionId)
+    public async Task<ExecutionResult> RunCodeAsync(string executablePath, List<TestCase> testCases, string language, string connectionId, int maxScore)
     {
 
         var result = new ExecutionResult();
@@ -115,7 +107,16 @@ public class CodeExecutor
             RunSingleTestCaseAsync(testCase, executablePath, language, connectionId)).ToList();
 
         var results = await Task.WhenAll(tasks);
+        result.TestCaseResults.AddRange(results);
+        // foreach(var vl in result.TestCaseResults) {
+        //     Console.WriteLine(vl.Input + " " + vl.Passed);
+        // }
+        int passedCount = result.TestCaseResults.Count(r => r.Passed == true);
+        int totalCount = testCases.Count;
+        Console.WriteLine("tungdao = " +  passedCount +  " " +  totalCount);
 
+        Score = (int)Math.Round((double)passedCount / totalCount * maxScore);
+        Console.WriteLine("Score Code  = " + Score);
         result.TestCaseResults.AddRange(results);
         result.TotalExecutionTimeMs = totalStopwatch.ElapsedMilliseconds;
 
@@ -134,7 +135,7 @@ public class CodeExecutor
    
 
     
-    public async Task<ExecutionResult> RunAndCompileCodeAsync(string code, List<TestCase> testCases, string language, string connectionId)
+    public async Task<ExecutionResult> RunAndCompileCodeAsync(string code, List<TestCase> testCases, string language, string connectionId, int maxScore)
     {
         string exePath = null;
         try
@@ -149,7 +150,7 @@ public class CodeExecutor
 
         }
 
-        var result = await RunCodeAsync(exePath, testCases, language, connectionId);
+        var result = await RunCodeAsync(exePath, testCases, language, connectionId, maxScore);
 
         if (language != "python")
         {
@@ -161,10 +162,29 @@ public class CodeExecutor
 
     private async Task<TestCaseResult> RunSingleTestCaseAsync(TestCase testCase, string executablePath, string language, string connectionId)
 {
-    var psi = new ProcessStartInfo
+        string fileName;
+        string arguments;
+
+        if (language == "python")
+        {
+            fileName = "python3";
+            arguments = $"\"{executablePath}\"";
+        }
+        else if (language == "javascript" || language == "js")
+        {
+            fileName = "node";
+            arguments = $"\"{executablePath}\"";
+        }
+        else
+        {
+            fileName = executablePath;
+            arguments = "";
+        }
+
+        var psi = new ProcessStartInfo
     {
-        FileName = (language == "python") ? "python3" : executablePath,
-        Arguments = (language == "python") ? $"\"{executablePath}\"" : "",
+        FileName = fileName,
+        Arguments = arguments,
         RedirectStandardInput = true,
         RedirectStandardOutput = true,
         RedirectStandardError = true,
@@ -179,9 +199,10 @@ public class CodeExecutor
 
     try
     {
-        process.Start();
-
-        await process.StandardInput.WriteAsync(testCase.Input);
+            var executionTime = DateTime.Now;
+            process.Start();
+            
+            await process.StandardInput.WriteAsync(testCase.Input);
         process.StandardInput.Close();
 
         var stdoutTask = process.StandardOutput.ReadToEndAsync();
@@ -227,16 +248,17 @@ public class CodeExecutor
             status = true;
         }
         Results += "Testcase " + passed;
-        var testCaseResult = new TestCaseResult
+            double elapsedTime = (DateTime.Now - executionTime).TotalMilliseconds;
+            var testCaseResult = new TestCaseResult
         {
             TestCaseId = testCase.Id,
             Input = testCase.Input,
             ExpectedOutput = expectedOutput,
             ActualOutput = actualOutput,
             Passed = passed,
-            ExecutionTimeMs = testStopwatch.ElapsedMilliseconds,
+            ExecutionTimeMs = elapsedTime,
             MemoryUsageBytes = memoryUsedBytes
-        };
+            };
         
         await _hubContext.Clients.Client(connectionId).SendAsync("ReceiveTestCaseResult", testCaseResult);
         return testCaseResult;
@@ -259,6 +281,7 @@ public class CodeExecutor
         return errorResult;
     }
 }
+    
 
-  
+
 }

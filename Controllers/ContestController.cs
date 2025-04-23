@@ -46,7 +46,7 @@ public class ContestController : ControllerBase
         var contests = _context.Contests.ToList();
         return Ok(contests);
     }
-
+    
     // GET: api/contest/5
     [HttpGet("{id}")]
     public IActionResult GetContest(int id)
@@ -87,8 +87,11 @@ public class ContestController : ControllerBase
         return NoContent();
     }
 
+    
     [HttpPost("create")]
-    [Authorize(Roles = "Admin")]
+    // [Authorize(Roles = "Admin")]
+    //
+    // [Authorize(Roles = "Admin,User")]
     public async Task<IActionResult> CreateContest(CreateContestRequest request)
     {
         var contest = new Contest

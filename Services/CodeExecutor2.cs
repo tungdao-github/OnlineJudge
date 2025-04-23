@@ -97,6 +97,6 @@ public class TestCaseResult
     public string ActualOutput { get; set; }
     public bool Passed { get; set; }
     public string Error { get; set; }
-    public long ExecutionTimeMs { get; set; }
+    public double ExecutionTimeMs { get; set; }
     public long MemoryUsageBytes { get; set; }
 }

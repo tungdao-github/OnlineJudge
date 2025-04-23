@@ -7,12 +7,14 @@ using OnlineJudgeAPI.Services;
 public class LeaderboardController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
+    private readonly ISubmissionService _submissionService;
 
-    public LeaderboardController(ApplicationDbContext context)
+    public LeaderboardController(ApplicationDbContext context, ISubmissionService submissionService)
     {
         _context = context;
+        _submissionService = submissionService;
     }
-
+    
     [HttpGet("contest/{contestId}")]
     public async Task<IActionResult> GetLeaderboard(int contestId)
     {
@@ -44,44 +46,13 @@ public class LeaderboardController : ControllerBase
 
         return Ok(leaderboard);
     }
-    //[HttpGet("contest/{contestId}")]
-    //public async Task<IActionResult> GetLeaderboard(int contestId)
-    //{
-    //    var submissions = await _context.Submissions
-    //        .Where(s => s.ContestId == contestId && s.IsCorrect == "true")
-    //        .ToListAsync();
+    
 
-    //    var leaderboard = submissions
-    //        .GroupBy(s => s.UserId)
-    //        .Select(g => new
-    //        {
-    //            UserId = g.Key,
-    //            TotalScore = g.Sum(s => s.Score),
-    //            //TotalExecutionTime = g.Sum(s => s.),
-    //            EarliestSubmissionTime = g.Min(s => s.SubmittedAt)
-    //        })
-    //        .OrderByDescending(x => x.TotalScore)
-    //        //.ThenBy(x => x.TotalExecutionTime)
-    //        .ThenBy(x => x.EarliestSubmissionTime)
-    //        .ToList();
+}
 
-    //    return Ok(leaderboard);
-    //}
-    //[HttpGet("{contestId}")]
-    //public IActionResult GetLeaderboard(int contestId)
-    //{
-    //    var result = _context.Submissions
-    //        .Where(s => s.ContestId == contestId && s.IsCorrect == "true")
-    //        .GroupBy(s => s.UserId)
-    //        .Select(g => new {
-    //            UserId = g.Key,
-    //            Score = g.Count(),
-    //            LastSubmit = g.Max(s => s.SubmittedAt)
-    //        })
-    //        .OrderByDescending(x => x.Score)
-    //        .ThenBy(x => x.LastSubmit)
-    //        .ToList();
-
-    //    return Ok(result);
-    //}
+public class UserLeaderboard
+{
+    public int UserId { get; set; }
+    public string UserName { get; set; }
+    public int? TotalScore { get; set; }
 }

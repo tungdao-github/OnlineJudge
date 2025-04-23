@@ -27,7 +27,19 @@ namespace OnlineJudgeAPI.Controllers
         public async Task<ActionResult<List<Problem>>> GetProblems() {
             return await _context.Problems.ToListAsync();
         }
-      
+        [HttpGet]
+        [Route("api/problemsInContest")]
+        public IActionResult GetProblemsInContest()
+        {
+            var problems = _context.Problems
+                .Select(p => new
+                {
+                    id = p.Id,
+                    title = p.Title
+                }).ToList();
+
+            return Ok(problems);
+        }
         [HttpGet("{id}")]
         public async Task<ActionResult<Problem>> GetProblem(int id) {
             var problem = await _context.Problems.FirstAsync(p => p.Id == id);

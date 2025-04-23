@@ -15,6 +15,7 @@
         public DateTime SubmittedAt { get; set; }
         public bool IsCorrect { get; set; }
         public string ActualOutput { get; set; }
+        
     }
     public class SubmissionResult
     {
@@ -26,6 +27,7 @@
         
         public string[]  result { get; set; }
         public DateTime SubmittedAt { get; set; }
+        public int? Score { get; set; } 
     }
     public enum SubmissionStatus
     {

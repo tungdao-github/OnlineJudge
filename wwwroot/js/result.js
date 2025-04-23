@@ -21,6 +21,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const updateFinalResult = (data) => {
         $("status").textContent = data.status || "N/A";
+        document.getElementById("score").textContent = data.score ;
+        console.log("score = " + data.score)
         //$("executionTimeMs").textContent = data.executionTime ? `${data.executionTime} ms` : "N/A";
         //$("memoryUsageBytes").textContent = data.memoryUsageBytes ? `${data.memoryUsageBytes} bytes` : "N/A";
         //$("details").textContent = data.compilationError || "No error";
@@ -48,7 +50,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         div.style.padding = "10px";
         div.style.marginBottom = "10px";
         div.style.backgroundColor = data.passed ? "#e0ffe0" : "#ffe0e0";
-        div.innerHTML = `
+        div.innerHTML = `        
             <h3> Testcase ${count++} </h3>
              <strong>Error:</strong><br><pre>${!data.compilationError ? "Không có" : data.compilationError?.trim() }</pre>
             📥 < strong >Input:</><br><pre>${data.input?.trim()}</pre>
@@ -143,6 +145,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 if (!response.ok) throw new Error("Fetch error");
 
                 const data = await response.json();
+                console.log(data.score)
                 if (data.status !== "Pending" && data.status !== "Running") {
                     updateFinalResult(data);
                 } else {

@@ -135,6 +135,7 @@ namespace OnlineJudgeAPI.Controllers
                                            Details = s.Error,
                                            //ExecutionTime = s.ExecutionTimeMs,
                                            //MemoryUsed = s.MemoryUsageBytes
+                                           Score = s.Score
                                        })
                                        .FirstOrDefaultAsync();
 
@@ -169,7 +170,7 @@ namespace OnlineJudgeAPI.Controllers
             return submissions;
         }
         [HttpGet("history")]
-        [Authorize]
+        // [Authorize(Roles ="User,Admin")]
         public async Task<ActionResult<IEnumerable<SubmissionHistoryDto>>> GetSubmissionHistory()
         {
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0");
@@ -193,14 +194,52 @@ namespace OnlineJudgeAPI.Controllers
 
             return Ok(history);
         }
-        
+        private int CalculateScore(List<TestCaseResult> results)
+        {
+            int score = 0;
+
+            foreach (var result in results)
+            {
+                if (result.Error == null && result.ActualOutput == result.ExpectedOutput)
+                {
+                    score += 10; // Perfect score for correct output
+                }
+                else
+                {
+                    // Calculate score reduction based on time and memory usage
+                    if (result.ExecutionTimeMs < 1000) score += 5; // Time penalty
+                    if (result.MemoryUsageBytes < 1024 * 100) score += 3; // Memory usage penalty
+                }
+            }
+
+            return score;
+        }
+        // private int CalculateScore(List<TestCaseResult> testCaseResults)
+        // {
+        //     int score = 0;
+
+        //     foreach (var result in testCaseResults)
+        //     {
+        //         if (result.Error == null && result.ActualOutput == result.ExpectedOutput)
+        //         {
+        //             score += 10;
+        //         }
+        //         else
+        //         {
+        //             // Penalty for errors
+        //             score -= 2;
+        //         }
+        //     }
+
+        //     return score;
+        // }
         [HttpPost("submit")]
         [Authorize(Roles = "Admin,User")]
         public async Task<ActionResult<Submission>> SubmitCode([FromBody] SubmissionRequest submissionRequest) {
                 var userIdClaim = User.FindFirst("userId")?.Value;
                 if(string.IsNullOrEmpty(userIdClaim))
                     return Unauthorized("User ID khong tim thay trong token");
-                
+                var problem = _context.Problems.FirstOrDefault(p => p.Id == submissionRequest.ProblemId);
                 int userId = int.Parse(userIdClaim);
                 var contestId = submissionRequest.contestId;
                 var submission = new Submission{
@@ -214,10 +253,13 @@ namespace OnlineJudgeAPI.Controllers
                 };
                 _context.Submissions.Add(submission);
                 var testCases = await _context.TestCases.Where(t => t.ProblemId== submissionRequest.ProblemId).ToListAsync();
-                var results = await ProcessTestCasesAsync(testCases, submission, submissionRequest.ConnectionId);
+                var results = await ProcessTestCasesAsync(testCases, submission, submissionRequest.ConnectionId, problem.maxScore);
                 submission.ContestId = contestId;
                 submission.Result = _codeExecutor.Results;
-                submission.Score = results.Score;
+                submission.Score = _codeExecutor.Score;
+            submission.Score = results.Score;
+
+            Console.WriteLine("score = " + submission.Score);
                 submission.PassedTestCases = results.PassedTestCases;
                 submission.TotalTestCases = testCases.Count;
                 await _context.SaveChangesAsync();
@@ -342,9 +384,9 @@ namespace OnlineJudgeAPI.Controllers
                         .Normalize(NormalizationForm.FormC); // Unicode normalization
         }
 
-        private async Task<submit> ProcessTestCasesAsync(List<TestCase> testCases, Submission submission, string connectionId) {
+        private async Task<submit> ProcessTestCasesAsync(List<TestCase> testCases, Submission submission, string connectionId, int maxScore) {
             bool ok = true;
-            var result = await _codeExecutor.RunAndCompileCodeAsync(submission.Code, testCases, submission.Language, connectionId);
+            var result = await _codeExecutor.RunAndCompileCodeAsync(submission.Code, testCases, submission.Language, connectionId, maxScore);
             var resultOutput = new StringBuilder();
             if(!string.IsNullOrWhiteSpace(result.CompilationError)) {
                 resultOutput.Append(result.CompilationError + "&");
@@ -357,7 +399,7 @@ namespace OnlineJudgeAPI.Controllers
                     ExecutionTimeMs = result.TotalExecutionTimeMs,
                     MemoryUsageBytes = result.TotalMemoryUsageBytes,
                     Error = result.CompilationError,
-                    Score = 0,
+                    Score = CalculateScore(result.TestCaseResults),
                     IsCorrect = "false"
                 };
             }
