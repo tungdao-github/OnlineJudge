@@ -194,26 +194,7 @@ namespace OnlineJudgeAPI.Controllers
 
             return Ok(history);
         }
-        private int CalculateScore(List<TestCaseResult> results)
-        {
-            int score = 0;
-
-            foreach (var result in results)
-            {
-                if (result.Error == null && result.ActualOutput == result.ExpectedOutput)
-                {
-                    score += 10; // Perfect score for correct output
-                }
-                else
-                {
-                    // Calculate score reduction based on time and memory usage
-                    if (result.ExecutionTimeMs < 1000) score += 5; // Time penalty
-                    if (result.MemoryUsageBytes < 1024 * 100) score += 3; // Memory usage penalty
-                }
-            }
-
-            return score;
-        }
+       
         // private int CalculateScore(List<TestCaseResult> testCaseResults)
         // {
         //     int score = 0;
@@ -257,7 +238,7 @@ namespace OnlineJudgeAPI.Controllers
                 submission.ContestId = contestId;
                 submission.Result = _codeExecutor.Results;
                 submission.Score = _codeExecutor.Score;
-            submission.Score = results.Score;
+            // submission.Score = results.Score;
 
             Console.WriteLine("score = " + submission.Score);
                 submission.PassedTestCases = results.PassedTestCases;
