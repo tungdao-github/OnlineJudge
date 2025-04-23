@@ -380,7 +380,7 @@ namespace OnlineJudgeAPI.Controllers
                     ExecutionTimeMs = result.TotalExecutionTimeMs,
                     MemoryUsageBytes = result.TotalMemoryUsageBytes,
                     Error = result.CompilationError,
-                    Score = CalculateScore(result.TestCaseResults),
+                    Score = _codeExecutor.Score,
                     IsCorrect = "false"
                 };
             }
