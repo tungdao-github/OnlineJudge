@@ -1,21 +1,62 @@
-﻿<form id="createContestForm">
-    <input type="text" id="title" placeholder="Title" required />
-    <input type="text" id="description" placeholder="Description" required />
-    <input type="datetime-local" id="startTime" required />
-    <input type="datetime-local" id="endTime" required />
+﻿<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
-    <div id="problems-container">
-        <div class="problem-row">
-            <select class="problem-id"></select>
-            <input type="number" class="problem-score" placeholder="Score" required />
+<header>
+    <nav class="bg-indigo-700 text-white shadow-md">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <h1 class="text-xl font-bold">CodeJudge</h1>
+                <div class="hidden md:flex space-x-4">
+
+                </div>
+            </div>
+            <div class="flex items-center space-x-3">
+                <span class="hidden md:inline">
+                    <i class="fas fa-bell text-indigo-200"></i>
+                </span>
+                <div class="h-8 w-8 rounded-full bg-indigo-500 flex items-center justify-center">
+                    <span class="font-medium"> <a href="index.html">AD</a></span>
+                </div>
+            </div>
         </div>
-    </div>
+    </nav>
+</header>
+<main class="max-w-4xl mx-auto p-6 bg-white rounded-xl shadow mt-6">
+    <h2 class="text-2xl font-bold mb-6 text-indigo-700">Tạo Cuộc Thi Mới</h2>
 
-    <link rel="stylesheet" href="css/style.css" />
+    <form id="createContestForm" class="space-y-4">
+        <div class="grid md:grid-cols-2 gap-4">
+            <input type="text" id="title" placeholder="Tiêu đề cuộc thi" required class="input" />
+            <input type="text" id="description" placeholder="Mô tả" required class="input" />
+            <input type="datetime-local" id="startTime" required class="input" />
+            <input type="datetime-local" id="endTime" required class="input" />
+        </div>
 
-    <button type="button" onclick="addProblem()">➕ Add Problem</button>
-    <button type="submit">Create Contest</button>
-</form>
+        <div>
+            <h3 class="text-lg font-semibold mt-4 mb-2 text-gray-700">Danh sách bài tập</h3>
+            <div id="problems-container" class="space-y-2">
+                <div class="problem-row flex gap-2">
+                    <select class="problem-id border p-2 rounded w-2/3"></select>
+                    <input type="number" class="problem-score border p-2 rounded w-1/3" placeholder="Điểm số"
+                        required />
+                </div>
+            </div>
+            <button type="button" onclick="addProblem()" class="mt-2 text-indigo-600 hover:underline">➕ Thêm
+                bài</button>
+        </div>
+
+        <div class="pt-4">
+            <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Tạo
+                Cuộc Thi</button>
+        </div>
+    </form>
+</main>
+
+<style>
+    .input {
+        @apply border p-2 rounded w-full;
+    }
+</style>
+
 
 <script>
     let allProblems = [];
@@ -115,6 +156,5 @@
         });
     });
 
-    // Initial load
     loadProblemList();
 </script>

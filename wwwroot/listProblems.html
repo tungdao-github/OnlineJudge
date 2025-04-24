@@ -1,165 +1,150 @@
 ﻿<!DOCTYPE html>
 <html lang="vi">
+
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nộp Bài - Online Judge</title>
-    <link rel="stylesheet" href="css/style.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* Fonts & Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeJudge - Danh Sách Bài Tập</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: #0f0c29; /* fallback */
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 40px 20px;
-            overflow-x: hidden;
-        }
-
-        /* Hero background animation */
-        .hero-bg {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 30% 30%, rgba(255, 0, 150, 0.1), transparent 60%), radial-gradient(circle at 70% 70%, rgba(0, 229, 255, 0.1), transparent 60%);
-            z-index: -1;
-            animation: float 10s infinite alternate;
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(0px);
-            }
-
-            100% {
-                transform: translateY(-20px);
-            }
-        }
-
-        .container {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(14px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 30px;
-            width: 100%;
-            max-width: 1000px;
-            box-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
-        }
-
-        /* Title */
-        .title {
-            text-align: center;
-            font-size: 2.2rem;
-            margin-bottom: 30px;
-            font-weight: 700;
-            color: #ffffff;
-            text-shadow: 0 0 10px #00eaff;
-        }
-
-        /* Table styles */
-        .fancy-table {
-            width: 100%;
-            border-collapse: collapse;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-            .fancy-table th,
-            .fancy-table td {
-                padding: 16px 20px;
-                text-align: left;
-                color: #fff;
-            }
-
-            .fancy-table th {
-                background: rgba(0, 0, 0, 0.3);
-                text-transform: uppercase;
-                font-weight: 600;
-                font-size: 14px;
-            }
-
-            .fancy-table tbody tr {
-                background: rgba(255, 255, 255, 0.05);
-                transition: background 0.3s ease, transform 0.2s ease;
-            }
-
-                .fancy-table tbody tr:hover {
-                    background: rgba(255, 255, 255, 0.15);
-                    transform: scale(1.01);
-                }
-
-            .fancy-table td {
-                border-top: 1px solid rgba(255, 255, 255, 0.08);
-            }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .fancy-table thead {
-                display: none;
-            }
-
-            .fancy-table, .fancy-table tbody, .fancy-table tr, .fancy-table td {
-                display: block;
-                width: 100%;
-            }
-
-                .fancy-table tr {
-                    margin-bottom: 20px;
-                    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-                }
-
-                .fancy-table td {
-                    padding: 10px;
-                    text-align: right;
-                    position: relative;
-                }
-
-                    .fancy-table td::before {
-                        content: attr(data-label);
-                        position: absolute;
-                        left: 15px;
-                        text-align: left;
-                        font-weight: 600;
-                        color: #ccc;
-                    }
-        }
-
-    </style>
 </head>
-<body>
-    <div class="hero-bg"></div>
-    <div class="container">
-        <h1 class="title">🔥 Online Judge - Danh Sách Bài Tập</h1>
-        <table class="fancy-table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Tên bài tập</th>
-                    <th>Mô tả</th>
-                    <th>Độ Khó</th>
-                    <th>Dạng bài</th>
-                    <th>Hành động</th>
-                </tr>
-            </thead>
-            <tbody id="problemList">
-                <!-- Dữ liệu được đổ bằng JS -->
-            </tbody>
-            
-        </table>
+
+<body class="bg-gray-100 text-gray-900">
+    <nav class="bg-indigo-700 text-white shadow-md">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <h1 class="text-xl font-bold">CodeJudge</h1>
+                <div class="hidden md:flex space-x-4">
+                    <a href="index.html" class="hover:text-indigo-200">Trang chủ</a>
+                    <a href="Exercise.html" class="border-b-2 border-white font-medium">Bài tập</a>
+                    <a href="contest.html" class="hover:text-indigo-200">Thi đấu</a>
+                    <a id="historySubmitProblem" href="#" class="hover:underline">Lịch sử nộp bài</a>
+
+                </div>
+            </div>
+            <div class="flex items-center space-x-3">
+                <span class="hidden md:inline">
+                    <i class="fas fa-bell text-indigo-200"></i>
+                </span>
+                <div class="h-8 w-8 rounded-full bg-indigo-500 flex items-center justify-center">
+                    <span class="font-medium">NT</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-6">
+        <div class="mb-6">
+            <h1 class="text-2xl font-bold mb-4">Danh sách bài tập</h1>
+
+
+            <div class="bg-white p-4 rounded-lg shadow">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between space-y-3 md:space-y-0">
+                    <div class="flex flex-wrap gap-2">
+                        <div class="relative">
+                            <input type="text" placeholder="Tìm kiếm bài tập..."
+                                class="border rounded-lg py-2 px-4 w-full md:w-64 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+                            <span class="absolute right-3 top-2.5 text-gray-400">
+                                <i class="fas fa-search"></i>
+                            </span>
+                        </div>
+
+                        <select class="border rounded-lg py-2 px-3">
+                            <option>Tất cả độ khó</option>
+                            <option>Dễ</option>
+                            <option>Trung bình</option>
+                            <option>kha</option>
+                            <option>Khó</option>
+                        </select>
+
+                        <select class="border rounded-lg py-2 px-3">
+                            <option>Tất cả chủ đề</option>
+                            <option>Mang 1 chieu</option>
+                            <option>Chuỗi</option>
+                            <option>Số học</option>
+                            <option>Quay lui-nhanh can</option>
+                            <option>DP</option>
+                            <option>Mảng 1 chiều cơ bản</option>
+                        </select>
+                    </div>
+
+                    <div class="flex items-center space-x-2">
+                        <span class="text-sm text-gray-500">Sắp xếp:</span>
+                        <select class="border rounded-lg py-2 px-3">
+                            <option>Số lượt giải</option>
+                            <option>Mức độ</option>
+                            <option>Mới nhất</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-6 grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="bg-white p-4 rounded-lg shadow">
+                <h3 class="font-medium text-gray-500 mb-1">Số bài tập</h3>
+                <div class="text-2xl font-bold" id="problem-count"></div>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow">
+                <h3 class="font-medium text-gray-500 mb-1">Đã giải</h3>
+                <div class="text-2xl font-bold text-green-600">80</div>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow">
+                <h3 class="font-medium text-gray-500 mb-1">Tỉ lệ hoàn thành</h3>
+                <div class="text-2xl font-bold text-indigo-600">74.4%</div>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow">
+                <h3 class="font-medium text-gray-500 mb-1">Xếp hạng</h3>
+                <div class="text-2xl font-bold text-yellow-600">#1</div>
+            </div>
+        </div>
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="min-w-full">
+                    <thead>
+                        <tr class="bg-gray-100 text-left">
+                            <th class="py-3 px-4 font-medium">#</th>
+                            <th class="py-3 px-4 font-medium">Tên bài</th>
+                            <th class="py-3 px-4 font-medium">Độ khó</th>
+                            <th class="py-3 px-4 font-medium">Chủ đề</th>
+                            <th class="py-3 px-4 font-medium">Trạng thái</th>
+                            <th class="py-3 px-4 font-medium">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y" id="problemList">
+                        
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="bg-gray-50 px-4 py-3 flex items-center justify-between border-t">
+                <div class="flex-1 flex justify-between sm:hidden">
+                    <a href="#"
+                        class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                        Trước
+                    </a>
+                    <a href="#"
+                        class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                        Sau
+                    </a>
+                </div>
+                <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                    <div>
+                        <p class="text-sm text-gray-700">
+                            Hiển thị <span class="font-medium">1-100</span> trong <span class="font-medium">80</span>
+                            bài tập
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
     </div>
 
-    <script src="js/listProblems.js"></script>
+    <script src="js/ListExercise.js">
+    </script>
 </body>
+
 </html>

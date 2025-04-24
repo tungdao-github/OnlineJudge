@@ -1,141 +1,351 @@
-﻿<!--<!DOCTYPE html>
-<html lang="en">
+﻿<!DOCTYPE html>
+<html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Judge</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <h1>Online Judge System</h1>
+    <title>CodeJudge - Nền tảng luyện tập kĩ năng lập trình</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .card-3d {
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
+        }
 
-    <h2>Problem List</h2>
-    <ul id="problem-list"></ul>
+        .card-3d:hover {
+            transform: translateY(-10px) rotateX(5deg);
+        }
 
-    <div id="problem-details" style="display: none;">
-        <h2>Problem Details</h2>
-        <p id="problem-description"></p>
-        <p><strong>Input Format:</strong> <span id="input-format"></span></p>
-        <p><strong>Output Format:</strong> <span id="output-format"></span></p>
-        <p><strong>Sample Input:</strong> <pre id="sample-input"></pre></p>
-        <p><strong>Sample Output:</strong> <pre id="sample-output"></pre></p>
-    </div>
+        .floating {
+            /* animation: floating 3s ease-in-out infinite; */
+        }
 
-    <h2>Submit Code</h2>
-    <form id="submit-form">
-        <label for="problem-id">Problem ID:</label>
-        <input type="number" id="problem-id" required>
-
-        <label for="code">Code:</label>
-        <textarea id="code" required></textarea>
-
-        <label for="language">Language:</label>
-        <select id="language">
-            <option value="c++">C++</option>
-            <option value="python">Python</option>
-            <option value="java">Java</option>
-        </select>
-
-        <button type="submit">Submit</button>
-    </form>
-
-    <h2>Submission Results</h2>
-    <ul id="submission-list"></ul>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            fetch("http://localhost:5024/api/problems")
-                .then(response => response.json())
-                .then(problems => {
-                    const problemList = document.getElementById("problem-list");
-                    problems.forEach(problem => {
-                        const li = document.createElement("li");
-                        li.textContent = `${problem.id}: ${problem.title}`;
-                        li.style.cursor = "pointer";
-                        li.addEventListener("click", () => loadProblemDetails(problem.id));
-                        problemList.appendChild(li);
-                    });
-                });
-
-            function loadProblemDetails(problemId) {
-                fetch(`http://localhost:5024/api/problems/${problemId}`)
-                    .then(response => response.json())
-                    .then(problem => {
-                        document.getElementById("problem-details").style.display = "block";
-                        document.getElementById("problem-description").textContent = problem.description;
-                        document.getElementById("input-format").textContent = problem.inputFormat;
-                        document.getElementById("output-format").textContent = problem.outputFormat;
-                        document.getElementById("sample-input").textContent = problem.sampleInput;
-                        document.getElementById("sample-output").textContent = problem.sampleOutput;
-                    });
+        @keyframes floating {
+            0% {
+                transform: translateY(0px);
             }
 
-            document.getElementById("submit-form").addEventListener("submit", function (event) {
-                event.preventDefault();
-
-                const problemId = document.getElementById("problem-id").value;
-                const code = document.getElementById("code").value;
-                const language = document.getElementById("language").value;
-
-                fetch("http://localhost:5024/api/submissions/submit", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        problemId: problemId,
-                        code: code,
-                        language: language
-                    })
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        alert(data.message);
-                        loadSubmissions();
-                    })
-                    .catch(error => console.error("Error:", error));
-            });
-
-            function loadSubmissions() {
-                fetch("http://localhost:5024/api/submissions")
-                    .then(response => response.json())
-                    .then(submissions => {
-                        const submissionList = document.getElementById("submission-list");
-                        submissionList.innerHTML = "";
-                        submissions.forEach(submission => {
-                            const li = document.createElement("li");
-                            li.textContent = `ID: ${submission.id}, Problem: ${submission.problemId}, Status: ${submission.status}`;
-                            submissionList.appendChild(li);
-                        });
-                    });
+            50% {
+                transform: translateY(-15px);
             }
-        });
-    </script>
-</body>
-</html>-->
 
+            100% {
+                transform: translateY(0px);
+            }
+        }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Judge</title>
-    <link rel="stylesheet" href="/css/style.css">
+        .rotate-3d {
+            transition: transform 0.6s ease;
+            transform-style: preserve-3d;
+        }
+
+        .rotate-3d:hover {
+            transform: rotateY(10deg) rotateX(5deg);
+        }
+
+        .perspective-container {
+            perspective: 1000px;
+        }
+
+        .tilt-card {
+            transition: transform 0.3s ease;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .tilt-card:hover {
+            transform: rotateX(5deg) rotateY(5deg) scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-3d {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-3d::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(76, 29, 149, 0.2) 0%, rgba(99, 102, 241, 0.1) 100%);
+            transform: translateZ(-1px);
+            z-index: -1;
+        }
+    </style>
 </head>
-<body>
-    <header>
-        <h1>Welcome to Online Judge</h1>
-        <nav>
-            <a href="/listProblems.html">Danh Sách Bài</a>
-            <!--<a href="/submit.html">Submit Code</a>-->
-            <a href="/problems.html">Add Problem</a>
-            |
-            <a href="historySubmit.html">HistorySubmit</a>
-            <a href="/login.html">Login</a> |
-            <a href="/register.html">Register</a>
-        </nav>
+
+<body class="bg-gray-50 font-sans">
+    <nav class="bg-indigo-700 text-white shadow-lg">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <span class="text-2xl font-bold rotate-3d inline-block">CodeJudge</span>
+            </div>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="listProblems.html" class="hover:text-indigo-200 transform transition hover:-translate-y-1">Bài
+                    tập</a>
+                <a href="contest.html" class="hover:text-indigo-200 transform transition hover:-translate-y-1">Cuộc
+                    thi</a>
+                <a href="#" class="hover:text-indigo-200 transform transition hover:-translate-y-1">Xếp hạng</a>
+                <a href="#" class="hover:text-indigo-200 transform transition hover:-translate-y-1">Liên hệ</a>
+                <a href="login.html"
+                    class="px-4 py-2 bg-indigo-600 rounded-md hover:bg-indigo-500 transform transition duration-300 hover:scale-105 hover:shadow-lg">Đăng
+                    nhập</a>
+                <a href="#"
+                    class="px-4 py-2 bg-green-600 rounded-md hover:bg-green-500 transform transition duration-300 hover:scale-105 hover:shadow-lg">Đăng
+                    ký</a>
+            </div>
+            <div class="md:hidden">
+                <button class="text-white focus:outline-none">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="bg-indigo-800 text-white py-16 hero-3d perspective-container">
+        <div class="container mx-auto px-6 text-center relative" style="transform-style: preserve-3d;">
+            <h1 class="text-4xl font-bold mb-4 floating">Nâng cao kỹ năng lập trình của bạn</h1>
+            <p class="text-xl mb-8">Giải quyết các bài toán, tham gia các cuộc thi và trở thành lập trình viên xuất sắc
+            </p>
+            <a href="#"
+                class="bg-green-600 hover:bg-green-500 text-white font-bold py-3 px-8 rounded-lg text-lg transition duration-300 transform hover:scale-110 hover:shadow-xl inline-block">Bắt
+                đầu ngay</a>
+
+            <div class="absolute -right-12 top-1/2 transform -translate-y-1/2 hidden lg:block"
+                style="transform-style: preserve-3d; transform: translateZ(20px);">
+                <div class="w-24 h-24 bg-pink-500 rounded-lg opacity-70 floating" style="animation-delay: 0.5s;"></div>
+            </div>
+            <div class="absolute -left-12 top-1/4 hidden lg:block"
+                style="transform-style: preserve-3d; transform: translateZ(10px);">
+                <div class="w-16 h-16 bg-blue-500 rounded-lg opacity-70 floating" style="animation-delay: 1s;"></div>
+            </div>
+        </div>
     </header>
-    <main>
-        <p>Start solving problems and submit your code here.</p>
-    </main>
+
+    <section class="py-12 bg-white perspective-container">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-10 text-gray-800 floating" style="animation-duration: 4s;">Tại
+                sao chọn CodeJudge?</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-gray-50 p-6 rounded-lg shadow-md tilt-card">
+                    <div class="text-indigo-600 text-4xl mb-4 flex justify-center">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-center">Hơn 100+ bài tập</h3>
+                    <p class="text-gray-600 text-center">Thử thách bản thân với các bài tập đa dạng từ cơ bản đến nâng
+                        cao</p>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-lg shadow-md tilt-card" style="transition-delay: 0.1s;">
+                    <div class="text-indigo-600 text-4xl mb-4 flex justify-center">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-center">Cuộc thi thường xuyên</h3>
+                    <p class="text-gray-600 text-center">Tham gia các cuộc thi để thử thách và cải thiện kỹ năng của bạn
+                    </p>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-lg shadow-md tilt-card" style="transition-delay: 0.2s;">
+                    <div class="text-indigo-600 text-4xl mb-4 flex justify-center">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-center">Cộng đồng lớn mạnh</h3>
+                    <p class="text-gray-600 text-center">Kết nối với các lập trình viên khác và học hỏi từ họ</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-12 bg-gray-100 perspective-container">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-10 text-gray-800">Các ngôn ngữ được hỗ trợ</h2>
+            <div class="flex flex-wrap justify-center gap-8">
+                <div class="bg-white p-4 rounded-lg shadow-md w-24 h-24 flex items-center justify-center card-3d">
+                    <span class="text-4xl text-blue-600"><i class="fab fa-python"></i></span>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-md w-24 h-24 flex items-center justify-center card-3d">
+                    <span class="text-4xl text-yellow-600"><i class="fab fa-js"></i></span>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-md w-24 h-24 flex items-center justify-center card-3d">
+                    <span class="text-4xl text-red-600"><i class="fab fa-java"></i></span>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-md w-24 h-24 flex items-center justify-center card-3d">
+                    <span class="text-4xl text-blue-800"><i class="fab fa-php"></i></span>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-md w-24 h-24 flex items-center justify-center card-3d">
+                    <span class="text-4xl text-green-700"><i class="fab fa-node-js"></i></span>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-md w-24 h-24 flex items-center justify-center card-3d">
+                    <span class="text-4xl text-purple-700"><i class="fab fa-cuttlefish"></i></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-12 bg-white perspective-container">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-10 text-gray-800">Bài tập nổi bật</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div
+                    class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition duration-300 tilt-card">
+                    <div class="bg-green-100 p-2 text-green-800 text-sm">Dễ</div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg mb-2">Tổng hai số</h3>
+                        <p class="text-gray-600 mb-4">Tính tổng hai số nguyên và trả về kết quả.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-indigo-600">Điểm: 10</span>
+                            <a href="#"
+                                class="text-sm bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-500 transform transition hover:scale-105">Giải
+                                ngay</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition duration-300 tilt-card"
+                    style="transition-delay: 0.1s;">
+                    <div class="bg-yellow-100 p-2 text-yellow-800 text-sm">Trung bình</div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg mb-2">Tìm số Fibonacci</h3>
+                        <p class="text-gray-600 mb-4">Tìm số Fibonacci thứ n trong dãy.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-indigo-600">Điểm: 25</span>
+                            <a href="#"
+                                class="text-sm bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-500 transform transition hover:scale-105">Giải
+                                ngay</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition duration-300 tilt-card"
+                    style="transition-delay: 0.2s;">
+                    <div class="bg-red-100 p-2 text-red-800 text-sm">Khó</div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg mb-2">Đường đi ngắn nhất</h3>
+                        <p class="text-gray-600 mb-4">Tìm đường đi ngắn nhất giữa hai điểm trong đồ thị.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-indigo-600">Điểm: 50</span>
+                            <a href="#"
+                                class="text-sm bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-500 transform transition hover:scale-105">Giải
+                                ngay</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-center mt-8">
+                <a href="#"
+                    class="px-6 py-2 border border-indigo-600 text-indigo-600 rounded-md hover:bg-indigo-600 hover:text-white transition duration-300 transform hover:scale-105">Xem
+                    tất cả bài tập</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-12 bg-indigo-700 text-white perspective-container">
+        <div class="container mx-auto px-6 text-center">
+            <div class="relative">
+                <div class="absolute -top-16 right-10 opacity-30 hidden lg:block">
+                    <div class="w-32 h-32 bg-indigo-400 rounded-lg transform rotate-12 floating"
+                        style="animation-delay: 0.8s;"></div>
+                </div>
+                <div class="absolute -bottom-16 left-10 opacity-30 hidden lg:block">
+                    <div class="w-24 h-24 bg-indigo-400 rounded-lg transform -rotate-12 floating"
+                        style="animation-delay: 1.2s;"></div>
+                </div>
+
+                <h2 class="text-3xl font-bold mb-6 relative">Sẵn sàng thử thách?</h2>
+                <p class="text-xl mb-8 max-w-2xl mx-auto">Tham gia ngay hôm nay và bắt đầu hành trình nâng cao kỹ năng
+                    lập trình của bạn!</p>
+                <div class="flex justify-center gap-4">
+                    <a href="#"
+                        class="bg-white text-indigo-700 font-bold py-3 px-8 rounded-lg text-lg transition duration-300 hover:bg-gray-100 transform hover:scale-105 hover:shadow-lg">Đăng
+                        ký miễn phí</a>
+                    <a href="#"
+                        class="bg-indigo-600 text-white font-bold py-3 px-8 rounded-lg text-lg transition duration-300 border border-white hover:bg-indigo-500 transform hover:scale-105 hover:shadow-lg">Tìm
+                        hiểu thêm</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4 transform transition duration-300 hover:translate-x-2">CodeJudge
+                    </h3>
+                    <p class="text-gray-400">Nền tảng học tập và luyện tập kỹ năng lập trình hàng đầu.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Liên kết</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#"
+                                class="hover:text-white transform transition duration-300 hover:translate-x-2 inline-block">Trang
+                                chủ</a></li>
+                        <li><a href="#"
+                                class="hover:text-white transform transition duration-300 hover:translate-x-2 inline-block">Bài
+                                tập</a></li>
+                        <li><a href="#"
+                                class="hover:text-white transform transition duration-300 hover:translate-x-2 inline-block">Cuộc
+                                thi</a></li>
+                        <li><a href="#"
+                                class="hover:text-white transform transition duration-300 hover:translate-x-2 inline-block">Xếp
+                                hạng</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Tài nguyên</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#"
+                                class="hover:text-white transform transition duration-300 hover:translate-x-2 inline-block">Blog</a>
+                        </li>
+                        <li><a href="#"
+                                class="hover:text-white transform transition duration-300 hover:translate-x-2 inline-block">Tài
+                                liệu</a></li>
+                        <li><a href="#"
+                                class="hover:text-white transform transition duration-300 hover:translate-x-2 inline-block">Hướng
+                                dẫn</a></li>
+                        <li><a href="#"
+                                class="hover:text-white transform transition duration-300 hover:translate-x-2 inline-block">FAQ</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Liên hệ</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#"
+                                class="hover:text-white transform transition duration-300 hover:translate-x-2 inline-block">Về
+                                chúng tôi</a></li>
+                        <li><a href="#"
+                                class="hover:text-white transform transition duration-300 hover:translate-x-2 inline-block">Liên
+                                hệ</a></li>
+                        <li><a href="#"
+                                class="hover:text-white transform transition duration-300 hover:translate-x-2 inline-block">Điều
+                                khoản</a></li>
+                        <li><a href="#"
+                                class="hover:text-white transform transition duration-300 hover:translate-x-2 inline-block">Quyền
+                                riêng tư</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 flex justify-between items-center">
+                <p class="text-gray-400">© 2025 CodeJudge. Đã đăng ký bản quyền.</p>
+                <div class="flex space-x-4">
+                    <a href="#"
+                        class="text-gray-400 hover:text-white transform transition duration-300 hover:scale-125"><i
+                            class="fab fa-facebook"></i></a>
+                    <a href="#"
+                        class="text-gray-400 hover:text-white transform transition duration-300 hover:scale-125"><i
+                            class="fab fa-twitter"></i></a>
+                    <a href="#"
+                        class="text-gray-400 hover:text-white transform transition duration-300 hover:scale-125"><i
+                            class="fab fa-linkedin"></i></a>
+                    <a href="#"
+                        class="text-gray-400 hover:text-white transform transition duration-300 hover:scale-125"><i
+                            class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
+
 </html>

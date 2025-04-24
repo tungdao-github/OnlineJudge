@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('token');
     const problemId = new URLSearchParams(location.search).get("problemId");
     const userId = localStorage.getItem("userId");
-    document.querySelector("p #historySubmitProblem").href = '/historyProblem.html?problemId=' + problemId;
+    document.getElementById('historySubmitProblem').href = '/historyProblem.html?problemId=' + problemId;
     if (!problemId) return alert("Không tìm thấy problemId trên URL!");
 
     const editorContainer = document.getElementById('editor-container');
@@ -76,7 +76,6 @@ async function loadProblem(problemId, token) {
 
     } catch (err) {
         console.error("Lỗi tải đề bài:", err);
-        alert("Không thể tải đề bài. Vui lòng thử lại!");
     }
 }
 

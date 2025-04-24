@@ -23,23 +23,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         $("status").textContent = data.status || "N/A";
         document.getElementById("score").textContent = data.score ;
         console.log("score = " + data.score)
-        //$("executionTimeMs").textContent = data.executionTime ? `${data.executionTime} ms` : "N/A";
-        //$("memoryUsageBytes").textContent = data.memoryUsageBytes ? `${data.memoryUsageBytes} bytes` : "N/A";
-        //$("details").textContent = data.compilationError || "No error";
+    
 
         if (!data.result || !Array.isArray(data.result)) return;
 
-        // data.result.forEach((test, index) => {
-        //     appendTestCaseResult({
-        //         index: index + 1,
-        //         input: test.input,
-        //         output: test.actualOutput,
-        //         expectedOutput: test.expectedOutput,
-        //         passed: test.passed,
-        //         executionTime: test.executionTimeMs,
-        //         memoryUsage: test.memoryUsageBytes
-        //     });
-        // });
+       
     };
 
     
@@ -79,17 +67,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     try {
-        // Start SignalR connection
         await connection.start();
         console.log("✅ SignalR connected");
 
-        // Get connectionId
         connectionId = await connection.invoke("GetConnectionId");
         console.log("🔗 Connection ID:", connectionId);
 
         if (!connectionId) throw new Error("❌ ConnectionId is null or empty!");
 
-        // Get submission data
         const code = localStorage.getItem('code');
         const language = localStorage.getItem('language');
         const problemId = localStorage.getItem('problemId');

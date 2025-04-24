@@ -1,30 +1,129 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auth System</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <title>Đăng nhập</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <!--<h2>Register</h2>
-    <input type="text" id="regUsername" placeholder="Username">
-    <input type="email" id="regEmail" placeholder="Email">
-    <input type="password" id="regPassword" placeholder="Password">
-    <button onclick="register()">Register</button>-->
-    <header>
-        <h1>Register</h1>
-        <nav>
-            <a href="/index.html">Home</a>
-        </nav>
-    </header>
-    <h2>Login</h2>
-    <input type="text" id="loginUsername" placeholder="Username">
-    <input type="password" id="loginPassword" placeholder="Password">
-    <button onclick="login()">Login</button>
-    <script src="js/login.js"></script>
+
+<body class="bg-gray-100">
+    <div class="min-h-screen flex items-center justify-center">
+        <div class="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow">
+            <div>
+                <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                    Đăng nhập
+                </h2>
+            </div>
+            <div id="error-message"
+                class="hidden relative bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded" role="alert">
+                <span class="block sm:inline"></span>
+            </div>
+            <form id="login-form" class="mt-8 space-y-6" onsubmit="event.preventDefault(); login();">
+                <div class="rounded-md shadow-sm -space-y-px">
+                    <div>
+                        <label for="loginUsername" class="sr-only">Tên đăng nhập</label>
+                        <input id="loginUsername" name="username" type="text" required
+                            class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                            placeholder="Tên đăng nhập">
+                    </div>
+                    <div>
+                        <label for="loginPassword" class="sr-only">Mật khẩu</label>
+                        <input id="loginPassword" name="password" type="password" required
+                            class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                            placeholder="Mật khẩu">
+                    </div>
+                </div>
+                <div>
+                    <button type="submit"
+                        class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Đăng nhập
+                    </button>
+                </div>
+            </form>
+            <div class="text-center">
+                <p class="text-sm text-gray-600">
+                    Chưa có tài khoản?
+                    <a href="/register.html" class="font-medium text-indigo-600 hover:text-indigo-500">
+                        Đăng ký ngay
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
     <script>
+        const BASE_URL = "http://localhost:5024/api/auth";
+
+        const decodeJwt = (token) => {
+            try {
+                const payload = token.split('.')[1];
+                return JSON.parse(atob(payload));
+            } catch (e) {
+                console.error("JWT decode error:", e);
+                return {};
+            }
+        };
+
+        async function register() {
+            const username = document.getElementById('regUsername').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+
+            try {
+                const res = await fetch(`${BASE_URL}/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, email, password, roleIds: [2] })
+                });
+
+                const text = await res.text();
+            } catch (err) {
+                console.error("Register error:", err);
+                alert("Đăng ký thất bại!");
+            }
+        }
+
+        async function login() {
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+
+            try {
+                const res = await fetch(`${BASE_URL}/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                if (!res.ok) {
+                    alert("Login failed! Please check your credentials.");
+                    return;
+                }
+
+                const result = await res.json();
+                localStorage.setItem("token", result.token);
+                console.log(result.userId);
+                localStorage.setItem("userId", result.userId);
+                alert("Đăng nhập thành công");
+
+                const payload = decodeJwt(result.token);
+                const roleKey = Object.keys(payload).find(k => k.toLowerCase().includes("role"));
+                const roles = payload[roleKey];
+                console.log(Array.isArray(roles));
+                Array.isArray(roles) ? roles.includes("Admin") : roles == "Admin";
+                if (Array.isArray(roles) ? roles.includes("Admin") : roles == "Admin") {
+                    console.log("Admin")
+                    window.location.href = "/admin.html";
+                } else {
+                    window.location.href = "listProblems.html";
+                }
+            } catch (err) {
+                console.error("Login error:", err);
+                alert("Lỗi đăng nhập!");
+            }
+        }
 
     </script>
 </body>
+
 </html>

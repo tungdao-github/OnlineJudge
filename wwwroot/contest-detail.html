@@ -1,68 +1,204 @@
-﻿<style>
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-        font-family: sans-serif;
-    }
+﻿<!DOCTYPE html>
+<html lang="vi">
 
-    th, td {
-        border: 1px solid #ddd;
-        padding: 12px;
-        text-align: left;
-    }
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết cuộc thi - CodeJudge</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
-    th {
-        background-color: #f5f5f5;
-    }
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
 
-    tr:hover {
-        background-color: #f0f0f0;
-    }
+<body class="bg-gray-50 min-h-screen">
+    <nav class="bg-indigo-700 text-white shadow-md">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <h1 class="text-xl font-bold">CodeJudge</h1>
+                <div class="hidden md:flex space-x-4">
+                    <a href="index.html" class="hover:text-indigo-200">Trang chủ</a>
+                    <a href="listProblems.html" class="hover:text-indigo-200">Bài tập</a>
+                    <a href="contest.html" class="border-b-2 border-white font-medium">Thi đấu</a>
+                    <a id="historySubmitProblem" href="#" class="hover:text-indigo-200">Lịch sử nộp bài</a>
+                </div>
+            </div>
+            <div class="flex items-center space-x-3">
+                <span class="hidden md:inline">
+                    <i class="fas fa-bell text-indigo-200"></i>
+                </span>
+                <div class="h-8 w-8 rounded-full bg-indigo-500 flex items-center justify-center">
+                    <span class="font-medium">NH</span>
+                </div>
+            </div>
+        </div>
+    </nav>
 
-    a {
-        color: #007bff;
-        text-decoration: none;
-        font-weight: bold;
-    }
+    <div class="container mx-auto px-4 py-8">
+        <div class="mb-8">
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center">
+                    <a href="contest.html" class="mr-4 text-indigo-600 hover:text-indigo-800">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                    <h1 id="contest-title" class="text-3xl font-bold text-gray-800">
+                        <div class="animate-pulse bg-gray-200 h-8 w-64 rounded"></div>
+                    </h1>
+                </div>
+                <a href="#" id="leaderboard-link"
+                    class="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-md transition-colors flex items-center">
+                    <i class="fas fa-trophy mr-2"></i> Bảng xếp hạng
+                </a>
+            </div>
 
-        a:hover {
-            text-decoration: underline;
-        }
-</style>
-<h1 id="title">Loading...</h1>
+            <div id="contest-info" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div class="p-4 rounded-lg bg-white shadow-sm border border-gray-200">
+                    <div class="text-sm text-gray-500 mb-1">Trạng thái</div>
+                    <div id="contest-status" class="text-lg font-medium flex items-center">
+                        <div class="animate-pulse bg-gray-200 h-6 w-24 rounded"></div>
+                    </div>
+                </div>
+                <div class="p-4 rounded-lg bg-white shadow-sm border border-gray-200">
+                    <div class="text-sm text-gray-500 mb-1">Thời gian bắt đầu</div>
+                    <div id="contest-start" class="text-lg font-medium">
+                        <div class="animate-pulse bg-gray-200 h-6 w-40 rounded"></div>
+                    </div>
+                </div>
+                <div class="p-4 rounded-lg bg-white shadow-sm border border-gray-200">
+                    <div class="text-sm text-gray-500 mb-1">Thời gian kết thúc</div>
+                    <div id="contest-end" class="text-lg font-medium">
+                        <div class="animate-pulse bg-gray-200 h-6 w-40 rounded"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<table id="problem-table">
-    <thead>
-        <tr>
-            <th>Thứ tự</th>
-            <th>Tên bài</th>
-            <th>Mô tả</th>
-            <th>Điểm tối đa</th>
-        </tr>
-    </thead>
-    <tbody></tbody>
-</table>
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h2 class="text-xl font-bold text-gray-800">Danh sách bài tập</h2>
+            </div>
 
-<script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get("id");
+            <div id="loading" class="py-16 flex justify-center">
+                <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-indigo-500"></div>
+            </div>
 
-    fetch(`http://localhost:5024/api/Contest/${id}/problems`)
-        .then(res => res.json())
-        .then(data => {
-            document.getElementById("title").textContent = "Danh sách bài trong contest";
-            const tbody = document.querySelector("#problem-table tbody");
+            <div id="no-problems" class="hidden py-16 text-center">
+                <i class="fas fa-code text-gray-300 text-5xl mb-4"></i>
+                <h3 class="text-xl font-medium text-gray-500">Chưa có bài tập nào trong cuộc thi này</h3>
+            </div>
 
-            const rows = data.map(p => `
-        <tr>
-          <td>${p.label}</td>
-          <td><a href="/problem.html?problemId=${p.problemId}&contestId=${id}">${p.title}</a></td>
-          <td>${p.description}</td>
-          <td>${p.maxScore}</td>
-        </tr>
-      `);
+            <div id="problems-table-container" class="hidden">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Thứ tự</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Tên bài</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Mô tả</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Điểm tối đa</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Trạng thái</th>
+                            </tr>
+                        </thead>
+                        <tbody id="problem-table-body" class="bg-white divide-y divide-gray-200">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 
-            tbody.innerHTML = rows.join('');
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get("id");
+
+            document.getElementById("leaderboard-link").href = `/leaderboard.html?contestId=${id}`;
+
+            fetch(`http://localhost:5024/api/Contest/${id}`)
+                .then(res => res.json())
+                .then(contest => {
+                    document.getElementById("contest-title").textContent = contest.name;
+                    document.title = `${contest.name} - CodeJudge`;
+
+                    const startTime = new Date(contest.startTime);
+                    const endTime = new Date(contest.endTime);
+                    const now = new Date();
+
+                    document.getElementById("contest-start").textContent = startTime.toLocaleString();
+                    document.getElementById("contest-end").textContent = endTime.toLocaleString();
+
+                    const statusElement = document.getElementById("contest-status");
+                    if (startTime > now) {
+                        statusElement.innerHTML = '<span class="inline-flex items-center"><span class="w-3 h-3 bg-blue-500 rounded-full mr-2"></span>Sắp diễn ra</span>';
+                        statusElement.classList.add("text-blue-600");
+                    } else if (endTime < now) {
+                        statusElement.innerHTML = '<span class="inline-flex items-center"><span class="w-3 h-3 bg-gray-500 rounded-full mr-2"></span>Đã kết thúc</span>';
+                        statusElement.classList.add("text-gray-600");
+                    } else {
+                        statusElement.innerHTML = '<span class="inline-flex items-center"><span class="w-3 h-3 bg-green-500 rounded-full mr-2"></span>Đang diễn ra</span>';
+                        statusElement.classList.add("text-green-600");
+                    }
+                })
+                .catch(err => {
+                    console.error("Error fetching contest details:", err);
+                    document.getElementById("contest-title").textContent = "Không tìm thấy cuộc thi";
+                });
+
+            fetch(`http://localhost:5024/api/Contest/${id}/problems`)
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById("loading").classList.add("hidden");
+
+                    if (data.length === 0) {
+                        document.getElementById("no-problems").classList.remove("hidden");
+                        return;
+                    }
+
+                    const tableBody = document.getElementById("problem-table-body");
+                    tableBody.innerHTML = "";
+
+                    data.forEach(problem => {
+                        const row = document.createElement("tr");
+                        row.className = "hover:bg-gray-50 cursor-pointer";
+                        row.onclick = function () {
+                            window.location.href = `/problem.html?problemId=${problem.problemId}&contestId=${id}`;
+                        };
+
+                        row.innerHTML = `
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">${problem.label}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-indigo-600">${problem.title}</td>
+                            <td class="px-6 py-4 text-sm text-gray-500 line-clamp-1">${problem.description || 'Không có mô tả'}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">${problem.maxScore}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                                    Chưa giải
+                                </span>
+                            </td>
+                        `;
+
+                        tableBody.appendChild(row);
+                    });
+
+                    document.getElementById("problems-table-container").classList.remove("hidden");
+                })
+                .catch(err => {
+                    console.error("Error fetching problems:", err);
+                    document.getElementById("loading").classList.add("hidden");
+                    document.getElementById("no-problems").classList.remove("hidden");
+                    document.getElementById("no-problems").querySelector("h3").textContent = "Đã xảy ra lỗi khi tải dữ liệu";
+                });
         });
-</script>
+    </script>
+</body>
+
+</html>

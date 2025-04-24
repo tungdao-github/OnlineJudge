@@ -1,114 +1,217 @@
-﻿<head>
-    <link rel="stylesheet" href="css/style.css" />
-    <style>
-        body {
-    margin: 0;
-    padding: 40px;
-    background: linear-gradient(to right, #e0eafc, #cfdef3);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #333;
-}
+﻿<!DOCTYPE html>
+<html lang="vi">
 
-h1 {
-    text-align: center;
-    font-size: 2.5em;
-    color: #2c3e50;
-    margin-bottom: 30px;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách Contest - CodeJudge</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    border-radius: 16px;
-    overflow: hidden;
-    animation: fadeInUp 0.6s ease-in-out;
-}
-
-th {
-    background: #3498db;
-    color: white;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: bold;
-    padding: 16px;
-}
-
-td {
-    padding: 16px;
-    border-bottom: 1px solid #f0f0f0;
-}
-
-tr:last-child td {
-    border-bottom: none;
-}
-
-tr:hover {
-    background: #f9fbfd;
-    transform: scale(1.01);
-    transition: all 0.2s ease-in-out;
-}
-
-a {
-    color: #3498db;
-    font-weight: 600;
-    text-decoration: none;
-    transition: 0.2s ease;
-    background: none;;
-}
-
-a:hover {
-    color: #1d6fa5;
-    text-decoration: underline;
-}
-
-/* Animation */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
-<body>
-    <h1>Danh sách Contest</h1>
-    <table id="contest-table">
-        <thead>
-            <tr>
-                <th>Tên</th>
-                <th>Mô tả</th>
-                <th>Thời gian bắt đầu</th>
-                <th>Thời gian kết thúc</th>
-                <th>Bảng xếp hạng</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+<body class="bg-gray-50 min-h-screen">
+    <nav class="bg-indigo-700 text-white shadow-md">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <h1 class="text-xl font-bold">CodeJudge</h1>
+                <div class="hidden md:flex space-x-4">
+                    <a href="index.html" class="hover:text-indigo-200">Trang chủ</a>
+                    <a href="listProblems.html" class="hover:text-indigo-200">Bài tập</a>
+                    <a href="contest.html" class="border-b-2 border-white font-medium">Thi đấu</a>
+                    <a id="historySubmitProblem" href="#" class="hover:text-indigo-200">Lịch sử nộp bài</a>
+                </div>
+            </div>
+            <div class="flex items-center space-x-3">
+                <span class="hidden md:inline">
+                    <i class="fas fa-bell text-indigo-200"></i>
+                </span>
+                <div class="h-8 w-8 rounded-full bg-indigo-500 flex items-center justify-center">
+                    <span class="font-medium">NH</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8">
+        <div class="mb-8 flex justify-between items-center">
+            <h1 class="text-3xl font-bold text-gray-800">Danh sách Contest</h1>
+            <div class="flex gap-2">
+                <div class="relative">
+                    <input type="text" id="search-input" placeholder="Tìm kiếm contest..."
+                        class="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                </div>
+                <select id="filter-status"
+                    class="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <option value="all">Tất cả</option>
+                    <option value="upcoming">Sắp diễn ra</option>
+                    <option value="ongoing">Đang diễn ra</option>
+                    <option value="completed">Đã kết thúc</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="loading" class="py-20 flex justify-center">
+            <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+        </div>
+
+        <div id="no-contests" class="hidden py-20 text-center">
+            <i class="fas fa-trophy text-gray-300 text-5xl mb-4"></i>
+            <h3 class="text-xl font-medium text-gray-500">Không có contest nào</h3>
+        </div>
+
+        <div id="contests-container" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </div>
+
+    <template id="contest-card-template">
+        <div
+            class="contest-card bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow duration-300">
+            <div class="contest-status px-4 py-2 text-sm font-medium text-white"></div>
+            <div class="p-6">
+                <h3 class="contest-name text-xl font-bold mb-2 hover:text-indigo-600"></h3>
+                <p class="contest-description text-gray-600 mb-4 line-clamp-2"></p>
+
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div>
+                        <div class="text-xs text-gray-500 mb-1">Bắt đầu</div>
+                        <div class="contest-start font-medium"></div>
+                    </div>
+                    <div>
+                        <div class="text-xs text-gray-500 mb-1">Kết thúc</div>
+                        <div class="contest-end font-medium"></div>
+                    </div>
+                </div>
+
+                <div class="flex justify-between">
+                    <a
+                        class="contest-detail-link bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-md transition-colors">
+                        Xem chi tiết
+                    </a>
+                    <a
+                        class="contest-leaderboard-link text-indigo-600 hover:text-indigo-800 py-2 px-4 flex items-center">
+                        <i class="fas fa-trophy mr-2"></i> Bảng xếp hạng
+                    </a>
+                </div>
+            </div>
+        </div>
+    </template>
 
     <script>
-        fetch('/api/contest')
-            .then(res => res.json())
-            .then(data => {
-                const tbody = document.querySelector('#contest-table tbody');
-                const rows = data.map(contest => `
-                        <tr>
-                            <td><a href="/contest-detail.html?id=${contest.id}">${contest.name}</a></td>
-                            <td>${contest.description ?? ''}</td>
-                            <td>${new Date(contest.startTime).toLocaleString()}</td>
-                            <td>${new Date(contest.endTime).toLocaleString()}</td>
-                            <td> <a href="leaderboard.html?contestId=${contest.id}"> Bảng xếp hạng </a></td>
-                        </tr>
-                    `);
-                tbody.innerHTML = rows.join('');
-            });
+        document.addEventListener('DOMContentLoaded', function () {
+            const contestsContainer = document.getElementById('contests-container');
+            const loading = document.getElementById('loading');
+            const noContests = document.getElementById('no-contests');
+            const searchInput = document.getElementById('search-input');
+            const filterStatus = document.getElementById('filter-status');
+            const cardTemplate = document.getElementById('contest-card-template');
+
+            let allContests = [];
+
+            // Fetch contests
+            fetch('/api/contest')
+                .then(res => res.json())
+                .then(data => {
+                    loading.classList.add('hidden');
+
+                    if (data.length === 0) {
+                        noContests.classList.remove('hidden');
+                        return;
+                    }
+
+                    allContests = data;
+                    renderContests(data);
+                    contestsContainer.classList.remove('hidden');
+                })
+                .catch(err => {
+                    loading.classList.add('hidden');
+                    console.error('Error fetching contests:', err);
+                    noContests.classList.remove('hidden');
+                    noContests.querySelector('h3').textContent = 'Đã xảy ra lỗi khi tải dữ liệu';
+                });
+
+            // Search and filter functionality
+            searchInput.addEventListener('input', filterContests);
+            filterStatus.addEventListener('change', filterContests);
+
+            function filterContests() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const statusFilter = filterStatus.value;
+                const now = new Date();
+
+                const filtered = allContests.filter(contest => {
+                    const matchesSearch = contest.name.toLowerCase().includes(searchTerm) ||
+                        (contest.description && contest.description.toLowerCase().includes(searchTerm));
+
+                    const startTime = new Date(contest.startTime);
+                    const endTime = new Date(contest.endTime);
+
+                    let matchesStatus = true;
+                    if (statusFilter === 'upcoming') {
+                        matchesStatus = startTime > now;
+                    } else if (statusFilter === 'ongoing') {
+                        matchesStatus = startTime <= now && endTime >= now;
+                    } else if (statusFilter === 'completed') {
+                        matchesStatus = endTime < now;
+                    }
+
+                    return matchesSearch && matchesStatus;
+                });
+
+                renderContests(filtered);
+            }
+
+            function renderContests(contests) {
+                contestsContainer.innerHTML = '';
+
+                if (contests.length === 0) {
+                    noContests.classList.remove('hidden');
+                    contestsContainer.classList.add('hidden');
+                    return;
+                }
+
+                noContests.classList.add('hidden');
+                contestsContainer.classList.remove('hidden');
+
+                const now = new Date();
+
+                contests.forEach(contest => {
+                    const cardClone = cardTemplate.content.cloneNode(true);
+                    const card = cardClone.querySelector('.contest-card');
+
+                    const nameElement = card.querySelector('.contest-name');
+                    nameElement.textContent = contest.name;
+                    nameElement.href = `/contest-detail.html?id=${contest.id}`;
+
+                    card.querySelector('.contest-description').textContent = contest.description || 'Không có mô tả';
+
+                    const startTime = new Date(contest.startTime);
+                    const endTime = new Date(contest.endTime);
+                    card.querySelector('.contest-start').textContent = startTime.toLocaleString();
+                    card.querySelector('.contest-end').textContent = endTime.toLocaleString();
+
+                    card.querySelector('.contest-detail-link').href = `/contest-detail.html?id=${contest.id}`;
+                    card.querySelector('.contest-leaderboard-link').href = `/leaderboard.html?contestId=${contest.id}`;
+
+                    const statusElement = card.querySelector('.contest-status');
+                    if (startTime > now) {
+                        statusElement.textContent = 'Sắp diễn ra';
+                        statusElement.classList.add('bg-blue-500');
+                    } else if (endTime < now) {
+                        statusElement.textContent = 'Đã kết thúc';
+                        statusElement.classList.add('bg-gray-500');
+                    } else {
+                        statusElement.textContent = 'Đang diễn ra';
+                        statusElement.classList.add('bg-green-500');
+                    }
+
+                    contestsContainer.appendChild(card);
+                });
+            }
+        });
     </script>
 </body>
+
+</html>
