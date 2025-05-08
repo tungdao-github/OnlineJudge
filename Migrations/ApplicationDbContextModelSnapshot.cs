@@ -19,6 +19,33 @@ namespace OnlineJudgeAPI.Migrations
                 .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("LeaderboardEntry", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("ContestId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LastUpdated")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("TotalScore")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContestId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("LeaderboardEntries");
+                });
+
             modelBuilder.Entity("OnlineJudgeAPI.Controllers.ContestStanding", b =>
                 {
                     b.Property<int>("Id")
@@ -308,6 +335,25 @@ namespace OnlineJudgeAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("LeaderboardEntry", b =>
+                {
+                    b.HasOne("OnlineJudgeAPI.Models.Contest", "Contest")
+                        .WithMany()
+                        .HasForeignKey("ContestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Contest");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("OnlineJudgeAPI.Controllers.ContestStanding", b =>

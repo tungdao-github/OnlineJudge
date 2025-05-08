@@ -115,9 +115,11 @@ public class AuthController : ControllerBase
     //}
     private string GenerateJwtToken(User user)
     {
+        
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JwtSettings:SecretKey"]));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
+        Console.WriteLine("size = " + key.KeySize);
+     
         var claims = new List<Claim>
     {
         new Claim("userId", user.Id.ToString()), // ✅ Thêm claim userId để backend đọc được

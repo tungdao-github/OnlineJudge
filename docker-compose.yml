@@ -1,44 +1,55 @@
-﻿services:
+﻿version: '3.8'
+
+services:
   mysql:
     image: mysql:8.0
-    container_name: mysql-db
+    container_name: onlinejudge-mysql
     restart: always
+    ports:
+      - "3307:3306"
     environment:
       MYSQL_ROOT_PASSWORD: 123123
       MYSQL_DATABASE: onlinejudge
-    ports:
-      - "3306:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - /mnt/c/OnlineJudge/db-init:/docker-entrypoint-initdb.d
+    networks:
+      - onlinejudge-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
-  redis:
-    image: redis:latest
-    container_name: redis-cache
-    ports:
-      - "6379:6379"
-
-  api:
+  backend:
     build:
-      context: .          # chính là thư mục OnlineJudgeAPI
-      dockerfile: Dockerfile  
-    container_name: onlinejudge-api
+      context: .
+      dockerfile: Dockerfile
+    container_name: onlinejudge-backend
+    restart: always
     ports:
       - "5024:5024"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=server=mysql-db;port=3306;database=onlinejudge;user=root;password=123123
-      - Redis__Connection=redis-cache:6379
+      - ConnectionStrings__DefaultConnection=server=mysql;port=3306;database=onlinejudge;user=root;password=123123;
     depends_on:
-      - mysql
-      - redis
+      mysql:
+        condition: service_healthy
+    volumes:
+    
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - onlinejudge-network
 
-  frontend:
+  onlinejudge:
     build:
-      context: ./wwwroot
-      dockerfile: ../Dockerfile.frontend
-    container_name: onlinejudge-frontend
+      context: .
     ports:
-      - "3000:80"
+      - "8080:80"
+    volumes:
+      - /mnt/c/OnlineJudge:/app
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
 
-volumes:
-  mysql_data:
+networks:
+  onlinejudge-network:
+    driver: bridge

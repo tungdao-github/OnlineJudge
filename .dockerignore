@@ -28,3 +28,12 @@ README.md
 !.git/config
 !.git/packed-refs
 !.git/refs/heads/**
+
+bin/
+obj/
+*.md
+*.git
+*.vs
+Dockerfile
+docker-compose.yml
+docker-compose.override.yml

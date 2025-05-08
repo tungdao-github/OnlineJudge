@@ -1,7 +1,0 @@
-C:\Users\TUNG\source\repos\OnlineJudge\obj\Debug\net9.0\OnlineJudge.csproj.AssemblyReference.cache
-C:\Users\TUNG\source\repos\OnlineJudge\obj\Debug\net9.0\OnlineJudge.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\TUNG\source\repos\OnlineJudge\obj\Debug\net9.0\OnlineJudge.AssemblyInfoInputs.cache
-C:\Users\TUNG\source\repos\OnlineJudge\obj\Debug\net9.0\OnlineJudge.AssemblyInfo.cs
-C:\Users\TUNG\source\repos\OnlineJudge\obj\Debug\net9.0\OnlineJudge.csproj.CoreCompileInputs.cache
-C:\Users\TUNG\source\repos\OnlineJudge\obj\Debug\net9.0\OnlineJudge.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\TUNG\source\repos\OnlineJudge\obj\Debug\net9.0\OnlineJudge.MvcApplicationPartsAssemblyInfo.cache

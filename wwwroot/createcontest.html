@@ -1,10 +1,19 @@
 ﻿<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-
+<style> 
+    .problem-id .problems-container .problem-score{
+        border-radius: 10px;
+        border: 1px sold gray;
+        padding:20px;
+    }
+     .input {
+        @apply border p-2 rounded w-full;
+    }
+</style>
 <header>
     <nav class="bg-indigo-700 text-white shadow-md">
         <div class="container mx-auto px-4 py-3 flex items-center justify-between">
             <div class="flex items-center space-x-4">
-                <h1 class="text-xl font-bold">CodeJudge</h1>
+                <h1 class="text-xl font-bold">HPUCODE</h1>
                 <div class="hidden md:flex space-x-4">
 
                 </div>
@@ -51,12 +60,6 @@
     </form>
 </main>
 
-<style>
-    .input {
-        @apply border p-2 rounded w-full;
-    }
-</style>
-
 
 <script>
     let allProblems = [];
@@ -73,7 +76,7 @@
     }
 
     function populateSelect(select) {
-        select.innerHTML = ""; // clear old options
+        select.innerHTML = ""; 
         allProblems.forEach(p => {
             const option = document.createElement("option");
             option.value = p.id;
@@ -99,8 +102,9 @@
         const scoreInput = document.createElement("input");
         scoreInput.type = "number";
         scoreInput.className = "problem-score";
-        scoreInput.placeholder = "Score";
+        scoreInput.placeholder = "Điểm";
         scoreInput.required = true;
+        scoreInput.style = "padding=20px";
 
         row.appendChild(select);
         row.appendChild(scoreInput);

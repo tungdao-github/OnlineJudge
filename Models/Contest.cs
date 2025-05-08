@@ -22,7 +22,7 @@ namespace OnlineJudgeAPI.Models
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public string Description { get; set; }
-
+        
         public ICollection<ContestProblem> ContestProblems { get; set; }
         public ICollection<ContestParticipant> Participants { get; set; }
     }

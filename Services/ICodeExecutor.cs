@@ -3,5 +3,6 @@ using OnlineJudgeAPI.Models;
 
 public interface ICodeExecutor
 {
-    Task<SubmissionResult> ExecuteAsync(string code, string input, string language);
+    public  Task<ExecutionResult> RunCodeAsync(string executablePath, List<TestCase> testCases, string language, string connectionId, int maxScore);
+    public  Task<ExecutionResult> RunAndCompileCodeAsync(string code, List<TestCase> testCases, string language, string connectionId, int maxScore);
 }

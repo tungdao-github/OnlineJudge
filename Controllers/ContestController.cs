@@ -163,7 +163,7 @@ public class ContestController : ControllerBase
     [HttpGet("{id}/standings")]
     public async Task<IActionResult> GetStandings(int id)
     {
-        var standings = await _context.ContestStandings
+        var standings = await _context.LeaderboardEntries
             .Where(cs => cs.ContestId == id)
             .OrderByDescending(cs => cs.TotalScore)
             .ThenBy(cs => cs.LastUpdated)

@@ -1,25 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\vojko\\OnlineJudge\\OnlineJudge\\OnlineJudgeAPI.csproj": {}
+    "C:\\Users\\TUNG\\onlinejudge2\\OnlineJudge\\OnlineJudgeAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\vojko\\OnlineJudge\\OnlineJudge\\OnlineJudgeAPI.csproj": {
+    "C:\\Users\\TUNG\\onlinejudge2\\OnlineJudge\\OnlineJudgeAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\vojko\\OnlineJudge\\OnlineJudge\\OnlineJudgeAPI.csproj",
+        "projectUniqueName": "C:\\Users\\TUNG\\onlinejudge2\\OnlineJudge\\OnlineJudgeAPI.csproj",
         "projectName": "OnlineJudgeAPI",
-        "projectPath": "C:\\Users\\vojko\\OnlineJudge\\OnlineJudge\\OnlineJudgeAPI.csproj",
-        "packagesPath": "C:\\Users\\vojko\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\vojko\\OnlineJudge\\OnlineJudge\\obj\\",
+        "projectPath": "C:\\Users\\TUNG\\onlinejudge2\\OnlineJudge\\OnlineJudgeAPI.csproj",
+        "packagesPath": "C:\\Users\\TUNG\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\TUNG\\onlinejudge2\\OnlineJudge\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\vojko\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\TUNG\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -48,6 +55,10 @@
               "target": "Package",
               "version": "[4.0.3, )"
             },
+            "FluentAssertions": {
+              "target": "Package",
+              "version": "[8.2.0, )"
+            },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
               "version": "[8.0.2, )"
@@ -60,15 +71,31 @@
               "target": "Package",
               "version": "[8.0.0, )"
             },
+            "Microsoft.EntityFrameworkCore.InMemory": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
               "version": "[8.0.0, )"
             },
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[17.8.0, )"
+            },
+            "Moq": {
+              "target": "Package",
+              "version": "[4.20.72, )"
+            },
             "MoreLinq": {
               "target": "Package",
               "version": "[4.4.0, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
             },
             "Pomelo.EntityFrameworkCore.MySql": {
               "target": "Package",
@@ -77,6 +104,16 @@
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[8.1.0, )"
+            },
+            "xunit": {
+              "target": "Package",
+              "version": "[2.9.3, )"
+            },
+            "xunit.runner.visualstudio": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.0, )"
             }
           },
           "imports": [
@@ -90,24 +127,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[8.0.14, 8.0.14]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[8.0.14, 8.0.14]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[8.0.14, 8.0.14]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[8.0.14, 8.0.14]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -116,7 +135,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.202/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

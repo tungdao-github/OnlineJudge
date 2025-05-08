@@ -4,18 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bảng xếp hạng - CodeJudge</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Bảng xếp hạng - HPUCODE</title>
 
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr@7.0.5/dist/browser/signalr.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 
 <body class="bg-gray-50 min-h-screen">
+
+    <!-- Navbar -->
     <nav class="bg-indigo-700 text-white shadow-md">
         <div class="container mx-auto px-4 py-3 flex items-center justify-between">
             <div class="flex items-center space-x-4">
-                <h1 class="text-xl font-bold">CodeJudge</h1>
+                <h1 class="text-xl font-bold">HPUCODE</h1>
                 <div class="hidden md:flex space-x-4">
                     <a href="index.html" class="hover:text-indigo-200">Trang chủ</a>
                     <a href="listProblems.html" class="hover:text-indigo-200">Bài tập</a>
@@ -24,9 +26,7 @@
                 </div>
             </div>
             <div class="flex items-center space-x-3">
-                <span class="hidden md:inline">
-                    <i class="fas fa-bell text-indigo-200"></i>
-                </span>
+                <span class="hidden md:inline"><i class="fas fa-bell text-indigo-200"></i></span>
                 <div class="h-8 w-8 rounded-full bg-indigo-500 flex items-center justify-center">
                     <span class="font-medium">NH</span>
                 </div>
@@ -34,32 +34,29 @@
         </div>
     </nav>
 
+    <!-- Content -->
     <div class="container mx-auto px-4 py-8">
-        <div class="mb-8">
-            <div class="flex items-center justify-between mb-4">
-                <div class="flex items-center">
-                    <a href="#" id="back-to-contest" class="mr-4 text-indigo-600 hover:text-indigo-800">
-                        <i class="fas fa-arrow-left"></i>
-                    </a>
-                    <h1 class="text-3xl font-bold text-gray-800">Bảng xếp hạng</h1>
-                </div>
-                <div class="flex space-x-2">
-                    <button id="refresh-btn"
-                        class="bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 py-2 px-4 rounded-md transition-colors flex items-center">
-                        <i class="fas fa-sync-alt mr-2"></i> Làm mới
-                    </button>
-                </div>
+        <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center">
+                <a id="back-to-contest" href="#" class="mr-4 text-indigo-600 hover:text-indigo-800">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+                <h1 class="text-3xl font-bold text-gray-800">Bảng xếp hạng</h1>
             </div>
+            <button id="refresh-btn"
+                class="bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 py-2 px-4 rounded-md transition flex items-center">
+                <i class="fas fa-sync-alt mr-2"></i> Làm mới
+            </button>
+        </div>
 
-            <div id="contest-name" class="text-xl text-gray-600 mb-6">
-                <div class="animate-pulse bg-gray-200 h-6 w-64 rounded"></div>
-            </div>
+        <div id="contest-name" class="text-xl text-gray-600 mb-6">
+            <div class="animate-pulse bg-gray-200 h-6 w-64 rounded"></div>
         </div>
 
         <div class="bg-white rounded-lg shadow-md overflow-hidden">
             <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
                 <h2 class="text-xl font-bold text-gray-800">Thứ hạng</h2>
-                <div class="text-sm text-gray-500" id="last-updated"></div>
+                <div id="last-updated" class="text-sm text-gray-500"></div>
             </div>
 
             <div id="loading" class="py-16 flex justify-center">
@@ -71,119 +68,115 @@
                 <h3 class="text-xl font-medium text-gray-500">Chưa có dữ liệu bảng xếp hạng</h3>
             </div>
 
-            <div id="leaderboard-container" class="hidden">
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-20">
-                                    Hạng</th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Người dùng</th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Tổng điểm</th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Thời gian submit sớm nhất</th>
-                            </tr>
-                        </thead>
-                        <tbody id="leaderboard-table-body" class="bg-white divide-y divide-gray-200">
-                        </tbody>
-                    </table>
-                </div>
+            <div id="leaderboard-container" class="hidden overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Hạng</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Người dùng</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Tổng điểm</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Cập nhật</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboard-body" class="bg-white divide-y divide-gray-200">
+                        <!-- Dynamic rows here -->
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 
+    <!-- JavaScript phần SignalR + API -->
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const urlParams = new URLSearchParams(window.location.search);
-            const contestId = urlParams.get("contestId");
+        const urlParams = new URLSearchParams(window.location.search);
+        const contestId = urlParams.get('contestId');
 
-            document.getElementById("back-to-contest").href = `/contest-detail.html?id=${contestId}`;
+        const tableBody = document.getElementById('leaderboard-body');
+        const loading = document.getElementById('loading');
+        const noData = document.getElementById('no-data');
+        const leaderboardContainer = document.getElementById('leaderboard-container');
+        const lastUpdated = document.getElementById('last-updated');
 
-            document.getElementById("refresh-btn").addEventListener("click", function () {
-                fetchLeaderboard();
+        document.getElementById('back-to-contest').href = `/contest-detail.html?id=${contestId}`;
+        document.getElementById('refresh-btn').addEventListener('click', fetchLeaderboard);
+
+        fetch(`/api/Contest/${contestId}`)
+            .then(res => res.json())
+            .then(contest => {
+                document.getElementById("contest-name").textContent = contest.name;
+                document.title = `Bảng xếp hạng: ${contest.name} - HPUCODE`;
+            })
+            .catch(() => {
+                document.getElementById("contest-name").textContent = "Không tìm thấy thông tin cuộc thi";
             });
 
-            fetch(`http://localhost:5024/api/Contest/${contestId}`)
+        function fetchLeaderboard() {
+            loading.classList.remove('hidden');
+            noData.classList.add('hidden');
+            leaderboardContainer.classList.add('hidden');
+
+            fetch(`/api/contest/${contestId}/standings`)
                 .then(res => res.json())
-                .then(contest => {
-                    document.getElementById("contest-name").textContent = contest.name;
-                    document.title = `Bảng xếp hạng: ${contest.name} - CodeJudge`;
-                })
-                .catch(err => {
-                    console.error("Error fetching contest details:", err);
-                    document.getElementById("contest-name").textContent = "Không tìm thấy thông tin cuộc thi";
-                });
+                .then(data => {
+                    loading.classList.add('hidden');
+                    if (data.length === 0) {
+                        noData.classList.remove('hidden');
+                        return;
+                    }
 
-            function fetchLeaderboard() {
-                document.getElementById("loading").classList.remove("hidden");
-                document.getElementById("no-data").classList.add("hidden");
-                document.getElementById("leaderboard-container").classList.add("hidden");
+                    leaderboardContainer.classList.remove('hidden');
+                    tableBody.innerHTML = '';
 
-                fetch(`/api/leaderboard/contest/${contestId}`)
-                    .then(res => res.json())
-                    .then(data => {
-                        document.getElementById("loading").classList.add("hidden");
+                    data.forEach((user, index) => {
+                        const tr = document.createElement('tr');
 
-                        if (data.length === 0) {
-                            document.getElementById("no-data").classList.remove("hidden");
-                            return;
+                        let rankDisplay;
+                        if (index === 0) {
+                            rankDisplay = `<div class="flex items-center"><i class="fas fa-trophy text-yellow-400 mr-2"></i>1</div>`;
+                        } else if (index === 1) {
+                            rankDisplay = `<div class="flex items-center"><i class="fas fa-trophy text-gray-400 mr-2"></i>2</div>`;
+                        } else if (index === 2) {
+                            rankDisplay = `<div class="flex items-center"><i class="fas fa-trophy text-yellow-600 mr-2"></i>3</div>`;
+                        } else {
+                            rankDisplay = index + 1;
                         }
 
-                        const tableBody = document.getElementById("leaderboard-table-body");
-                        tableBody.innerHTML = "";
-
-                        data.forEach((item, index) => {
-                            const row = document.createElement("tr");
-                            row.className = index < 3 ? "hover:bg-gray-50" : "hover:bg-gray-50";
-
-                            // Special styling for top 3
-                            let rankDisplay;
-                            if (index === 0) {
-                                rankDisplay = '<div class="flex items-center"><i class="fas fa-trophy text-yellow-500 mr-2"></i><span>1</span></div>';
-                            } else if (index === 1) {
-                                rankDisplay = '<div class="flex items-center"><i class="fas fa-trophy text-gray-400 mr-2"></i><span>2</span></div>';
-                            } else if (index === 2) {
-                                rankDisplay = '<div class="flex items-center"><i class="fas fa-trophy text-yellow-700 mr-2"></i><span>3</span></div>';
-                            } else {
-                                rankDisplay = (index + 1).toString();
-                            }
-
-                            row.innerHTML = `
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-bold ${index < 3 ? 'text-indigo-600' : ''}">${rankDisplay}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <div class="h-8 w-8 rounded-full bg-indigo-100 flex items-center justify-center mr-3">
-                                            <span class="font-medium text-indigo-700">${item.userId.substring(0, 2).toUpperCase()}</span>
-                                        </div>
-                                        <div class="text-sm font-medium">${item.userId}</div>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">${item.totalScore}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${new Date(item.earliestAcceptedSubmission).toLocaleString()}</td>
-                            `;
-
-                            tableBody.appendChild(row);
-                        });
-
-                        document.getElementById("leaderboard-container").classList.remove("hidden");
-                        document.getElementById("last-updated").textContent = `Cập nhật lúc: ${new Date().toLocaleString()}`;
-                    })
-                    .catch(err => {
-                        console.error("Error fetching leaderboard data:", err);
-                        document.getElementById("loading").classList.add("hidden");
-                        document.getElementById("no-data").classList.remove("hidden");
-                        document.getElementById("no-data").querySelector("h3").textContent = "Đã xảy ra lỗi khi tải dữ liệu";
+                        tr.innerHTML = `
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-bold">${rankDisplay}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${user.username}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${user.totalScore}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${new Date(user.lastUpdated).toLocaleTimeString()}</td>
+                        `;
+                        tableBody.appendChild(tr);
                     });
-            }
 
+                    lastUpdated.textContent = `Cập nhật: ${new Date().toLocaleTimeString()}`;
+                })
+                .catch(error => {
+                    console.error('Error loading leaderboard:', error);
+                    loading.classList.add('hidden');
+                    noData.classList.remove('hidden');
+                });
+        }
+
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/leaderboardHub")
+            .build();
+
+        connection.on("UpdateLeaderboard", (data) => {
             fetchLeaderboard();
         });
+
+        connection.start()
+            .then(() => {
+                connection.invoke("JoinContest", contestId);
+                fetchLeaderboard();
+            })
+            .catch(err => console.error('SignalR Connection Error:', err));
     </script>
 </body>
 

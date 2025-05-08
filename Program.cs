@@ -30,19 +30,24 @@ builder.Services.AddControllers()
 //    )
 //);
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
+builder.Services.AddDbContext<ApplicationDbContext>(options => {
     options.UseMySql(
         builder.Configuration.GetConnectionString("DefaultConnection"),
         ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
-    )
+    );
+    options.EnableSensitiveDataLogging();
+}
 );
 //builder.Services.AddScoped<CodeExecutor>();
 builder.Services.AddScoped<ISubmissionService, SubmissionService>();
 // Add services to the container
+
 builder.Services.AddControllers();
 builder.Services.AddMemoryCache();
 builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<ILeaderboardService, LeaderboardService>();
 builder.Services.AddScoped<ICacheService, MemoryCacheService>();
+
 // Add Swagger/OpenAPI support
 builder.Services.AddSignalR();
 
@@ -141,7 +146,11 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
-
+// using (var scope = app.Services.CreateScope())
+// {
+//     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+//     dbContext.Database.Migrate();
+// }
 //using (var scope = app.Services.CreateScope())
 //{
 //    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
