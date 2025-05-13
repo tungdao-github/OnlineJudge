@@ -76,14 +76,16 @@ public class AuthController : ControllerBase
     // }
     [HttpPost("Login")]
     public async Task<IActionResult> Login(LoginDto dto) {
-        var user = _context.Users.Include(u => u.UserRoles)
-            .ThenInclude(ur => ur.Role).FirstOrDefault(u => u.Username == dto.Username);
+        var user = _context.Users
+            .Include(u => u.UserRoles)
+            .ThenInclude(ur => ur.Role)
+            .FirstOrDefault(u => u.Username == dto.Username);
         if (user == null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash)) {
             return Unauthorized("Tai khoan hoac mat khau khong dung");
         }
         else {
             var token = GenerateJwtToken(user);
-            return Ok(new {token, userId =user.Id});
+            return Ok(new {token, userId =user.Id, examRoom = user.exam_room});
         }
         
     }
@@ -121,12 +123,14 @@ public class AuthController : ControllerBase
         var claims = new List<Claim>
     {
         new Claim("userId", user.Id.ToString()), // ✅ Thêm claim userId để backend đọc được
-        new Claim(ClaimTypes.Name, user.Username)
+        new Claim(ClaimTypes.Name, user.Username),
+        new Claim("exam_room", user.exam_room.ToString().ToLower()),
+        new Claim(ClaimTypes.Role, "User")  // Add default User role
     };
 
         // Thêm role vào claim
         claims.AddRange(user.UserRoles.Select(ur => new Claim(ClaimTypes.Role, ur.Role.RoleName)));
-
+        
         var token = new JwtSecurityToken(
             issuer: _config["JwtSettings:Issuer"],
             audience: _config["JwtSettings:Audience"],

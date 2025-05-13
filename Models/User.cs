@@ -16,6 +16,8 @@ public class User
 
     [Required, EmailAddress, StringLength(255)]
     public string Email { get; set; }
+    
+    public bool exam_room { get; set; }
 
     // Quan hệ nhiều-nhiều
     public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();

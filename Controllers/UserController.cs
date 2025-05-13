@@ -40,7 +40,7 @@ public class UserController : ControllerBase
 
     //    return Ok(new { message = "Login successful!" });
     //}
-    [HttpPost("Login")]
+    [HttpPost("Loginc")]
     public async Task<IActionResult> Login([FromBody] LoginDto loginData)
     {
         var user = await _context.Users

@@ -42,7 +42,6 @@ builder.Services.AddScoped<ISubmissionService, SubmissionService>();
 builder.Services.AddControllers();
 builder.Services.AddMemoryCache();
 builder.Services.AddScoped<INotificationService, NotificationService>();
-builder.Services.AddScoped<ICacheService, MemoryCacheService>();
 // Add Swagger/OpenAPI support
 builder.Services.AddSignalR();
 
@@ -84,7 +83,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ),
 
             // 👇 Quan trọng để `[Authorize(Roles = "Admin")]` hoạt động
-            RoleClaimType = ClaimTypes.Role
+            RoleClaimType = ClaimTypes.Role,
         };
     });
 builder.Services.AddSwaggerGen(c =>
@@ -116,6 +115,12 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddAuthorization(options =>
 {
+    options.AddPolicy("ExamRoomPolicy", policy =>
+        policy.RequireAssertion(context =>
+        {
+            var examRoomClaim = context.User.FindFirst("exam_room");
+            return examRoomClaim != null && examRoomClaim.Value == "true";
+        }));
     options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
     options.AddPolicy("UserOnly", policy => policy.RequireRole("User"));
 });
