@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineJudgeAPI.Controllers;
+using OnlineJudgeAPI.DTOs;
 using OnlineJudgeAPI.Models;
 
 namespace OnlineJudgeAPI.Services
@@ -21,6 +22,9 @@ namespace OnlineJudgeAPI.Services
         public DbSet<ContestProblem> ContestProblems { get; set; }
         public DbSet<ContestParticipant> ContestParticipants { get; set; }
         public DbSet<ContestStanding> ContestStandings { get; set; }
+        
+        public DbSet<PasswordResetCode> PasswordResetCodes { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserRole>()

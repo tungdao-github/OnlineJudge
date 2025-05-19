@@ -47,7 +47,6 @@ builder.Services.AddMemoryCache();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<ILeaderboardService, LeaderboardService>();
 builder.Services.AddScoped<ICacheService, MemoryCacheService>();
-
 // Add Swagger/OpenAPI support
 builder.Services.AddSignalR();
 
@@ -74,7 +73,7 @@ var key = Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:SecretKey"])
 //        };
 
 //    });
-
+//////////////////////// dinh toan ne :)))))    ////////////////////////
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -87,11 +86,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:SecretKey"])
             ),
-
-            // 👇 Quan trọng để `[Authorize(Roles = "Admin")]` hoạt động
+            // Quan trọng để `[Authorize(Roles = "Admin")]` hoạt động
             RoleClaimType = ClaimTypes.Role
         };
     });
+builder.Services.AddScoped<EmailService>(); // Thêm vào DI container
 builder.Services.AddSwaggerGen(c =>
 {
     c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
@@ -201,5 +200,4 @@ app.MapHub<LeaderboardHub>("/leaderboardHub");
 //    var executor = app.Services.GetRequiredService<CodeExecutor>();
 //    await executor.RunCodeAsync("c++", "int main() { return 0; }", "");
 //});
-
 app.Run();

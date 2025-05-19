@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
+using OnlineJudgeAPI.Models;
 using System.IO;
 
 namespace OnlineJudgeAPI.Services
@@ -23,4 +24,5 @@ namespace OnlineJudgeAPI.Services
             return new ApplicationDbContext(optionsBuilder.Options);
         }
     }
+    
 }
