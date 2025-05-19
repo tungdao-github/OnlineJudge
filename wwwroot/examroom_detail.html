@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách bài tập của tôi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f8fbff, #e0eafc);
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 30px;
+            color: #0056b3;
+        }
+
+        #studentInfo {
+            background-color: #ffffffcc;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #problemList {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .problem {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s ease;
+        }
+
+        .problem:hover {
+            transform: translateY(-3px);
+        }
+
+        .problem h3 {
+            margin: 0 0 10px;
+            font-size: 22px;
+            color: #007bff;
+        }
+
+        .problem p {
+            margin: 0 0 15px;
+            font-size: 15px;
+            color: #555;
+        }
+
+        .problem a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            font-size: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        button:hover {
+            background: #218838;
+        }
+
+        #error {
+            text-align: center;
+            color: red;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 20px;
+            }
+
+            .problem,
+            #studentInfo {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Bài tập trong mã đề của bạn</h1>
+
+    <div id="studentInfo"></div>
+    <div id="problemList"></div>
+    <div id="error"></div>
+
+    <script>
+        const token = localStorage.getItem("token");
+        const studentInfo = document.getElementById("studentInfo");
+        const problemList = document.getElementById("problemList");
+        const errorDiv = document.getElementById("error");
+        const examRoomId = new URLSearchParams(location.search).get("examroomid");
+
+        if (!token) {
+            errorDiv.innerText = "Bạn chưa đăng nhập.";
+        } else {
+            fetch("http://localhost:5024/api/ExamRoom/my-problems", {
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + token,
+                    "Content-Type": "application/json"
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Không tìm thấy dữ liệu hoặc chưa được phân mã đề.");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    studentInfo.innerHTML = `
+            <p><strong>Họ tên:</strong> ${data.fullName}</p>
+            <p><strong>Mã đề:</strong> ${data.examPaperCode}</p>
+          `;
+
+                    if (!data.problems || data.problems.length === 0) {
+                        problemList.innerHTML = "<p>Không có bài tập nào.</p>";
+                        return;
+                    }
+
+                    data.problems.forEach(problem => {
+                        const div = document.createElement("div");
+                        div.className = "problem";
+                        div.innerHTML = `
+              <h3><a href="/problem.html?problemId=${problem.problemId}&contestId=null&examroomid=${examRoomId}">${problem.title}</a></h3>
+              <p>${problem.description}</p>
+              <button onclick="myFunction(${problem.problemId}, ${examRoomId})">Vào Thi</button>
+            `;
+                        problemList.appendChild(div);
+                    });
+                })
+                .catch(error => {
+                    errorDiv.innerText = error.message;
+                });
+        }
+
+        function myFunction(problemId, examRoomId) {
+            window.location.href = `/problem.html?problemId=${problemId}&contestId=null&examroomid=${examRoomId}`;
+        }
+    </script>
+</body>
+
+</html>

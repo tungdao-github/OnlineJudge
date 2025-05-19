@@ -68,7 +68,20 @@ namespace OnlineJudgeAPI.Controllers
         public int? ContestId { get; set; } // optional
         
     }
+
+    public class ExamResult
+    {
+        public int Id { get; set; }
     
+        public string masv{get; set;}
+        public int StudentId { get; set; }      // Khóa ngoại tới User
+        public string FullName { get; set; }    // Họ và tên sinh viên
+        // public int SubmissionId { get; set; }   // Khóa ngoại tới Submission
+        public string Subject { get; set; }     // Ví dụ: "Phát triển ứng dụng di động"
+        public int? Score { get; set; }       // Điểm
+        public DateTime SubmittedAt { get; set; }
+    }
+
     [Route("api/[controller]")]
     [ApiController]
     public class SubmissionsController : ControllerBase
@@ -194,26 +207,10 @@ namespace OnlineJudgeAPI.Controllers
 
             return Ok(history);
         }
-       
-        // private int CalculateScore(List<TestCaseResult> testCaseResults)
-        // {
-        //     int score = 0;
 
-        //     foreach (var result in testCaseResults)
-        //     {
-        //         if (result.Error == null && result.ActualOutput == result.ExpectedOutput)
-        //         {
-        //             score += 10;
-        //         }
-        //         else
-        //         {
-        //             // Penalty for errors
-        //             score -= 2;
-        //         }
-        //     }
 
-        //     return score;
-        // }
+        
+      
         [HttpPost("submit")]
         [Authorize(Roles = "Admin,User")]
         public async Task<ActionResult<Submission>> SubmitCode([FromBody] SubmissionRequest submissionRequest) {
@@ -230,12 +227,15 @@ namespace OnlineJudgeAPI.Controllers
                     Status = "Chua giai quyet ",
                     Error = string.Empty,
                     Result = "Chua xu ly",
-                    UserId = userId
+                    UserId = userId,
+                    ContestId = contestId,
+                    ExamRoomId = submissionRequest.examRoomId
                 };
                 _context.Submissions.Add(submission);
                 var testCases = await _context.TestCases.Where(t => t.ProblemId== submissionRequest.ProblemId).ToListAsync();
                 var results = await ProcessTestCasesAsync(testCases, submission, submissionRequest.ConnectionId, problem.maxScore);
-                submission.ContestId = contestId;
+              
+
                 submission.Result = _codeExecutor.Results;
                 submission.Score = _codeExecutor.Score;
             // submission.Score = results.Score;
@@ -267,8 +267,28 @@ namespace OnlineJudgeAPI.Controllers
                        
                         _context.ContestStandings.Update(standing);
 
+                     }
+
                 }
-                }
+                else {
+    //             var examStudent = await _context.ExamStudents
+    // .Include(es => es.ExamPaper)
+    //     .ThenInclude(ep => ep.Problems)
+    // .FirstOrDefaultAsync(es => es.UserId == userId);
+    //             var totalScore = await CalculateTotalScoreForStudent(userId);
+    //             var examResult = new ExamResult
+    //             {
+    //                 StudentId = userId,
+    //                 FullName = examStudent.FullName,
+    //             // hoặc bỏ nếu bạn không dùng submission cụ thể
+    //                 Subject = examStudent.ExamRoom.SubjectName,
+    //                 Score = totalScore,
+    //                 SubmittedAt = DateTime.Now
+    //             };
+
+    //             _context.ExamResults.Add(examResult);
+    //             await _context.SaveChangesAsync();
+            }
                 await _context.SaveChangesAsync();
                 await _hubContext.Clients.Group($"contest_{contestId}")
                     .SendAsync("UpdateStandings", contestId);
@@ -276,86 +296,7 @@ namespace OnlineJudgeAPI.Controllers
                 return Ok(new { message = "Submission received!", submissionId = submission.Id });
             }
             
-            //         [HttpPost("submit")]
-            //         public async Task<ActionResult<Submission>> SubmitCode([FromBody] SubmissionRequest request)
-            //         {
-            //             var userIdClaim = User.FindFirst("userId")?.Value;
-            //             if (string.IsNullOrEmpty(userIdClaim))
-            //                 return Unauthorized("User ID not found in token.");
-
-            //             int userId = int.Parse(userIdClaim);
-            //             var contestId = request.contestId;
-
-            //             var submission = new Submission
-            //             {
-            //                 ProblemId = request.ProblemId,
-            //                 Code = request.Code,
-            //                 Language = request.Language,
-            //                 Status = "Pending",
-            //                 Error = string.Empty,
-            //                 Result = "Processing",
-            //                 UserId = userId
-            //             };
-
-            //             _context.Submissions.Add(submission);
-
-            //             var cacheKey = $"testcases:{submission.ProblemId}";
-            //             var testCases = await _cache.GetAsync<List<TestCase>>(cacheKey) ??
-            //                             await _context.TestCases.Where(tc => tc.ProblemId == submission.ProblemId).ToListAsync();
-
-            //             var results = await ProcessTestCasesAsync(testCases, submission, request.ConnectionId);
-
-            //             submission.ContestId = contestId;
-            //             submission.Result = _codeExecutor.Results;
-            //             submission.Score = results.Score;
-            //             submission.Error = results.Error;
-
-            //             // int passed = 0;
-            //             // foreach (var testCase in testCases)
-            //             // {
-            //             //     var result = await _codeExecutor.RunCodeAndCompare(submission, testCase);
-            //             //     if (result.Status == "Accepted") passed++;
-            //             // }
-            //             submission.ContestId = contestId;
-            //             submission.Result = _codeExecutor.Results;
-            //             submission.Score = results.Score;
-            //             submission.Error = results.Error;
-            //             submission.PassedTestCases = results.PassedTestCases;
-            //             submission.TotalTestCases = testCases.Count;
-            //             // submission.PassedTestCases = passed;
-            //             // submission.TotalTestCases = testCases.Count;
-
-            //             await _context.SaveChangesAsync();
-            //             if(contestId != null)
-            // {
-            //                 var standing = await _context.ContestStandings
-            //                     .FirstOrDefaultAsync(s => s.ContestId == contestId && s.UserId == userId);
-
-            //                 if (standing == null)
-            //                 {
-            //                     standing = new ContestStanding
-            //                     {
-            //                         ContestId = contestId,
-            //                         UserId = userId,
-            //                         TotalScore = results.Score,
-            //                         LastUpdated = DateTime.UtcNow
-            //                     };
-            //                     _context.ContestStandings.Add(standing);
-            //                 }
-            //                 else
-            //                 {
-            //                     standing.TotalScore += results.PassedTestCases;
-            //                     standing.LastUpdated = DateTime.UtcNow;
-            //                     _context.ContestStandings.Update(standing);
-            //                 }
-
-            //                 await _context.SaveChangesAsync();
-
-            //                 await _hubContext.Clients.Group($"contest_{contestId}")
-            //                     .SendAsync("UpdateStandings", contestId);
-            //             }
-            //             return Ok(new { message = "Submission received!", submissionId = submission.Id });
-            //         }
+           
 
             string NormalizeOutput(string output)
         {
@@ -394,69 +335,47 @@ namespace OnlineJudgeAPI.Controllers
                 submission.IsCorrect = passedCount == testCases.Count && ok ? "true" : "false";
                 submission.Status = passedCount == testCases.Count && ok? "Accepted" : "Wrong Answer";
                 submission.Status = _codeExecutor.status == true ? "Accepted" : "Wrong Answer"; 
-                submission.Score = passedCount;
+                submission.Score = _codeExecutor.Score;
             return new submit {
                 ExecutionTimeMs = result.TotalExecutionTimeMs,
                 MemoryUsageBytes = result.TotalMemoryUsageBytes,
                 Error = "",
                 Result = _codeExecutor.Results,
-                Score = score,
+                Score = _codeExecutor.Score,
                 IsCorrect = submission.IsCorrect,
                 PassedTestCases = passedCount
             };
 
         }
-        // private async Task<submit> ProcessTestCasesAsync(List<TestCase> testCases, Submission submission, string connectionId)
+
+        // public async Task<int?> CalculateTotalScoreForStudent(int userId)
         // {
-        //     bool ok = true;
-        //     var result = await _codeExecutor.RunAndCompileCodeAsync(submission.Code, testCases, submission.Language, connectionId);
-        //     Console.WriteLine("Test cases returned: " + result.TestCaseResults.Count);
-        //     var outputLines = result.StandardOutput.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-        //     var resultOutput = new StringBuilder();
+        //     // Lấy thông tin sinh viên trong phòng thi
+        //     var examStudent = await _context.ExamStudents
+        //         .Include(es => es.ExamPaper)
+        //             .ThenInclude(ep => ep.Problems)
+        //         .FirstOrDefaultAsync(es => es.UserId == userId);
 
-        //     if (!string.IsNullOrWhiteSpace(result.CompilationError))
-        //     {
-        //         resultOutput.Append(result.CompilationError + "&");
-        //         submission.Status = "Runtime Error";
-        //         submission.Error = result.CompilationError.Trim();
+        //     if (examStudent == null)
+        //         throw new Exception("Sinh viên không có trong phòng thi.");
 
-        //         foreach (var testCase in testCases)
-        //             resultOutput.AppendLine($"Testcase {testCase.Id}: Runtime Error");
+        //     // Lấy danh sách các bài trong đề thi
+        //     var allowedProblemIds = examStudent.ExamPaper.Problems
+        //         .Select(p => p.ProblemId)
+        //         .ToHashSet();
 
-        //         return new submit
-        //         {
-        //             ExecutionTimeMs = result.TotalExecutionTimeMs,
-        //             MemoryUsageBytes = result.TotalMemoryUsageBytes,
-        //             Error = result.CompilationError,
-        //             Result = resultOutput.ToString(),
-        //             Score = 0,
-        //             IsCorrect = "false"
-        //         };
-        //     }
+        //     // Lấy tất cả bài nộp của sinh viên, lọc ra những bài có trong đề
+        //     var validSubmissions = await _context.Submissions
+        //         .Where(s => s.UserId == userId && allowedProblemIds.Contains(s.ProblemId))
+        //         .GroupBy(s => s.ProblemId)
+        //         .Select(g => g.OrderByDescending(s => s.Score).First()) // lấy điểm cao nhất mỗi bài
+        //         .ToListAsync();
 
-        //     int passedCount = 0;
-        //     int lineIndex = 0;
-
-
-
-        //     int score = (int)Math.Round(100.0 * passedCount / testCases.Count);
-
-        //     submission.IsCorrect = passedCount == testCases.Count && ok ? "true" : "false";
-        //     submission.Status = passedCount == testCases.Count && ok? "Accepted" : "Wrong Answer";
-        //     submission.Status = _codeExecutor.status == true ? "Accepted" : "Wrong Answer"; 
-        //     submission.Score = passedCount;
-
-        //     return new submit
-        //     {
-        //         ExecutionTimeMs = result.TotalExecutionTimeMs,
-        //         MemoryUsageBytes = result.TotalMemoryUsageBytes,
-        //         Error = "",
-        //         Result = _codeExecutor.Results,
-        //         Score = score,
-        //         IsCorrect = submission.IsCorrect,
-        //          PassedTestCases = passedCount
-        //     };
+        //     // Tính tổng điểm
+        //     int? totalScore = validSubmissions.Sum(s => s.Score);
+        //     return totalScore;
         // }
+        
 
         [HttpGet("list")]
         public async Task<IActionResult> GetSubmissions()
@@ -510,6 +429,7 @@ public async Task<IActionResult> GetSubmissionsInContest(int contestId)
         public string Code { get; set; }
         public string Language { get; set; }
         public string ConnectionId { get; set; }
+        public int? examRoomId {get; set;}
         public int? contestId { get; set; }
     }
 

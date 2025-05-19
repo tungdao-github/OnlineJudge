@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Kết quả phòng thi</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 40px;
+            background: linear-gradient(to right, #e0f7fa, #ffffff);
+            color: #333;
+        }
+
+        h2 {
+            text-align: center;
+            color: #00695c;
+            font-size: 32px;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 16px 12px;
+            text-align: center;
+            border-bottom: 1px solid #e0e0e0;
+            transition: background-color 0.3s;
+        }
+
+        th {
+            background-color: #004d40;
+            color: #fff;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        tr:hover td {
+            background-color: #e0f2f1;
+        }
+
+        td {
+            font-size: 16px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .error {
+            color: red;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        @media (max-width: 768px) {
+
+            th,
+            td {
+                font-size: 14px;
+                padding: 12px 8px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>🎓 Kết quả phòng thi</h2>
+
+        <table id="resultsTable" style="display: none;">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>User ID</th>
+                    <th>Mã đề</th>
+                    <th>Tổng điểm</th>
+                    <th>Thời gian tính</th>
+                </tr>
+            </thead>
+            <tbody id="resultsBody"></tbody>
+        </table>
+
+        <div id="error" class="error"></div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async function () {
+            const roomId = new URLSearchParams(location.search).get("examroomid");
+            const errorDiv = document.getElementById("error");
+
+            if (!roomId) {
+                errorDiv.innerText = "❌ Vui lòng nhập ExamRoomId trên URL.";
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:5024/api/ExamRoom/${roomId}/calculate-results`, {
+                    method: "POST"
+                });
+
+                if (!response.ok) {
+                    throw new Error("Lỗi khi tính điểm từ máy chủ.");
+                }
+
+                const data = await response.json();
+                const tbody = document.getElementById("resultsBody");
+                tbody.innerHTML = "";
+
+                if (data.length === 0) {
+                    errorDiv.innerText = "⚠️ Không có kết quả nào.";
+                    return;
+                }
+
+                data.forEach((item, index) => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td>${item.userId}</td>
+                        <td>${item.examPaperId}</td>
+                        <td><strong>${item.totalScore}</strong></td>
+                        <td>${new Date(item.calculatedAt).toLocaleString()}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+
+                document.getElementById("resultsTable").style.display = "table";
+            } catch (error) {
+                errorDiv.innerText = "⚠️ Đã xảy ra lỗi: " + error.message;
+            }
+        });
+    </script>
+</body>
+
+</html>

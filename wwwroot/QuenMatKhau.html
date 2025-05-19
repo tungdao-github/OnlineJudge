@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Đặt lại mật khẩu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        form {
+            display: none;
+            flex-direction: column;
+            max-width: 400px;
+            margin-bottom: 20px;
+        }
+
+        input,
+        button {
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .message {
+            margin: 10px 0;
+            color: #444;
+        }
+
+        .visible {
+            display: flex !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Quên mật khẩu</h1>
+
+    <!-- Bước 1: Gửi mã -->
+    <form id="step1" class="visible">
+        <label>Nhập email để đặt lại mật khẩu:</label>
+        <input type="email" id="email" required />
+        <button type="submit">Gửi mã xác nhận</button>
+        <div class="message" id="msg1"></div>
+    </form>
+
+    <!-- Bước 2: Nhập mã xác minh -->
+    <form id="step2">
+        <label>Nhập mã xác nhận đã gửi đến email:</label>
+        <input type="email" id="verifyEmail" required />
+        <input type="text" id="code" required placeholder="Mã xác nhận" />
+        <button type="submit">Xác minh mã</button>
+        <div class="message" id="msg2"></div>
+    </form>
+
+    <!-- Bước 3: Đặt lại mật khẩu -->
+    <form id="step3">
+        <label>Đặt lại mật khẩu:</label>
+        <input type="password" id="newPassword" required placeholder="Mật khẩu mới" />
+        <input type="password" id="confirmPassword" required placeholder="Xác nhận mật khẩu" />
+        <button type="submit">Đặt lại</button>
+        <div class="message" id="msg3"></div>
+    </form>
+
+    <script>
+        const step1 = document.getElementById("step1");
+        const step2 = document.getElementById("step2");
+        const step3 = document.getElementById("step3");
+
+        const msg1 = document.getElementById("msg1");
+        const msg2 = document.getElementById("msg2");
+        const msg3 = document.getElementById("msg3");
+
+        let resetToken = "";
+        let currentEmail = "";
+
+        // Bước 1: Gửi mã xác nhận
+        step1.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const email = document.getElementById("email").value;
+            currentEmail = email;
+
+            const res = await fetch("/api/account/forgot-password", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email }),
+            });
+
+            const text = await res.text();
+            msg1.innerText = text;
+
+            if (res.ok) {
+                document.getElementById("verifyEmail").value = email;
+                step1.classList.remove("visible");
+                step2.classList.add("visible");
+            }
+        });
+
+        // Bước 2: Xác minh mã
+        step2.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const email = document.getElementById("verifyEmail").value;
+            const code = document.getElementById("code").value;
+
+            const res = await fetch("/api/account/verify-code", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, code }),
+            });
+
+            if (res.ok) {
+                const data = await res.json();
+                resetToken = data.token;
+                msg2.innerText = "Xác minh thành công. Tiếp tục đặt lại mật khẩu.";
+                step2.classList.remove("visible");
+                step3.classList.add("visible");
+            } else {
+                msg2.innerText = await res.text();
+            }
+        });
+
+        // Bước 3: Đặt lại mật khẩu
+        step3.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const newPassword = document.getElementById("newPassword").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+
+            const res = await fetch("/api/account/reset-password", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    token: resetToken,
+                    newPassword,
+                    confirmPassword
+                }),
+            });
+
+            msg3.innerText = await res.text();
+        });
+    </script>
+</body>
+
+</html>

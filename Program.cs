@@ -41,6 +41,7 @@ builder.Services.AddScoped<ISubmissionService, SubmissionService>();
 // Add services to the container
 builder.Services.AddControllers();
 builder.Services.AddMemoryCache();
+builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<ICacheService, MemoryCacheService>();
 // Add Swagger/OpenAPI support
@@ -51,6 +52,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<CodeExecutor>();
 builder.Services.AddSingleton<SubmissionQueue>();
 builder.Services.AddHostedService<SubmissionProcessingService>();
+
+// builder.Services.AddSingleton<ExamService>();
+
 var key = Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:SecretKey"]);
 // Program.cs or Startup.cs (minimal API version)
 //builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

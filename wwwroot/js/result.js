@@ -80,7 +80,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         const problemId = localStorage.getItem('problemId');
         const token = localStorage.getItem('token');
         const contestId = new URLSearchParams(location.search).get("contestId");
-        
+        const examRoomId = new URLSearchParams(location.search).get("examroomId");
+        console.log("hello")
+        console.log("examroomID= "+ examRoomId)
         if (!token || isTokenExpired(token)) {
             alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
             localStorage.removeItem("token");
@@ -99,7 +101,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                 Code: code,
                 Language: language,
                 ConnectionId: connectionId,
-                contestId: contestId == null ? null : Number(contestId)
+                contestId: contestId == null ? null : Number(contestId),
+                examRoomId: examRoomId == null ? null : Number(examRoomId),
             }),
             cache: 'no-store'
         });

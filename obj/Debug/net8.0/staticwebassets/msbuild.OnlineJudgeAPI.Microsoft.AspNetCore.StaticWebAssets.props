@@ -12,8 +12,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>vsbayupnbs</Fingerprint>
-      <Integrity>P0QplK78DWUsKQIbcL3gKZ2EXghokMIM4G3vswJJtXk=</Integrity>
+      <Fingerprint>v4ib3ti65h</Fingerprint>
+      <Integrity>j0d3TTfh75ApwmuTiyhvyY6ESDi1l9ME8YeYDbszcdE=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\admin.html'))</OriginalItemSpec>
@@ -108,6 +108,24 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\createcontest.html'))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\CreateExamRoom.html'))">
+      <SourceType>Package</SourceType>
+      <SourceId>OnlineJudgeAPI</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/OnlineJudgeAPI</BasePath>
+      <RelativePath>CreateExamRoom.html</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>h6ivsvi2hm</Fingerprint>
+      <Integrity>yYWSG5w5Z81y5QQMi0nyljVJWbH8Lxm/uXbsyCvU3x4=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\CreateExamRoom.html'))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\site.css'))">
       <SourceType>Package</SourceType>
       <SourceId>OnlineJudgeAPI</SourceId>
@@ -143,6 +161,60 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\style.css'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\ExamResult.html'))">
+      <SourceType>Package</SourceType>
+      <SourceId>OnlineJudgeAPI</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/OnlineJudgeAPI</BasePath>
+      <RelativePath>ExamResult.html</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>45yxuwxcmn</Fingerprint>
+      <Integrity>GJnLWVpKb+B3taUTCj/8AhcBaDm+9uANgs97jGbWoEU=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\ExamResult.html'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\examrooms.html'))">
+      <SourceType>Package</SourceType>
+      <SourceId>OnlineJudgeAPI</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/OnlineJudgeAPI</BasePath>
+      <RelativePath>examrooms.html</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>ian39qcap2</Fingerprint>
+      <Integrity>VtZt9rhhpnWx2qEw4u+YDSdajRr5+8BYXHwl95i2EI0=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\examrooms.html'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\examroom_detail.html'))">
+      <SourceType>Package</SourceType>
+      <SourceId>OnlineJudgeAPI</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/OnlineJudgeAPI</BasePath>
+      <RelativePath>examroom_detail.html</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>d2e7pv8tp5</Fingerprint>
+      <Integrity>C2j9qlCtG9KUb100q9OP1KUxZDyzmv3enb+GU18yGI0=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\examroom_detail.html'))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\favicon.ico'))">
       <SourceType>Package</SourceType>
@@ -234,6 +306,24 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\app.js'))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\examroom_detail.js'))">
+      <SourceType>Package</SourceType>
+      <SourceId>OnlineJudgeAPI</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/OnlineJudgeAPI</BasePath>
+      <RelativePath>js/examroom_detail.js</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>9n1mowxndy</Fingerprint>
+      <Integrity>K+ZmHuV4+tKPDB0NgdC1fdSoFp2pkbRGb/iy3J+YZt8=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\examroom_detail.js'))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\historyProblem.js'))">
       <SourceType>Package</SourceType>
       <SourceId>OnlineJudgeAPI</SourceId>
@@ -300,8 +390,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>e4wh8alf6k</Fingerprint>
-      <Integrity>3jzcQyBmhvsqD9qreanNsbOg/lu0PuEIIjGqTjD+Rbg=</Integrity>
+      <Fingerprint>k7ksaal9n8</Fingerprint>
+      <Integrity>UJfSNGExPQZGcdSADUFSRXEWuPWDr+XUzZbCpsqf1hc=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\ListExercise.js'))</OriginalItemSpec>
@@ -390,8 +480,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>0dwgubwm6v</Fingerprint>
-      <Integrity>LI7QpWgWstW8tpG7PO/elEgcNZNtvc0Wov2MlWnaIzM=</Integrity>
+      <Fingerprint>qnc6faqmx4</Fingerprint>
+      <Integrity>lnxRXQFZyRUrxrSiJIAllyIqmWYe/5V86RdyvjJAcyI=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\problem.js'))</OriginalItemSpec>
@@ -444,8 +534,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>333tq6a5kz</Fingerprint>
-      <Integrity>38Z8Ym24Wvpu+GUo4VCi6ZqIWgFnOsB/EWgwadianRk=</Integrity>
+      <Fingerprint>5of88tcok1</Fingerprint>
+      <Integrity>q6IFL2lt9MKEuSm2230NlR1J2YEpvTuSeDDCw4eh3mQ=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\result.js'))</OriginalItemSpec>
@@ -1578,8 +1668,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>f5xla0jboj</Fingerprint>
-      <Integrity>7SqRj2VoIeaU/KfJNiBU4LY2ATuyQe5p3h9knyHj/uQ=</Integrity>
+      <Fingerprint>9r06d9flnd</Fingerprint>
+      <Integrity>VWo5xAaQ441Sd2dyXUITVU8hwY86zQDM2hCh6xhXcCk=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\listProblems.html'))</OriginalItemSpec>
@@ -1632,8 +1722,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>q73sth6ln4</Fingerprint>
-      <Integrity>uj8ju8A+B+imIyi9JuHc4gq3dDq31/GD14bcnUy+MC4=</Integrity>
+      <Fingerprint>2idh3ypahg</Fingerprint>
+      <Integrity>ZubkDH2IL5e9+Oa3JpvDBEKEzT/UC5ahgFgqBuFFsLo=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\problem.html'))</OriginalItemSpec>
@@ -1674,6 +1764,24 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\problems.html'))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\QuenMatKhau.html'))">
+      <SourceType>Package</SourceType>
+      <SourceId>OnlineJudgeAPI</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/OnlineJudgeAPI</BasePath>
+      <RelativePath>QuenMatKhau.html</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>9woiv5qrpb</Fingerprint>
+      <Integrity>iWGaiTRAJdUt3Jpq5P8PuLwovSVP/sw3zTUT4JcgoUo=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\QuenMatKhau.html'))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\register.html'))">
       <SourceType>Package</SourceType>
       <SourceId>OnlineJudgeAPI</SourceId>
@@ -1704,8 +1812,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>memawgso9j</Fingerprint>
-      <Integrity>ElCZIfCqCUSlsYQPt/9l9WDGHQ6FnofMdyLYD079B6Q=</Integrity>
+      <Fingerprint>pa9xzt5nr1</Fingerprint>
+      <Integrity>UVSvdA+DxZ8VWSb32XEb4ODPSUJBgBgLCNUe39++9BQ=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\result.html'))</OriginalItemSpec>

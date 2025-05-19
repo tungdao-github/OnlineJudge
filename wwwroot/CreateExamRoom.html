@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exam Room Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 40px;
+            background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
+            color: #333;
+        }
+
+        h2 {
+            margin-top: 40px;
+            font-size: 24px;
+            color: #2c3e50;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #2980b9;
+            outline: none;
+            box-shadow: 0 0 5px rgba(41, 128, 185, 0.4);
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 8px;
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        #roomStatus {
+            margin-top: 10px;
+            font-weight: bold;
+            color: green;
+        }
+
+        .section {
+            background: white;
+            padding: 25px;
+            margin-top: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .input-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+        }
+
+        .input-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        input::placeholder {
+            color: #888;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="section">
+        <h2>1. Tạo phòng thi</h2>
+        <div class="input-group">
+            <div><label>Mã phòng thi</label><input type="text" id="roomCode" required /></div>
+            <div><label>Tên phòng thi</label><input type="text" id="roomName" required /></div>
+            <div><label>Tên môn thi</label><input type="text" id="subjectName" required /></div>
+            <div><label>Mã môn thi</label><input type="text" id="subjectCode" required /></div>
+            <div><label>Ngày thi</label><input type="date" id="examDate" required /></div>
+            <div><label>Thời gian thi</label><input type="text" id="examTime" placeholder="18h30" required /></div>
+            <div><label>Loại thi</label><input type="text" id="examType" required /></div>
+            <div><label>Mã lớp</label><input type="text" id="classCode" required /></div>
+            <div><label>Lần thi</label><input type="text" id="attempt" placeholder="Lần 1" required /></div>
+            <div><label>Mã đề thi</label><input type="text" id="examId" required /></div>
+            <div><label>Thời gian bắt đầu</label><input type="datetime-local" id="startTime" required /></div>
+        </div>
+        <button onclick="createRoom()">Tạo phòng</button>
+        <p id="roomStatus"></p>
+    </div>
+
+    <div class="section" id="papersSection" style="display:none;">
+        <h2>2. Tạo mã đề thi cho phòng</h2>
+        <div id="paperInputs" class="input-row">
+            <div>
+                <input placeholder="Mã đề (VD: A1)" class="paperCode">
+                <input placeholder="ID bài tập (phân cách bằng dấu phẩy)" class="problemIds">
+            </div>
+        </div>
+        <button onclick="addPaperInput()">+ Thêm mã đề</button>
+        <button onclick="submitPapers()">Tạo mã đề</button>
+    </div>
+
+    <div class="section" id="studentsSection" style="display:none;">
+        <h2>3. Thêm sinh viên và gán mã đề</h2>
+        <div id="studentInputs" class="input-row">
+            <div>
+                <input placeholder="UserId" class="userId">
+                <input placeholder="Họ tên" class="fullName">
+                <input placeholder="Số giấy tờ" class="identityCard">
+                <input placeholder="Mã đề" class="paperCode">
+                <input placeholder="Mã ghế" class="seatCode">
+                <input placeholder="Mã thi" class="examCode">
+                <input placeholder="Lệ phí" class="feeStatus">
+            </div>
+        </div>
+        <button onclick="addStudentInput()">+ Thêm sinh viên</button>
+        <button onclick="submitStudents()">Thêm sinh viên</button>
+    </div>
+
+    <script>
+        let currentRoomId = null;
+
+        async function createRoom() {
+            const data = {
+                RoomCode: document.getElementById('roomCode').value.trim(),
+                RoomName: document.getElementById('roomName').value.trim(),
+                SubjectName: document.getElementById('subjectName').value.trim(),
+                SubjectCode: document.getElementById('subjectCode').value.trim(),
+                ExamDate: document.getElementById('examDate').value,
+                ExamTime: document.getElementById('examTime').value.trim(),
+                ExamType: document.getElementById('examType').value.trim(),
+                ClassCode: document.getElementById('classCode').value.trim(),
+                Attempt: document.getElementById('attempt').value.trim(),
+                ExamId: document.getElementById('examId').value.trim(),
+                StartTime: document.getElementById('startTime').value
+            };
+
+            const res = await fetch("/api/ExamRoom/create-room", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            });
+
+            if (res.ok) {
+                const result = await res.json();
+                currentRoomId = result.id;
+                document.getElementById("roomStatus").innerText = `Phòng thi đã tạo: ID ${result.id}`;
+                document.getElementById("papersSection").style.display = "block";
+            }
+        }
+
+        function addPaperInput() {
+            const div = document.createElement("div");
+            div.innerHTML = `
+        <input placeholder="Mã đề" class="paperCode">
+        <input placeholder="ID bài tập" class="problemIds">
+      `;
+            document.getElementById("paperInputs").appendChild(div);
+        }
+
+        async function submitPapers() {
+            const codes = document.querySelectorAll(".paperCode");
+            const problems = document.querySelectorAll(".problemIds");
+            const papers = [];
+            console.log(codes.length)
+            for (let i = 0; i < codes.length - 1; i++) {
+                const code = codes[i].value;
+                const problemIds = problems[i].value.split(",").map(p => parseInt(p.trim()));
+                papers.push({ code, problemIds });
+            }
+
+            const res = await fetch("/api/ExamRoom/add-papers", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ examRoomId: currentRoomId, papers })
+            });
+
+            if (res.ok) {
+                alert("Đã thêm mã đề.");
+                document.getElementById("studentsSection").style.display = "block";
+            }
+        }
+
+        function addStudentInput() {
+            const div = document.createElement("div");
+            div.innerHTML = `
+        <input placeholder="UserId" class="userId">
+        <input placeholder="Họ tên" class="fullName">
+        <input placeholder="Số giấy tờ" class="identityCard">
+        <input placeholder="Mã đề" class="paperCode">
+        <input placeholder="Mã ghế" class="seatCode">
+        <input placeholder="Mã thi" class="examCode">
+        <input placeholder="Lệ phí" class="feeStatus">
+      `;
+            document.getElementById("studentInputs").appendChild(div);
+        }
+
+        async function submitStudents() {
+            const users = document.querySelectorAll(".userId");
+            const names = document.querySelectorAll(".fullName");
+            const ids = document.querySelectorAll(".identityCard");
+            const codes = document.querySelectorAll(".paperCode");
+            const seats = document.querySelectorAll(".seatCode");
+            const exams = document.querySelectorAll(".examCode");
+            const fees = document.querySelectorAll(".feeStatus");
+
+            const students = [];
+
+            for (let i = 0; i < users.length; i++) {
+                students.push({
+                    userId: users[i].value,
+                    fullName: names[i].value,
+                    identityCard: ids[i].value,
+                    paperCode: codes[i].value,
+                    seatCode: seats[i].value,
+                    examCode: exams[i].value,
+                    feeStatus: fees[i].value
+                });
+            }
+
+            const res = await fetch("/api/ExamRoom/add-students", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ examRoomId: currentRoomId, students })
+            });
+
+            if (res.ok) {
+                alert("Đã thêm sinh viên vào phòng thi!");
+            }
+        }
+    </script>
+</body>
+
+</html>

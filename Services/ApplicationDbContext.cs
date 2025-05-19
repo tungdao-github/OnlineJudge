@@ -2,6 +2,7 @@
 using OnlineJudgeAPI.Controllers;
 using OnlineJudgeAPI.Models;
 
+using OnlineJudgeAPI.DTOs;
 namespace OnlineJudgeAPI.Services
 {
     public class ApplicationDbContext : DbContext
@@ -13,6 +14,13 @@ namespace OnlineJudgeAPI.Services
         
         public DbSet<TestCase> TestCases { get; set; }
         public DbSet<Problem> Problems { get; set; }
+        public DbSet<ExamPaper> ExamPapers{ get; set; }
+        public DbSet<ExamPaperProblem> ExamPaperProblems { get; set; }
+        public DbSet<ExamRoom> ExamRooms { get; set;}
+        public DbSet<ExamStudent> ExamStudents { get; set;}
+        public DbSet<ExamResultStudent> ExamResultStudents{ get; set; }
+        public DbSet<PasswordResetCode> PasswordResetCodes { get; set; }
+
         //public DbSet<User> Users { get; set; }
         //public DbSet<Role> Roles { get; set; }
         //public void AddResultColumn()
@@ -41,7 +49,7 @@ namespace OnlineJudgeAPI.Services
         //        .HasIndex(r => new { r.UserId, r.RoleName })
         //        .IsUnique();
         //}
-      
+
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
@@ -49,6 +57,7 @@ namespace OnlineJudgeAPI.Services
         public DbSet<ContestProblem> ContestProblems { get; set; }
         public DbSet<ContestParticipant> ContestParticipants { get; set; }
         public DbSet<ContestStanding> ContestStandings { get; set; }
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserRole>()

@@ -19,6 +19,172 @@ namespace OnlineJudgeAPI.Migrations
                 .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("ExamPaper", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("ExamRoomId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExamRoomId");
+
+                    b.ToTable("ExamPapers");
+                });
+
+            modelBuilder.Entity("ExamPaperProblem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("DisplayOrder")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("ExamPaperId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProblemId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExamPaperId");
+
+                    b.HasIndex("ProblemId");
+
+                    b.ToTable("ExamPaperProblems");
+                });
+
+            modelBuilder.Entity("ExamResultStudent", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CalculatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("ExamPaperId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ExamRoomId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalScore")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExamPaperId");
+
+                    b.HasIndex("ExamRoomId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ExamResultStudents");
+                });
+
+            modelBuilder.Entity("ExamRoom", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Attempt")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ClassCode")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("ExamDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("ExamId")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ExamTime")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ExamType")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("RoomCode")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("RoomName")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("SubjectCode")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("SubjectName")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ExamRooms");
+                });
+
+            modelBuilder.Entity("ExamStudent", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("ExamCode")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("ExamPaperId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ExamRoomId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FeeStatus")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("IdentityCard")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("SeatCode")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExamPaperId");
+
+                    b.HasIndex("ExamRoomId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ExamStudents");
+                });
+
             modelBuilder.Entity("OnlineJudgeAPI.Controllers.ContestStanding", b =>
                 {
                     b.Property<int>("Id")
@@ -44,6 +210,28 @@ namespace OnlineJudgeAPI.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("ContestStandings");
+                });
+
+            modelBuilder.Entity("OnlineJudgeAPI.DTOs.PasswordResetCode", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("ExpireAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PasswordResetCodes");
                 });
 
             modelBuilder.Entity("OnlineJudgeAPI.Models.Contest", b =>
@@ -238,6 +426,9 @@ namespace OnlineJudgeAPI.Migrations
                     b.Property<string>("Error")
                         .HasColumnType("longtext");
 
+                    b.Property<int?>("ExamRoomId")
+                        .HasColumnType("int");
+
                     b.Property<string>("IsCorrect")
                         .HasColumnType("longtext");
 
@@ -279,6 +470,8 @@ namespace OnlineJudgeAPI.Migrations
 
                     b.HasIndex("ContestId");
 
+                    b.HasIndex("ExamRoomId");
+
                     b.HasIndex("ProblemId");
 
                     b.HasIndex("UserId");
@@ -308,6 +501,90 @@ namespace OnlineJudgeAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("ExamPaper", b =>
+                {
+                    b.HasOne("ExamRoom", "ExamRoom")
+                        .WithMany("ExamPapers")
+                        .HasForeignKey("ExamRoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ExamRoom");
+                });
+
+            modelBuilder.Entity("ExamPaperProblem", b =>
+                {
+                    b.HasOne("ExamPaper", "ExamPaper")
+                        .WithMany("Problems")
+                        .HasForeignKey("ExamPaperId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnlineJudgeAPI.Models.Problem", "Problem")
+                        .WithMany()
+                        .HasForeignKey("ProblemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ExamPaper");
+
+                    b.Navigation("Problem");
+                });
+
+            modelBuilder.Entity("ExamResultStudent", b =>
+                {
+                    b.HasOne("ExamPaper", "ExamPaper")
+                        .WithMany()
+                        .HasForeignKey("ExamPaperId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ExamRoom", "ExamRoom")
+                        .WithMany()
+                        .HasForeignKey("ExamRoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ExamPaper");
+
+                    b.Navigation("ExamRoom");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ExamStudent", b =>
+                {
+                    b.HasOne("ExamPaper", "ExamPaper")
+                        .WithMany()
+                        .HasForeignKey("ExamPaperId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ExamRoom", "ExamRoom")
+                        .WithMany("Students")
+                        .HasForeignKey("ExamRoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ExamPaper");
+
+                    b.Navigation("ExamRoom");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("OnlineJudgeAPI.Controllers.ContestStanding", b =>
@@ -401,6 +678,10 @@ namespace OnlineJudgeAPI.Migrations
                         .WithMany()
                         .HasForeignKey("ContestId");
 
+                    b.HasOne("ExamRoom", "ExamRoom")
+                        .WithMany()
+                        .HasForeignKey("ExamRoomId");
+
                     b.HasOne("OnlineJudgeAPI.Models.Problem", "Problem")
                         .WithMany("Submissions")
                         .HasForeignKey("ProblemId")
@@ -415,9 +696,23 @@ namespace OnlineJudgeAPI.Migrations
 
                     b.Navigation("Contest");
 
+                    b.Navigation("ExamRoom");
+
                     b.Navigation("Problem");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ExamPaper", b =>
+                {
+                    b.Navigation("Problems");
+                });
+
+            modelBuilder.Entity("ExamRoom", b =>
+                {
+                    b.Navigation("ExamPapers");
+
+                    b.Navigation("Students");
                 });
 
             modelBuilder.Entity("OnlineJudgeAPI.Models.Contest", b =>

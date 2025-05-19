@@ -35,6 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('token');
     const problemId = new URLSearchParams(location.search).get("problemId");
     const userId = localStorage.getItem("userId");
+    const examRoomId = new URLSearchParams(location.search).get("examroomid");
+    console.log("exam = " + examRoomId)
     document.getElementById('historySubmitProblem').href = '/historyProblem.html?problemId=' + problemId;
     if (!problemId) return alert("Không tìm thấy problemId trên URL!");
 
@@ -103,12 +105,14 @@ function setupSubmission(form, token, problemId, languageSelect) {
         localStorage.setItem('code', code);
         localStorage.setItem('language', language);
         localStorage.setItem('problemId', problemId);
-        const urlParams = new URLSearchParams(window.location.search);
+        const urlParams = new URLSearchParams(location.search);
         //const problemId = urlParams.get("problemId");
         console.log(urlParams);
         const contestId = urlParams.get("contestId");
-        
-        
-        location.href = `result.html?problemId=` + problemId +"&contestId=" +contestId ;
+        const examRoomId = urlParams.get("examroomid");
+        console.log("problemid " + urlParams.get("problemId"))
+        console.log("examRoomId = " + urlParams.get("examroomId"))
+        // alert('tungdao')
+        location.href = `result.html?problemId=` + problemId + "&contestId=" + contestId + "&examroomid=" + examRoomId;
     };
 }

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Danh sách phòng thi</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #f0f4f8, #d9e2ec);
+            color: #333;
+            padding: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            color: #2c3e50;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-status {
+            padding: 12px 16px;
+            font-weight: bold;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card-content h5 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #1a202c;
+        }
+
+        .card-content p {
+            margin: 6px 0;
+            font-size: 0.95rem;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 8px 14px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            margin-right: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        @media (max-width: 480px) {
+            .card-content {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Danh sách phòng thi</h1>
+    <div class="container" id="examroom-list"></div>
+
+    <script>
+        async function loadExamRooms() {
+            try {
+                const res = await fetch('http://localhost:5024/api/ExamRoom');
+                const rooms = await res.json();
+                const list = document.getElementById('examroom-list');
+                list.innerHTML = '';
+
+                rooms.forEach(room => {
+                    const examDate = room.examDate ? new Date(room.examDate).toLocaleDateString() : 'Chưa rõ';
+                    const start = new Date(room.startTime);
+                    const now = new Date();
+                    let status = 'Sắp thi';
+                    let statusColor = '#f39c12'; // vàng
+
+                    if (now >= start) {
+                        status = 'Đang thi';
+                        statusColor = '#27ae60'; // xanh
+                    }
+
+                    list.innerHTML += `
+            <div class="card">
+              <div class="card-status" style="background-color: ${statusColor};">
+                ${status}
+              </div>
+              <div class="card-content">
+                <h5>${room.subjectName || 'Không rõ môn'} (${room.subjectCode || '---'})</h5>
+                <p><strong>Phòng:</strong> ${room.roomCode || ''} - ${room.roomName || ''}</p>
+                <p><strong>Lớp:</strong> ${room.classCode || '---'}</p>
+                <p><strong>Ngày:</strong> ${examDate}</p>
+                <p><strong>Giờ:</strong> ${room.examTime || '---'}</p>
+                <p><strong>Hình thức:</strong> ${room.examType || '---'}</p>
+                <p><strong>Lần thi:</strong> ${room.attempt || '---'}</p>
+                <p><strong>Mã đề:</strong> ${room.examId || '---'}</p>
+                <a href="examroom_detail.html?examroomid=${room.id}" class="btn">Vào phòng thi</a>
+                <a href="ExamResult.html?examroomid=${room.id}" class="btn">Xem kết quả</a>
+              </div>
+            </div>`;
+                });
+            } catch (error) {
+                console.error('Không thể tải danh sách phòng thi:', error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadExamRooms);
+    </script>
+</body>
+
+</html>
