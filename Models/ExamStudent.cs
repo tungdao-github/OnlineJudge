@@ -10,7 +10,7 @@ public class ExamStudent
     
     public User User { get; set; }
     public int UserId { get; set; }
-
+    
     public int ExamPaperId { get; set; }
     public ExamPaper ExamPaper { get; set; }
    

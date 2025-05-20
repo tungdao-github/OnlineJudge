@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using OnlineJudgeAPI.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
-
+using OfficeOpenXml;
 
 
 public class CreateExamRoomRequest
@@ -85,6 +85,17 @@ public class ExamStudentDto
     public string ExamCode { get; set; }
     public string FeeStatus { get; set; }
     public string PaperCode { get; set; }
+}
+
+public class ExcelResponse
+{
+    public int ExamRoomId { get; set; }
+    public int UserId { get; set; }
+    public int ExamPaperId { get; set; }
+    public string FullName { get; set; }
+    public string SeatCode { get; set; }
+    public string FeeStatus { get; set; }
+    public string IdentityCard { get; set; }
 }
 
 [Route("api/[controller]")]
@@ -193,9 +204,7 @@ public class ExamRoomController : ControllerBase
         await _context.SaveChangesAsync();
         return Ok("Students added successfully");
     }
-
-
-   
+    
     [HttpGet]
     public async Task<IActionResult> GetAllExamRooms()
     {
@@ -260,8 +269,6 @@ public class ExamRoomController : ControllerBase
 
         return Ok(result);
     }
-
-
     
     [HttpPost("{examRoomId}/calculate-results")]
     public async Task<IActionResult> CalculateResults(int examRoomId)
@@ -380,4 +387,60 @@ public class ExamRoomController : ControllerBase
         }
     }
 
+    // [Authorize]
+    [HttpPost("ExcelPost")]
+    public async Task<IActionResult> ExcelPost(IFormFile file)
+    {
+        if (file == null || file.Length == 0)
+        {
+            return BadRequest("Vui lòng chọn file");
+        }
+
+        var DanhSach = new List<ExamStudent>();
+        ExcelPackage.License.SetNonCommercialOrganization("NCKH");
+
+        using (var stream = new MemoryStream())
+        {
+            await file.CopyToAsync(stream);
+            using (var package = new ExcelPackage(stream))
+            {
+                var WorkSheet = package.Workbook.Worksheets.FirstOrDefault();
+                if (WorkSheet == null)
+                {
+                    return BadRequest("Tệp không tồn tại");
+                }
+                int RowCount = WorkSheet.Dimension.Rows;
+
+                for (int row = 2; row <= RowCount; row++)
+                {
+                    var SinhVienDuThi = new ExamStudent
+                    {
+                        ExamRoomId = int.Parse(WorkSheet.Cells[row, 2].Text.Trim()),
+                        UserId = int.Parse(WorkSheet.Cells[row, 3].Text.Trim()),
+                        ExamPaperId = int.Parse(WorkSheet.Cells[row, 4].Text.Trim()),
+                        FullName = WorkSheet.Cells[row, 5].Text.Trim(),
+                        SeatCode = WorkSheet.Cells[row, 6].Text.Trim(),
+                        ExamCode = WorkSheet.Cells[row, 7].Text.Trim(),
+                        FeeStatus = WorkSheet.Cells[row, 8].Text.Trim(),
+                        IdentityCard = WorkSheet.Cells[row, 9].Text.Trim(),
+                    };
+                    // var examStudents = DanhSach.Select(d => new ExamStudent
+                    // {
+                    //     ExamRoomId = d.ExamRoomId,
+                    //     UserId = d.UserId,
+                    //     ExamPaperId = d.ExamPaperId,
+                    //     FullName = d.FullName,
+                    //     SeatCode = d.SeatCode,
+                    //     FeeStatus = d.FeeStatus,
+                    //     IdentityCard = d.IdentityCard
+                    // }).ToList();
+                    
+                    DanhSach.Add(SinhVienDuThi);
+                }
+            }
+        }
+        await _context.ExamStudents.AddRangeAsync(DanhSach);
+        await _context.SaveChangesAsync();
+        return Ok(DanhSach);
+    }
 }
