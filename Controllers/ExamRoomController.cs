@@ -87,17 +87,6 @@ public class ExamStudentDto
     public string PaperCode { get; set; }
 }
 
-public class ExcelResponse
-{
-    public int ExamRoomId { get; set; }
-    public int UserId { get; set; }
-    public int ExamPaperId { get; set; }
-    public string FullName { get; set; }
-    public string SeatCode { get; set; }
-    public string FeeStatus { get; set; }
-    public string IdentityCard { get; set; }
-}
-
 [Route("api/[controller]")]
 [ApiController]
 public class ExamRoomController : ControllerBase
@@ -442,5 +431,44 @@ public class ExamRoomController : ControllerBase
         await _context.ExamStudents.AddRangeAsync(DanhSach);
         await _context.SaveChangesAsync();
         return Ok(DanhSach);
+    }
+
+    [HttpGet("ExcelGet")]
+    public async Task<IActionResult> ExcelGet()
+    {
+        ExcelPackage.License.SetNonCommercialOrganization("NCKH");
+        using var package = new ExcelPackage();
+        var workSheet = package.Workbook.Worksheets.Add("DanhSachDiemThiSinhVien");
+
+        workSheet.Cells[1, 1].Value = "STT";
+        workSheet.Cells[1, 2].Value = "ExamRoomId";
+        workSheet.Cells[1, 3].Value = "ExamPaperId";
+        workSheet.Cells[1, 4].Value = "UserId";
+        workSheet.Cells[1, 5].Value = "TotalScore";
+        workSheet.Cells[1, 6].Value = "CalculatedAt";
+
+        var examResultStudent = await _context.ExamResultStudents
+            .Include(s => s.User)
+            .ToListAsync();
+        
+        for (int i = 0; i < examResultStudent.Count; i++)
+        {
+            workSheet.Cells[i + 2, 1].Value = examResultStudent[i].Id;
+            workSheet.Cells[i + 2, 2].Value = examResultStudent[i].ExamRoomId;
+            workSheet.Cells[i + 2, 3].Value = examResultStudent[i].ExamPaperId;
+            workSheet.Cells[i + 2, 4].Value = examResultStudent[i].User?.Username;
+            workSheet.Cells[i + 2, 5].Value = examResultStudent[i].TotalScore;
+            workSheet.Cells[i + 2, 6].Value = examResultStudent[i].CalculatedAt;
+        }
+        workSheet.Cells[workSheet.Dimension.Address].AutoFitColumns();
+        
+        var stream = new MemoryStream();
+        package.SaveAs(stream);
+        stream.Position = 0;
+
+        var tenTep = $"DanhSachDiemThi{DateTime.Now:yyyyMMddHHmmss}.xlsx";
+        var loaiNoiDung = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+        return File(stream, loaiNoiDung, tenTep);
     }
 }

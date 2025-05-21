@@ -12,12 +12,18 @@
 
   <ItemGroup>
     <Content Remove="wwwroot\frontend\index.html" />
+    <Content Remove="wwwroot\js\JavaScript.js" />
+    <Content Remove="wwwroot\js\login.cs" />
+    <Content Remove="wwwroot\favicon.ico" />
   </ItemGroup>
 
   <ItemGroup>
     
     
 	  <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    
+    
+	  <PackageReference Include="EPPlus" Version="8.0.5" />
     
     
 	  <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.2" />
@@ -31,6 +37,8 @@
 	    <PrivateAssets>all</PrivateAssets>
 	  </PackageReference>
 	 
+	  <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
+	 
 	  <PackageReference Include="MoreLinq" Version="4.4.0" />
 	
 	
@@ -40,17 +48,38 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\ApplicationDb\" />
-    <Folder Include="wwwroot\frontend\" />
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="C:\Users\TUNG\source\repos\OnlineJudgeAPI\.editorconfig" />
     <None Include="wwwroot\index.html" />
+    <None Remove="dump.sql" />
+    <None Remove="Dockerfile.original" />
+    <None Remove="Dockerfile.frontend" />
   </ItemGroup>
 
   <ItemGroup>
     <EditorConfigFiles Remove="C:\Users\TUNG\source\repos\OnlineJudgeAPI\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\css\site.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\css\style.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\app.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\historyProblem.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\historySubmit.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\JavaScript.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\listProblems.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\login.cs" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\login.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\problem.cs" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\problem.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\problem2.cs" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\register.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\result.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\script.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\site.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\submit.js" />
   </ItemGroup>
 
 </Project>
