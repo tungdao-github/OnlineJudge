@@ -458,7 +458,7 @@ public class ExamRoomController : ControllerBase
             workSheet.Cells[i + 2, 3].Value = examResultStudent[i].ExamPaperId;
             workSheet.Cells[i + 2, 4].Value = examResultStudent[i].User?.Username;
             workSheet.Cells[i + 2, 5].Value = examResultStudent[i].TotalScore;
-            workSheet.Cells[i + 2, 6].Value = examResultStudent[i].CalculatedAt;
+            workSheet.Cells[i + 2, 6].Value = examResultStudent[i].CalculatedAt.ToString("dd/MM/yyyy HH:mm:ss");
         }
         workSheet.Cells[workSheet.Dimension.Address].AutoFitColumns();
         
