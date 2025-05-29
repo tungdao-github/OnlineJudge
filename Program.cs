@@ -52,10 +52,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<CodeExecutor>();
 builder.Services.AddSingleton<SubmissionQueue>();
 builder.Services.AddHostedService<SubmissionProcessingService>();
-builder.WebHost.ConfigureKestrel(options =>
-{
-    options.ListenAnyIP(80); // Bắt buộc Render dùng port này
-});
+// builder.WebHost.ConfigureKestrel(options =>
+// {
+//     options.ListenAnyIP(80); // Bắt buộc Render dùng port này
+// });
 
 // builder.Services.AddSingleton<ExamService>();
 
@@ -177,7 +177,7 @@ app.Use(async (context, next) =>
 app.UseCors("AllowAllOrigins");
 
 // Use HTTPS redirection, authorization middleware, and controllers
-// app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 app.MapControllers();
 app.UseAuthentication();
 app.UseAuthorization();
