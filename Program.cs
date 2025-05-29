@@ -12,11 +12,20 @@ using OnlineJudgeAPI.SignalR;
 
 
 var builder = WebApplication.CreateBuilder(args);
-builder.WebHost.ConfigureKestrel(options =>
+// builder.WebHost.ConfigureKestrel(options =>
+// {
+//     options.ListenAnyIP(5024); // HTTP cho Docker
+//     // Nếu bạn cần HTTPS thì phải mount cert vào container (khó), nên tạm thời chạy HTTP là ổn
+// });
+
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+
+builder.WebHost.ConfigureKestrel(serverOptions =>
 {
-    options.ListenAnyIP(5024); // HTTP cho Docker
-    // Nếu bạn cần HTTPS thì phải mount cert vào container (khó), nên tạm thời chạy HTTP là ổn
+    serverOptions.ListenAnyIP(Int32.Parse(port));
 });
+
+
 builder.Services.AddControllers()
     .AddJsonOptions(opt =>
     {
