@@ -1,59 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OnlineJudgeAPI.Models;
-using OnlineJudgeAPI.Services;
 using Microsoft.EntityFrameworkCore;
-using OnlineJudgeAPI.DTOs;
-[ApiController]
+using OnlineJudgeAPI.Services;
+using OnlineJudgeAPI.Models; // sửa lại namespace phù hợp
+
 [Route("api/[controller]")]
-public class UserController : ControllerBase
+[ApiController]
+public class UsersController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
-    public UserController(ApplicationDbContext context)
+
+    public UsersController(ApplicationDbContext context)
     {
         _context = context;
     }
 
-    // POST: api/User/Register
-    [HttpPost("Register")]
-    public async Task<IActionResult> Register([FromBody] User user)
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<User>>> GetUsers()
     {
-        var existingUser = await _context.Users
-            .FirstOrDefaultAsync(u => u.Username == user.Username);
-        if (existingUser != null)
-            return BadRequest("Username already taken.");
-
-        user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash); // Hash password
-        _context.Users.Add(user);
-        await _context.SaveChangesAsync();
-
-        return Ok(new { message = "User registered successfully!" });
+        return await _context.Users.ToListAsync();
     }
-
-    // POST: api/User/Login
-    //[HttpPost("Login")]
-    //public async Task<IActionResult> Login([FromBody] User loginData)
-    //{
-    //    var user = await _context.Users
-    //        .FirstOrDefaultAsync(u => u.Username == loginData.Username);
-    //    if (user == null || !BCrypt.Net.BCrypt.Verify(loginData.PasswordHash, user.PasswordHash))
-    //        return Unauthorized("Invalid username or password.");
-
-    //    return Ok(new { message = "Login successful!" });
-    //}
-    [HttpPost("Login")]
-    public async Task<IActionResult> Login([FromBody] LoginDto loginData)
-    {
-        var user = await _context.Users
-            .FirstOrDefaultAsync(u => u.Username == loginData.Username);
-
-        if (user == null || !BCrypt.Net.BCrypt.Verify(loginData.Password, user.PasswordHash))
-            return Unauthorized("Invalid username or password.");
-
-        return Ok(new { message = "Login successful!" });
-    }
-    //public class LoginDto
-    //{
-    //    public string Username { get; set; }
-    //    public string Password { get; set; }
-    //}
 }

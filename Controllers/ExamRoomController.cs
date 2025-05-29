@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using OnlineJudgeAPI.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
-
-
+using OfficeOpenXml;
+using System.IO;
 
 public class CreateExamRoomRequest
 {
@@ -324,9 +324,9 @@ public class ExamRoomController : ControllerBase
             .Where(r => r.ExamRoomId == examRoomId)
             .ToListAsync());
     }
-    [Authorize]
-    [HttpGet("my-problems")]
-    public IActionResult GetMyProblems()
+    // [Authorize]
+    [HttpGet("my-problems/{examRoomId}")]
+    public async Task<IActionResult> GetMyProblems(int examRoomId)
     {
         try
         {
@@ -338,14 +338,14 @@ public class ExamRoomController : ControllerBase
             }
 
             int userId = int.Parse(userIdClaim.Value);
-
+            Console.WriteLine("userId = " + userId);
             // Tìm bản ghi ExamStudent tương ứng
             var examStudent = _context.ExamStudents
                 .Include(es => es.ExamPaper)
                     .ThenInclude(ep => ep.Problems)
                         .ThenInclude(epp => epp.Problem)
-                .FirstOrDefault(es => es.UserId == userId);
-
+                .FirstOrDefault(es => es.UserId == userId && es.ExamRoomId == examRoomId);
+                
             if (examStudent == null)
             {
                 return NotFound(new { message = "Bạn chưa được phân vào mã đề nào." });
@@ -379,5 +379,100 @@ public class ExamRoomController : ControllerBase
             return StatusCode(500, new { message = "Lỗi server: " + ex.Message });
         }
     }
+    [HttpPost("ExcelPost")]
+    public async Task<IActionResult> ExcelPost(IFormFile file)
+    {
+        if (file == null || file.Length == 0)
+        {
+            return BadRequest("Vui lòng chọn file");
+        }
 
+        var DanhSach = new List<ExamStudent>();
+        ExcelPackage.License.SetNonCommercialOrganization("NCKH");
+        // ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+        using (var stream = new MemoryStream())
+        {
+            await file.CopyToAsync(stream);
+            using (var package = new ExcelPackage(stream))
+            {
+                var WorkSheet = package.Workbook.Worksheets.FirstOrDefault();
+                if (WorkSheet == null)
+                {
+                    return BadRequest("Tệp không tồn tại");
+                }
+                int RowCount = WorkSheet.Dimension.Rows;
+
+                for (int row = 2; row <= RowCount; row++)
+                {
+                    var SinhVienDuThi = new ExamStudent
+                    {
+                        ExamRoomId = int.Parse(WorkSheet.Cells[row, 1].Text.Trim()),
+                        UserId = int.Parse(WorkSheet.Cells[row, 2].Text.Trim()),
+                        ExamPaperId = int.Parse(WorkSheet.Cells[row, 3].Text.Trim()),
+                        FullName = WorkSheet.Cells[row, 4].Text.Trim(),
+                        SeatCode = WorkSheet.Cells[row, 5].Text.Trim(),
+                        ExamCode = WorkSheet.Cells[row, 6].Text.Trim(),
+                        FeeStatus = WorkSheet.Cells[row, 7].Text.Trim(),
+                        IdentityCard = WorkSheet.Cells[row, 8].Text.Trim(),
+                    };
+                    // var examStudents = DanhSach.Select(d => new ExamStudent
+                    // {
+                    //     ExamRoomId = d.ExamRoomId,
+                    //     UserId = d.UserId,
+                    //     ExamPaperId = d.ExamPaperId,
+                    //     FullName = d.FullName,
+                    //     SeatCode = d.SeatCode,
+                    //     FeeStatus = d.FeeStatus,
+                    //     IdentityCard = d.IdentityCard
+                    // }).ToList();
+
+                    DanhSach.Add(SinhVienDuThi);
+                }
+            }
+        }
+        await _context.ExamStudents.AddRangeAsync(DanhSach);
+        await _context.SaveChangesAsync();
+        return Ok(DanhSach);
+    }
+
+    [HttpGet("ExcelGet")]
+    public async Task<IActionResult> ExcelGet()
+    {
+        ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+        // ExcelPackage.License.SetNonCommercialOrganization("NCKH");
+        using var package = new ExcelPackage();
+        var workSheet = package.Workbook.Worksheets.Add("DanhSachDiemThiSinhVien");
+
+        workSheet.Cells[1, 1].Value = "STT";
+        workSheet.Cells[1, 2].Value = "ExamRoomId";
+        workSheet.Cells[1, 3].Value = "ExamPaperId";
+        workSheet.Cells[1, 4].Value = "UserId";
+        workSheet.Cells[1, 5].Value = "TotalScore";
+        workSheet.Cells[1, 6].Value = "CalculatedAt";
+
+        var examResultStudent = await _context.ExamResultStudents
+            .Include(s => s.User)
+            .ToListAsync();
+
+        for (int i = 0; i < examResultStudent.Count; i++)
+        {
+            workSheet.Cells[i + 2, 1].Value = examResultStudent[i].Id;
+            workSheet.Cells[i + 2, 2].Value = examResultStudent[i].ExamRoomId;
+            workSheet.Cells[i + 2, 3].Value = examResultStudent[i].ExamPaperId;
+            workSheet.Cells[i + 2, 4].Value = examResultStudent[i].User?.Username;
+            workSheet.Cells[i + 2, 5].Value = examResultStudent[i].TotalScore;
+            workSheet.Cells[i + 2, 6].Value = examResultStudent[i].CalculatedAt.ToString("dd/MM/yyyy HH:mm:ss");
+        }
+        workSheet.Cells[workSheet.Dimension.Address].AutoFitColumns();
+
+        var stream = new MemoryStream();
+        package.SaveAs(stream);
+        stream.Position = 0;
+
+        var tenTep = $"DanhSachDiemThi{DateTime.Now:yyyyMMddHHmmss}.xlsx";
+        var loaiNoiDung = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+        return File(stream, loaiNoiDung, tenTep);
+    }
 }

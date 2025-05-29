@@ -173,7 +173,8 @@
                         row.onclick = function () {
                             window.location.href = `/problem.html?problemId=${problem.problemId}&contestId=${id}`;
                         };
-
+                        console.log(problem)
+                        console.log(problem.maxScore)
                         row.innerHTML = `
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">${problem.label}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-indigo-600">${problem.title}</td>

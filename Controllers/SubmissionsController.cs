@@ -16,6 +16,7 @@ using OnlineJudgeAPI.DTOs;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.SignalR;
 using OnlineJudgeAPI.Hubs;
+using OnlineJudgeAPI.Migrations;
 
 namespace OnlineJudgeAPI.Controllers
 {
@@ -233,8 +234,22 @@ namespace OnlineJudgeAPI.Controllers
                 };
                 _context.Submissions.Add(submission);
                 var testCases = await _context.TestCases.Where(t => t.ProblemId== submissionRequest.ProblemId).ToListAsync();
-                var results = await ProcessTestCasesAsync(testCases, submission, submissionRequest.ConnectionId, problem.maxScore);
-              
+               
+                submit results = null;
+            if (contestId != null)
+            {
+                var cp = _context.ContestProblems.FirstOrDefault(p => p.ContestId == contestId && p.ProblemId == submissionRequest.ProblemId);
+                results = await ProcessTestCasesAsync(testCases, submission, submissionRequest.ConnectionId, cp.Score);
+            }
+            // else if (submissionRequest.examRoomId != null)
+            // {
+            //     var ep = _context.ExamPaperProblems.FirstOrDefault(p => p.ExamPaperId == submissionRequest.examPaperId && p.ProblemId);
+            //     results = await ProcessTestCasesAsync(testCases, submission, submissionRequest.ConnectionId, cp.Score);
+            // }
+            else
+            {
+                results = await ProcessTestCasesAsync(testCases, submission, submissionRequest.ConnectionId, problem.maxScore);
+            }
 
                 submission.Result = _codeExecutor.Results;
                 submission.Score = _codeExecutor.Score;
@@ -429,8 +444,9 @@ public async Task<IActionResult> GetSubmissionsInContest(int contestId)
         public string Code { get; set; }
         public string Language { get; set; }
         public string ConnectionId { get; set; }
-        public int? examRoomId {get; set;}
+        public int? examRoomId { get; set; }
         public int? contestId { get; set; }
+        // public int? examPaperId { get; set; }
     }
 
     public class JudgeRequest

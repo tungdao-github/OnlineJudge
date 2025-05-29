@@ -20,7 +20,7 @@ public class LeaderboardController : ControllerBase
     {
         // Lấy submission đúng đầu tiên cho mỗi (UserId, ProblemId)
         var validSubmissions = await _context.Submissions
-            .Where(s => s.ContestId == contestId && s.IsCorrect == "true")
+            .Where(s => s.ContestId == contestId)
             .OrderBy(s => s.SubmittedAt)
             .ToListAsync();
 
@@ -35,6 +35,7 @@ public class LeaderboardController : ControllerBase
             .Select(g => new
             {
                 UserId = g.Key,
+               
                 TotalScore = g.Sum(x => (long)x.Score),
                 //TotalExecutionTime = g.Sum(s => s.ExecutionTime),
                 EarliestAcceptedSubmission = g.Min(s => s.SubmittedAt)

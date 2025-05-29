@@ -381,8 +381,160 @@
       "PackagePath": "staticwebassets\\listProblems.html"
     },
     {
+      "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\listUsers.html",
+      "PackagePath": "staticwebassets\\listUsers.html"
+    },
+    {
       "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\login.html",
       "PackagePath": "staticwebassets\\login.html"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\models\\face-api.js-models\\README.md",
+      "PackagePath": "staticwebassets\\models\\face-api.js-models\\README.md"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\models\\face-api.js-models\\age_gender_model\\age_gender_model-shard1",
+      "PackagePath": "staticwebassets\\models\\face-api.js-models\\age_gender_model"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\models\\face-api.js-models\\age_gender_model\\age_gender_model-weights_manifest.json",
+      "PackagePath": "staticwebassets\\models\\face-api.js-models\\age_gender_model\\age_gender_model-weights_manifest.json"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\models\\face-api.js-models\\face_expression\\face_expression_model-shard1",
+      "PackagePath": "staticwebassets\\models\\face-api.js-models\\face_expression"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\models\\face-api.js-models\\face_expression\\face_expression_model-weights_manifest.json",
+      "PackagePath": "staticwebassets\\models\\face-api.js-models\\face_expression\\face_expression_model-weights_manifest.json"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\models\\face-api.js-models\\face_landmark_68\\face_landmark_68_model-shard1",
+      "PackagePath": "staticwebassets\\models\\face-api.js-models\\face_landmark_68"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\models\\face-api.js-models\\face_landmark_68\\face_landmark_68_model-weights_manifest.json",
+      "PackagePath": "staticwebassets\\models\\face-api.js-models\\face_landmark_68\\face_landmark_68_model-weights_manifest.json"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\models\\face-api.js-models\\face_landmark_68_tiny\\face_landmark_68_tiny_model-shard1",
+      "PackagePath": "staticwebassets\\models\\face-api.js-models\\face_landmark_68_tiny"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\models\\face-api.js-models\\face_landmark_68_tiny\\face_landmark_68_tiny_model-weights_manifest.json",
+      "PackagePath": "staticwebassets\\models\\face-api.js-models\\face_landmark_68_tiny\\face_landmark_68_tiny_model-weights_manifest.json"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\models\\face-api.js-models\\face_recognition\\face_recognition_model-shard1",
+      "PackagePath": "staticwebassets\\models\\face-api.js-models\\face_recognition"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\models\\face-api.js-models\\face_recognition\\face_recognition_model-shard2",
+      "PackagePath": "staticwebassets\\models\\face-api.js-models\\face_recognition"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\models\\face-api.js-models\\face_recognition\\face_recognition_model-weights_manifest.json",
+      "PackagePath": "staticwebassets\\models\\face-api.js-models\\face_recognition\\face_recognition_model-weights_manifest.json"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\models\\face-api.js-models\\mtcnn\\mtcnn_model-shard1",
+      "PackagePath": "staticwebassets\\models\\face-api.js-models\\mtcnn"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\models\\face-api.js-models\\mtcnn\\mtcnn_model-weights_manifest.json",
+      "PackagePath": "staticwebassets\\models\\face-api.js-models\\mtcnn\\mtcnn_model-weights_manifest.json"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\models\\face-api.js-models\\proto\\ssd_mobilenet_face_optimized_v2.pbtxt",
+      "PackagePath": "staticwebassets\\models\\face-api.js-models\\proto\\ssd_mobilenet_face_optimized_v2.pbtxt"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\models\\face-api.js-models\\ssd_mobilenetv1\\ssd_mobilenetv1_model-shard1",
+      "PackagePath": "staticwebassets\\models\\face-api.js-models\\ssd_mobilenetv1"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\models\\face-api.js-models\\ssd_mobilenetv1\\ssd_mobilenetv1_model-shard2",
+      "PackagePath": "staticwebassets\\models\\face-api.js-models\\ssd_mobilenetv1"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\models\\face-api.js-models\\ssd_mobilenetv1\\ssd_mobilenetv1_model-weights_manifest.json",
+      "PackagePath": "staticwebassets\\models\\face-api.js-models\\ssd_mobilenetv1\\ssd_mobilenetv1_model-weights_manifest.json"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\models\\face-api.js-models\\tiny_face_detector\\tiny_face_detector_model-shard1",
+      "PackagePath": "staticwebassets\\models\\face-api.js-models\\tiny_face_detector"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\models\\face-api.js-models\\tiny_face_detector\\tiny_face_detector_model-weights_manifest.json",
+      "PackagePath": "staticwebassets\\models\\face-api.js-models\\tiny_face_detector\\tiny_face_detector_model-weights_manifest.json"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\models\\face-api.js-models\\tiny_yolov2\\tiny_yolov2_model-shard1",
+      "PackagePath": "staticwebassets\\models\\face-api.js-models\\tiny_yolov2"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\models\\face-api.js-models\\tiny_yolov2\\tiny_yolov2_model-shard2",
+      "PackagePath": "staticwebassets\\models\\face-api.js-models\\tiny_yolov2"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\models\\face-api.js-models\\tiny_yolov2\\tiny_yolov2_model-shard3",
+      "PackagePath": "staticwebassets\\models\\face-api.js-models\\tiny_yolov2"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\models\\face-api.js-models\\tiny_yolov2\\tiny_yolov2_model-shard4",
+      "PackagePath": "staticwebassets\\models\\face-api.js-models\\tiny_yolov2"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\models\\face-api.js-models\\tiny_yolov2\\tiny_yolov2_model-weights_manifest.json",
+      "PackagePath": "staticwebassets\\models\\face-api.js-models\\tiny_yolov2\\tiny_yolov2_model-weights_manifest.json"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\models\\face-api.js-models\\tiny_yolov2_separable_conv\\tiny_yolov2_separable_conv_model-shard1",
+      "PackagePath": "staticwebassets\\models\\face-api.js-models\\tiny_yolov2_separable_conv"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\models\\face-api.js-models\\tiny_yolov2_separable_conv\\tiny_yolov2_separable_conv_model-weights_manifest.json",
+      "PackagePath": "staticwebassets\\models\\face-api.js-models\\tiny_yolov2_separable_conv\\tiny_yolov2_separable_conv_model-weights_manifest.json"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\models\\face-api.js-models\\uncompressed\\age_gender_model.weights",
+      "PackagePath": "staticwebassets\\models\\face-api.js-models\\uncompressed\\age_gender_model.weights"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\models\\face-api.js-models\\uncompressed\\face_expression_model.weights",
+      "PackagePath": "staticwebassets\\models\\face-api.js-models\\uncompressed\\face_expression_model.weights"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\models\\face-api.js-models\\uncompressed\\face_landmark_68_model.weights",
+      "PackagePath": "staticwebassets\\models\\face-api.js-models\\uncompressed\\face_landmark_68_model.weights"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\models\\face-api.js-models\\uncompressed\\face_landmark_68_tiny_model.weights",
+      "PackagePath": "staticwebassets\\models\\face-api.js-models\\uncompressed\\face_landmark_68_tiny_model.weights"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\models\\face-api.js-models\\uncompressed\\face_recognition_model.weights",
+      "PackagePath": "staticwebassets\\models\\face-api.js-models\\uncompressed\\face_recognition_model.weights"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\models\\face-api.js-models\\uncompressed\\mtcnn_model.weights",
+      "PackagePath": "staticwebassets\\models\\face-api.js-models\\uncompressed\\mtcnn_model.weights"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\models\\face-api.js-models\\uncompressed\\ssd_mobilenetv1.weights",
+      "PackagePath": "staticwebassets\\models\\face-api.js-models\\uncompressed\\ssd_mobilenetv1.weights"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\models\\face-api.js-models\\uncompressed\\tiny_face_detector_model.weights",
+      "PackagePath": "staticwebassets\\models\\face-api.js-models\\uncompressed\\tiny_face_detector_model.weights"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\models\\face-api.js-models\\uncompressed\\tiny_yolov2_model.weights",
+      "PackagePath": "staticwebassets\\models\\face-api.js-models\\uncompressed\\tiny_yolov2_model.weights"
+    },
+    {
+      "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\models\\face-api.js-models\\uncompressed\\tiny_yolov2_separable_conv_model.weights",
+      "PackagePath": "staticwebassets\\models\\face-api.js-models\\uncompressed\\tiny_yolov2_separable_conv_model.weights"
     },
     {
       "Id": "C:\\Users\\TUNG\\onlinejudge3\\OnlineJudge\\wwwroot\\problem.html",

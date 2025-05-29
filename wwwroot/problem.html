@@ -10,7 +10,7 @@
         var require = { paths: { vs: "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs" } };
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js" defer></script>
-
+    <script* src="https://unpkg.com/face-api.js"></script>
     <style>
         #editor-container {
             width: 100%;
@@ -43,6 +43,7 @@
             </div>
         </div>
     </nav>
+    <video id="video" width="640" height="480" autoplay muted></video>
     <div class="container mx-auto px-4 py-6">
         <div class="flex flex-col lg:flex-row lg:space-x-4">
             <div class="w-full lg:w-2/5 mb-6 lg:mb-0">
@@ -110,7 +111,7 @@
                             </button>
                         </div>
                     </div>
-
+                    
                     <form id="submit-form" class="relative">
                         <label for="editor-container">Code:</label>
                         <div id="editor-container"></div>
@@ -123,7 +124,46 @@
             </div>
         </div>
     </div>
+    <!-- <script>
+        const video = document.getElementById('video');
 
+            // Load mô hình nhận diện khuôn mặt
+            Promise.all([
+                faceapi.nets.tinyFaceDetector.loadFromUri('/models'), // thư mục chứa mô hình
+            ]).then(startVideo);
+
+            function startVideo() {
+                navigator.mediaDevices.getUserMedia({
+                    video: true
+                })
+                    .then((stream) => {
+                        video.srcObject = stream;
+                    })
+                    .catch((err) => {
+                        console.error("Không thể truy cập webcam:", err);
+                        alert("Không thể truy cập webcam. Vui lòng bật camera.");
+                    });
+            }
+
+            // Theo dõi khuôn mặt
+            let lastFaceDetectedTime = Date.now();
+            const FACE_TIMEOUT = 3000; // 3 giây không thấy mặt => cảnh báo
+
+            video.addEventListener('play', () => {
+                const interval = setInterval(async () => {
+                    const detection = await faceapi.detectSingleFace(video, new faceapi.TinyFaceDetectorOptions());
+
+                    if (detection) {
+                        lastFaceDetectedTime = Date.now();
+                    } else {
+                        if (Date.now() - lastFaceDetectedTime > FACE_TIMEOUT) {
+                            alert("⚠️ Không phát hiện khuôn mặt! Vui lòng quay lại trước màn hình.");
+                            lastFaceDetectedTime = Date.now(); // reset để tránh alert liên tục
+                        }
+                    }
+                }, 1000);
+            });
+    </script> -->
     <script src="/js/problem.js" defer></script>
 </body>
 

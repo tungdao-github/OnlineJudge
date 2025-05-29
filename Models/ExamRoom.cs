@@ -16,11 +16,3 @@ public class ExamRoom
     public ICollection<ExamStudent> Students { get; set; }
 
 }
-// public class ExamRoom
-// {
-//     public int Id { get; set; }
-//     public string RoomName { get; set; }
-//     public DateTime StartTime { get; set; }
-//     public ICollection<ExamPaper> ExamPapers { get; set; }
-//     public ICollection<ExamStudent> Students { get; set; }
-// }

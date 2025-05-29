@@ -20,7 +20,7 @@ public class CodeExecutor
     public  bool status = true;
     public int soDiemTrenTestCase = 0;
     public int Score = 0;
-    private const int TimeoutMilliseconds = 9000;
+    private const int TimeoutMilliseconds = 6000;
     private readonly IHubContext<TestCaseResultHub> _hubContext;
 
     public CodeExecutor(IHubContext<TestCaseResultHub> hubContext)

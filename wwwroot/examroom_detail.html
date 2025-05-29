@@ -125,11 +125,12 @@
         const problemList = document.getElementById("problemList");
         const errorDiv = document.getElementById("error");
         const examRoomId = new URLSearchParams(location.search).get("examroomid");
-
+        console.log(examRoomId)
         if (!token) {
             errorDiv.innerText = "Bạn chưa đăng nhập.";
         } else {
-            fetch("http://localhost:5024/api/ExamRoom/my-problems", {
+        //    console.log('http://localhost:5024/api/ExamRoom/my-problems/${examRoomId}')
+            fetch("http://localhost:5024/api/ExamRoom/my-problems/" + examRoomId, {
                 method: "GET",
                 headers: {
                     "Authorization": "Bearer " + token,
@@ -139,6 +140,7 @@
                 .then(response => {
                     if (!response.ok) {
                         throw new Error("Không tìm thấy dữ liệu hoặc chưa được phân mã đề.");
+                        // console.log(response)
                     }
                     return response.json();
                 })
@@ -166,8 +168,10 @@
                 })
                 .catch(error => {
                     errorDiv.innerText = error.message;
+
                 });
         }
+    
 
         function myFunction(problemId, examRoomId) {
             window.location.href = `/problem.html?problemId=${problemId}&contestId=null&examroomid=${examRoomId}`;

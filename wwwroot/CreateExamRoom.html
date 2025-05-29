@@ -125,13 +125,15 @@
     <div class="section" id="papersSection" style="display:none;">
         <h2>2. Tạo mã đề thi cho phòng</h2>
         <div id="paperInputs" class="input-row">
-            <div>
-                <input placeholder="Mã đề (VD: A1)" class="paperCode">
-                <input placeholder="ID bài tập (phân cách bằng dấu phẩy)" class="problemIds">
-            </div>
+           
+            
+           
         </div>
-        <button onclick="addPaperInput()">+ Thêm mã đề</button>
-        <button onclick="submitPapers()">Tạo mã đề</button>
+             <button onclick="addPaperInput()">➕ Thêm mã đề</button>
+            <br><br>
+            <button onclick="submitPapers()">💾 Lưu mã đề</button>
+        <!-- <button onclick="addPaperInput()">+ Thêm mã đề</button>
+        <button onclick="submitPapers()">Tạo mã đề</button> -->
     </div>
 
     <div class="section" id="studentsSection" style="display:none;">
@@ -147,26 +149,67 @@
                 <input placeholder="Lệ phí" class="feeStatus">
             </div>
         </div>
+        <!-- <form id="uploadForm" class="space-y-4">
+            <input type="file" id="excelFile" name="file" accept=".xlsx" class="w-full px-4 py-2 border rounded-lg" required>
+            <button type="submit"
+                class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 rounded-xl transition">
+                🚀 Tải lên
+            </button>
+            </form> -->
+            <div id="result" class="text-sm text-green-700 font-medium text-center hidden"></div>
+            <div id="error" class="text-sm text-red-600 font-medium text-center hidden"></div>
+        
         <button onclick="addStudentInput()">+ Thêm sinh viên</button>
         <button onclick="submitStudents()">Thêm sinh viên</button>
     </div>
 
     <script>
+         let allProblems = [];
+        let token = localStorage.getItem("token");
+        console.log(token)
+            async function loadProblems() {
+                // const res = await fetch("http://localhost:5024/api/problems");
+                const res = await fetch('http://localhost:5024/api/problems', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`, // Attach the token
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if (!res.ok) return alert("Không tải được danh sách bài tập.");
+
+                allProblems = await res.json();
+               
+            }
+            loadProblems();
+            function renderProblemCheckboxes(container) {
+                    container.innerHTML = "";
+                    allProblems.forEach(problem => {
+                        const checkbox = document.createElement("div");
+                        checkbox.innerHTML = `
+            <label>
+                <input type="checkbox" value="${problem.id}" class="problemCheckbox" />
+                ${problem.title}
+            </label>
+        `;
+                        container.appendChild(checkbox);
+                    });
+                }
         let currentRoomId = null;
 
         async function createRoom() {
             const data = {
-                RoomCode: document.getElementById('roomCode').value.trim(),
-                RoomName: document.getElementById('roomName').value.trim(),
-                SubjectName: document.getElementById('subjectName').value.trim(),
-                SubjectCode: document.getElementById('subjectCode').value.trim(),
-                ExamDate: document.getElementById('examDate').value,
-                ExamTime: document.getElementById('examTime').value.trim(),
-                ExamType: document.getElementById('examType').value.trim(),
-                ClassCode: document.getElementById('classCode').value.trim(),
-                Attempt: document.getElementById('attempt').value.trim(),
-                ExamId: document.getElementById('examId').value.trim(),
-                StartTime: document.getElementById('startTime').value
+                roomCode: document.getElementById('roomCode').value.trim(),
+                roomName: document.getElementById('roomName').value.trim(),
+                subjectName: document.getElementById('subjectName').value.trim(),
+                subjectCode: document.getElementById('subjectCode').value.trim(),
+                examDate: document.getElementById('examDate').value,
+                examTime: document.getElementById('examTime').value.trim(),
+                examType: document.getElementById('examType').value.trim(),
+                classCode: document.getElementById('classCode').value.trim(),
+                attempt: document.getElementById('attempt').value.trim(),
+                examId: document.getElementById('examId').value.trim(),
+                startTime: document.getElementById('startTime').value
             };
 
             const res = await fetch("/api/ExamRoom/create-room", {
@@ -180,41 +223,135 @@
                 currentRoomId = result.id;
                 document.getElementById("roomStatus").innerText = `Phòng thi đã tạo: ID ${result.id}`;
                 document.getElementById("papersSection").style.display = "block";
+                await loadProblems(); // Load problems sau khi tạo phòng
             }
         }
+       
+    //     function addPaperInput() {
+    //         const div = document.createElement("div");
+    //         div.innerHTML = `
+    //     <input placeholder="Mã đề" class="paperCode">
+    //     <input placeholder="ID bài tập" class="problemIds">
+    //   `;
+    //         document.getElementById("paperInputs").appendChild(div);
+    //     }
+    function addPaperInput() {
+            const paperDiv = document.createElement("div");
+            paperDiv.className = "paper-block";
+            paperDiv.style.border = "1px solid #ccc";
+            paperDiv.style.padding = "10px";
+            paperDiv.style.margin = "10px 0";
 
-        function addPaperInput() {
-            const div = document.createElement("div");
-            div.innerHTML = `
-        <input placeholder="Mã đề" class="paperCode">
-        <input placeholder="ID bài tập" class="problemIds">
-      `;
-            document.getElementById("paperInputs").appendChild(div);
+            paperDiv.innerHTML = `
+        <label>Nhập mã đề: <input type="text" class="paperCode" /></label>
+        <div class="problem-list"></div>
+    `;
+
+            const listContainer = paperDiv.querySelector(".problem-list");
+            renderProblemCheckboxes(listContainer);
+
+            document.getElementById("paperInputs").appendChild(paperDiv);
         }
+        // async function submitPapers() {
+        //     const codes = document.querySelectorAll(".paperCode");
+        //     const problems = document.querySelectorAll(".problemIds");
+        //     const papers = [];
+        //     console.log(codes.length)
+        //     for (let i = 0; i < codes.length - 1; i++) {
+        //         const code = codes[i].value;
+        //         const problemIds = problems[i].value.split(",").map(p => parseInt(p.trim()));
+        //         papers.push({ code, problemIds });
+        //     }
 
+        //     const res = await fetch("/api/ExamRoom/add-papers", {
+        //         method: "POST",
+        //         headers: { "Content-Type": "application/json" },
+        //         body: JSON.stringify({ examRoomId: currentRoomId, papers })
+        //     });
+
+        //     if (res.ok) {
+        //         alert("Đã thêm mã đề.");
+        //         document.getElementById("studentsSection").style.display = "block";
+        //     }
+        // }
+        const form = document.getElementById('uploadForm');
+    const resultDiv = document.getElementById('result');
+    const errorDiv = document.getElementById('error');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      resultDiv.classList.add('hidden');
+      errorDiv.classList.add('hidden');
+
+      const fileInput = document.getElementById('excelFile');
+      const file = fileInput.files[0];
+
+      if (!file) {
+        alert("Vui lòng chọn file Excel.");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      try {
+        const response = await fetch('/api/ExamRoom/ExcelPost', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (response.ok) {
+          resultDiv.classList.remove('hidden');
+          resultDiv.textContent = "✅Tai len thanh cong"
+        } else {
+          const errMsg = await response.text();
+          errorDiv.innerText = `❌ ${errMsg}`;
+        //   errorDiv.textContent = 
+          errorDiv.classList.remove('hidden');
+        }
+      } catch (error) {
+        errorDiv.innerText = `❌ Lỗi mạng: ${error.message}`;
+        
+        errorDiv.classList.remove('hidden');
+      }
+    });
         async function submitPapers() {
-            const codes = document.querySelectorAll(".paperCode");
-            const problems = document.querySelectorAll(".problemIds");
-            const papers = [];
-            console.log(codes.length)
-            for (let i = 0; i < codes.length - 1; i++) {
-                const code = codes[i].value;
-                const problemIds = problems[i].value.split(",").map(p => parseInt(p.trim()));
-                papers.push({ code, problemIds });
+                const codes = document.querySelectorAll(".paperCode");
+                const lists = document.querySelectorAll(".problem-list");
+
+                const papers = [];
+
+                for (let i = 0; i < codes.length - 1; i++) {
+                    const code = codes[i].value.trim();
+                    const checked = lists[i].querySelectorAll(".problemCheckbox:checked");
+                    const problemIds = Array.from(checked).map(c => parseInt(c.value));
+                    if (code && problemIds.length > 0) {
+                        papers.push({ code, problemIds });
+                    }
+                }
+
+                if (papers.length === 0) {
+                    alert("Vui lòng nhập mã đề và chọn ít nhất một bài.");
+                    return;
+                }
+
+                const res = await fetch("/api/ExamRoom/add-papers", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        examRoomId: currentRoomId, // Thay bằng ID phòng thi hiện tại
+                        papers: papers
+                    })
+                });
+
+                if (res.ok) {
+                    alert("Đã thêm mã đề.");
+                    document.getElementById("studentsSection").style.display = "block";
+                } else {
+                    alert("Lỗi khi thêm mã đề.");
+                }
+
             }
-
-            const res = await fetch("/api/ExamRoom/add-papers", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ examRoomId: currentRoomId, papers })
-            });
-
-            if (res.ok) {
-                alert("Đã thêm mã đề.");
-                document.getElementById("studentsSection").style.display = "block";
-            }
-        }
-
         function addStudentInput() {
             const div = document.createElement("div");
             div.innerHTML = `

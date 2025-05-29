@@ -8,12 +8,13 @@ const examRoomId = new URLSearchParams(location.search).get("examroomid");
 if (!token) {
     errorDiv.innerText = "Bạn chưa đăng nhập.";
 } else {
-    fetch("http://localhost:5024/api/ExamRoom/my-problems", {
+    fetch("http://localhost:5024/api/ExamRoom/my-problems/${examRoomId}", {
             method: "GET",
             headers: {
                 "Authorization": "Bearer " + token,
                 "Content-Type": "application/json"
-            }
+            },
+            body: JSON.stringify(examRoomId)
         })
         .then(response => {
             if (!response.ok) {

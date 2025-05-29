@@ -30,6 +30,18 @@ const isInViewport = el => {
     return r.top < window.innerHeight && r.bottom >= 0;
 };
 
+// document.addEventListener("visibilitychange", function () {
+//     if (document.visibilityState === "hidden") {
+//         alert("Bạn đang rời khỏi trang! Vui lòng không chuyển tab khi làm bài.");
+//     }
+// });
+
+// // Hoặc dùng focus/blur nếu muốn chắc chắn hơn
+// window.addEventListener("blur", function () {
+//     console.log("Người dùng đã chuyển tab hoặc rời khỏi cửa sổ.");
+//     alert("Bạn đã chuyển tab! Vui lòng quay lại trang làm bài.");
+// });
+
 document.addEventListener('DOMContentLoaded', () => {
 
     const token = localStorage.getItem('token');

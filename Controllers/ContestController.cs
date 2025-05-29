@@ -153,7 +153,7 @@ public class ContestController : ControllerBase
                     : cp.Problem.Description,
                 
                 Label = ((char)('A' + index)).ToString(), // A, B, C...
-                MaxScore = cp.Problem.TestCases.Count
+                MaxScore = cp.Score
             })
             .ToList();
 
