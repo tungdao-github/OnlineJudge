@@ -1,16 +1,16 @@
 ﻿<Project>
   <ItemGroup>
+    <StaticWebAssetEndpoint Include="_content/OnlineJudgeAPI/admin.8bork5ghqm.html">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\admin.html'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"8bork5ghqm"},{"Name":"integrity","Value":"sha256-1Lv\u002BzHMk\u002B30HSLXdlRc9GALHe0yjLmlhU3xJ70tRAgU="},{"Name":"label","Value":"_content/OnlineJudgeAPI/admin.html"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"4787"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"\u00221Lv\u002BzHMk\u002B30HSLXdlRc9GALHe0yjLmlhU3xJ70tRAgU=\u0022"},{"Name":"Last-Modified","Value":"Thu, 22 May 2025 03:03:18 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/OnlineJudgeAPI/admin.html">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\admin.html'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-j0d3TTfh75ApwmuTiyhvyY6ESDi1l9ME8YeYDbszcdE="}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"4773"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"\u0022j0d3TTfh75ApwmuTiyhvyY6ESDi1l9ME8YeYDbszcdE=\u0022"},{"Name":"Last-Modified","Value":"Sat, 17 May 2025 10:14:31 GMT"}]]]></ResponseHeaders>
-    </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/OnlineJudgeAPI/admin.v4ib3ti65h.html">
-      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\admin.html'))</AssetFile>
-      <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"v4ib3ti65h"},{"Name":"integrity","Value":"sha256-j0d3TTfh75ApwmuTiyhvyY6ESDi1l9ME8YeYDbszcdE="},{"Name":"label","Value":"_content/OnlineJudgeAPI/admin.html"}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"4773"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"\u0022j0d3TTfh75ApwmuTiyhvyY6ESDi1l9ME8YeYDbszcdE=\u0022"},{"Name":"Last-Modified","Value":"Sat, 17 May 2025 10:14:31 GMT"}]]]></ResponseHeaders>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-1Lv\u002BzHMk\u002B30HSLXdlRc9GALHe0yjLmlhU3xJ70tRAgU="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"4787"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"\u00221Lv\u002BzHMk\u002B30HSLXdlRc9GALHe0yjLmlhU3xJ70tRAgU=\u0022"},{"Name":"Last-Modified","Value":"Thu, 22 May 2025 03:03:18 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/OnlineJudgeAPI/contest-detail.html">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\contest-detail.html'))</AssetFile>

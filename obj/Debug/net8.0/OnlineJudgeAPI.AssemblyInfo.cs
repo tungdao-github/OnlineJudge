@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("OnlineJudgeAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fa1e711569734b96cb5b6e87ba0af97ce368e640")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7b70174d1ef5e88fa6ec6ba32c34889fc4ccf0de")]
 [assembly: System.Reflection.AssemblyProductAttribute("OnlineJudgeAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("OnlineJudgeAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

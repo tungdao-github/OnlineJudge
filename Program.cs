@@ -18,11 +18,11 @@ var builder = WebApplication.CreateBuilder(args);
 //     // Nếu bạn cần HTTPS thì phải mount cert vào container (khó), nên tạm thời chạy HTTP là ổn
 // });
 
-var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-builder.WebHost.ConfigureKestrel(options =>
-{
-    options.Listen(System.Net.IPAddress.Any, int.Parse(port));
-});
+// var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+// builder.WebHost.ConfigureKestrel(options =>
+// {
+//     options.Listen(System.Net.IPAddress.Any, int.Parse(port));
+// });
 
 builder.Services.AddControllers()
     .AddJsonOptions(opt =>
@@ -184,7 +184,7 @@ app.Use(async (context, next) =>
 app.UseCors("AllowAllOrigins");
 
 // Use HTTPS redirection, authorization middleware, and controllers
-// app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 app.MapControllers();
 app.UseAuthentication();
 app.UseAuthorization();
