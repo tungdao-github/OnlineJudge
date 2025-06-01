@@ -53,12 +53,17 @@ builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<ICacheService, MemoryCacheService>();
 // Add Swagger/OpenAPI support
 builder.Services.AddSignalR();
-
+builder.Services.AddHttpClient();
+builder.Services.AddHttpClient("CodeRunnerClient", client =>
+{
+    client.BaseAddress = new Uri("http://localhost:5131/"); // Địa chỉ dự án CodeRunnerAPI
+});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<CodeExecutor>();
 builder.Services.AddSingleton<SubmissionQueue>();
 builder.Services.AddHostedService<SubmissionProcessingService>();
+builder.Services.AddTransient<CodeRunnerClient>();
 // builder.WebHost.ConfigureKestrel(options =>
 // {
 //     options.ListenAnyIP(80); // Bắt buộc Render dùng port này
@@ -128,7 +133,7 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 //builder.Services.AddAuthorization();
-
+builder.Logging.AddConsole();
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
@@ -145,7 +150,7 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAllOrigins", builder =>
+    options.AddPolicy("AllowAll", builder =>
     {
         builder
             .AllowAnyOrigin()
@@ -181,7 +186,8 @@ app.Use(async (context, next) =>
     await next();
 });
 // Enable CORS
-app.UseCors("AllowAllOrigins");
+// app.UseCors("AllowAllOrigins");
+app.UseCors("AllowAll");
 
 // Use HTTPS redirection, authorization middleware, and controllers
 app.UseHttpsRedirection();
