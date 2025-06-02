@@ -194,8 +194,8 @@ app.UseHttpsRedirection();
 app.MapControllers();
 app.UseAuthentication();
 app.UseAuthorization();
-app.MapHub<TestCaseResultHub>("/testCaseHub");
-app.MapHub<TestCaseResultHub>("/testcaseresulthub");
+// app.MapHub<TestCaseResultHub>("/testCaseHub");
+// app.MapHub<TestCaseResultHub>("/testcaseresulthub");
 app.MapHub<LeaderboardHub>("/leaderboardHub");
 //app.MapHub<ContestHub>("/contestHub");
 //app.Lifetime.ApplicationStarted.Register(async () =>
