@@ -24,7 +24,7 @@ public class CodeRunnerClient
         var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
         Console.WriteLine(content);
         
-        var response = await _httpClient.PostAsync("http://localhost:5131/api/RunCode/submit", content);
+        var response = await _httpClient.PostAsync("https://378b-2402-800-61d9-8256-985a-9409-351c-a314.ngrok-free.app/api/RunCode/submit", content);
         if (!response.IsSuccessStatusCode)
         {
             throw new Exception($"Error calling CodeRunner API: {response.StatusCode}");
